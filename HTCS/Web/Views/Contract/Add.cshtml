@@ -1,0 +1,415 @@
+﻿
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/hsc-form.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/Common/LG.js"></script> 
+
+     <style>
+         .wrapguding{display:none;}
+         .zafeitit{color:#FFB800;font-weight:500;}
+     </style>
+<body>
+    <script>
+        layui.use(['laydate', 'laypage', 'layer', 'laytpl', 'jquery', 'form'], function () {
+                var laytpl = layui.laytpl;
+                doc.init(function (result) {
+                    doc.baseurl = result;
+                });
+                var url = "/api/Contract/GetEnum";
+                var $ = layui.jquery;
+                var form = layui.form;
+                debugger;
+                doc.objectQuery(url, { }, function (data) {
+                    var getTpl = demo.innerHTML
+               , view = document.getElementById('view');
+                    laytpl(getTpl).render(data, function (html) {
+                        view.innerHTML = html;
+                    });
+                    var laydate = layui.laydate;
+                    //执行一个laydate实例
+                    laydate.render({
+                        elem: '#BatethDay' //指定元素
+                    });
+                    laydate.render({
+                        elem: '#BeginTime' //指定元素
+                    });
+                    laydate.render({
+                        elem: '#EndTime' //指定元素
+                    });       
+                    
+                    Create();
+                    form.render('');
+                });
+                function Create() {
+                    form.on('checkbox(zafei)', function (data) {
+                        debugger;
+                        var dom = data.elem;
+                        var name = dom.name;
+                        var type = dom.attributes.ztype.nodeValue;
+                        var id = "zafei-" + name;
+                        var content = '<div id="zafei-' + name + '" class="zafeilist"><div><label class="layui-form-label zafeitit">' + dom.title + '</label></div><div class="layui-form-item"><label class="layui-form-label">结算方式</label><div class="layui-input-inline zafeiType" style="width: 140px;"><select lay-verify="required" lay-filter="' + id + 'zafeiType" id="' + id + 'zafeiType" name="zafeiType" ><option value="1">按固定费用结算</option><option value="2">预充值</option><option value="3">按抄表结算</option></select></div><div class="wrappinlv"><label class="layui-form-label">付款频率</label><div class="layui-input-inline" style="width: 120px;"><select lay-verify="required" class="zafeiPinlv" name="zafeiPinlv"><option value="0">随押金结算</option><option value="1">一月一付</option><option value="2">二月一付</option><option value="3">三月一付</option><option value="4">四月一付</option><option value="5">五月一付</option></select></div></div><div class="wraprice"><label class="layui-form-label">费用单价</label><div class="layui-input-inline zafeiPrice" style="width: 100px;"><input type="tel" name="zafeiPrice" lay-verify="" autocomplete="off" class="layui-input" class="zafeiPrice"></div></div><div class="wrapguding"><label class="layui-form-label">金额</label><div class="layui-input-inline" style="width: 100px;"><input type="tel" name="zafeiJine" lay-verify="" autocomplete="off" class="layui-input zafeiJine" ></div></div></div><div class="layui-form-item wrapbiao"><label class="layui-form-label">当前读数</label><div class="layui-input-inline" style="width: 100px;"><input type="tel" name="zafeidushu" lay-verify="" autocomplete="off" class="layui-input zafeidushu" ></div><label class="layui-form-label">抄表日期</label><div class="layui-input-inline" style="width: 100px;"><input type="tel" name="Chaobiao" lay-verify="" autocomplete="off" class="layui-input Chaobiao"  placeholder=""></div></div></div>';
+                      
+                        if (dom.checked == true)
+                        {
+                            $(".zafeicontent").append(content);
+                        } else {
+                            $("#"+id).remove();
+                        }
+                        form.render('');
+                        $(id+" .zafeiType").val(type);
+                        Eventzafei(type,id);
+                    });
+                }
+                $('#HouseName').devbridgeAutocomplete({
+                    lookup: function (query, done) {
+                        debugger;
+                        var querydata = {};
+                        var housetype = $("#selectType").find("option:selected").val();
+                        querydata.Name = query;
+                        querydata.Type = housetype;
+                        doc.objectQuery("/api/House/Querybyname", querydata, function (result) {
+                            debugger;
+                            if (result.numberData != null) {
+                                var realresut = [];
+                                var val = {};
+                                $.each(result.numberData, function (tindex, tvalue) {
+                                    val.value = tvalue.Name;
+                                    val.data = tvalue.HouseId;
+                                    val.HouseType = tvalue.HouseType;
+                                    realresut.push(val);
+                                });
+                                var dresult = {
+                                    suggestions: realresut
+                                };
+                                done(dresult);
+                            }
+                        })
+                     
+                    },
+                    minChars: 1,
+                    onSelect: function (suggestion) {
+                        isSearch = true;
+                        debugger;
+                        $("#HouseId").val(suggestion.data);
+                        $("#HouseType").val(suggestion.HouseType);
+                    },
+                    triggerSelectOnValidInput:false,
+                    result: function (event, data, formatted) {
+                    
+                        debugger;
+                        // 必须阻止事件的默认行为，否则autocomplete默认会把ui.item.value设为输入框的value值
+                        event.preventDefault();     
+                    },
+                    showNoSuggestionNotice: true,
+                    noSuggestionNotice: function () {
+
+                        return '<span>找不到小区,可手动添加</span>'
+
+                    },
+                    groupBy: 'category'
+                });
+           
+                function Eventzafei(type,id) {
+                    debugger;
+                    var rid = "#" + id;
+                    if (type == 1) {
+                        $(rid+" .wraprice").hide();
+                        $(rid+" .wrapbiao").hide();
+                        $(rid+" .wrapguding").show();
+                    }
+                    if (type == 2) {
+                        $(rid+" .wrappinlv").hide();
+                        $(rid+" .wraprice").hide();
+                        $(rid+" .wrapbiao").hide();
+                        $(rid+" .wrapguding").hide();
+                    }
+                    if (type == 3) {
+                        $(rid+" .wrapguding").hide();
+                        $(rid+" .wrappinlv").show();
+                        $(rid+" .wraprice").show();
+                        $(rid+" .wrapbiao").show();
+                    }
+                    form.on('select('+id+'zafeiType)', function (data) {
+                        debugger;
+                        if ($(rid + "zafeiType").val() == 1) {
+                            $(rid + " .wraprice").hide();
+                            $(rid + " .wrapbiao").hide();
+                            $(rid + " .wrapguding").show();
+                        }
+                        if ($(rid + "zafeiType").val() == 2) {
+                            $(rid + " .wrappinlv").hide();
+                            $(rid + " .wraprice").hide();
+                            $(rid + " .wrapbiao").hide();
+                            $(rid + " .wrapguding").hide();
+                        }
+                        if ($(rid + "zafeiType").val() == 3) {
+                            $(rid + " .wrapguding").hide();
+                            $(rid + " .wrappinlv").show();
+                            $(rid + " .wraprice").show();
+                            $(rid + " .wrapbiao").show();
+                        }
+                    });
+                    var laydate = layui.laydate;
+                    laydate.render({
+                        elem: rid+' .Chaobiao' //指定元素
+                    });
+                }
+               
+        });
+        function SearchData(data, name) {
+            debugger;
+            var menu_node1 = data.filter(function (e) { return e.name == name; });
+            if (menu_node1.length == 0) {
+                return null;
+            }
+            if (name == "zafei") {
+                return menu_node1[0].zafei;
+            } else {
+                return menu_node1[0].value;
+            }
+        }
+        
+    </script>
+    <script id="demo" type="text/html">
+        <form class="layui-form hcs-form" action="">
+            <div class="form-content">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>租客信息</legend>
+                </fieldset>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="Name" lay-verify="required" autocomplete="off" class="layui-input" id="Name">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">手机号</label>
+                        <div class="layui-input-inline" style="width: 150px;">
+                            <input type="tel" name="Phone" lay-verify="required|number" autocomplete="off" class="layui-input" id="Phone">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">证件信息</label>
+                        <div class="layui-input-inline" style="width:90px;margin-right:0px;">
+                            <select lay-verify="required" id="DocumentType" name="DocumentType">
+                                <option value="1">身份证</option>
+                                <option value="2">2室</option>
+                                <option value="3">3室</option>
+                                <option value="4">4室</option>
+                                <option value="5">5室</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="Document" lay-verify="required" autocomplete="off" class="layui-input" id="Document">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="checkbox" name="Sex" id="Sex" lay-skin="switch" lay-text="男|女">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">工作</label>
+                        <div class="layui-input-inline" style="width:150px;">
+                            <select lay-verify="" id="Work" name="Work">
+                                {{#  layui.each(SearchData(d,"work"), function(index, item1){ }}
+                                <option value="{{item1.Value}}">{{item1.Value}}</option>
+                                {{#  });   }}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">爱好</label>
+                        <div class="layui-input-inline" style="width:100px;">
+                            <select lay-verify="" id="Hobby" name="Hobby">
+                               {{#  layui.each(SearchData(d,"Hobby"), function(index, item1){ }}
+                              <option value="{{item1.Value}}">{{item1.Value}}</option>
+                               {{#  });   }}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">出生年月</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" class="layui-input" id="BatethDay" name="BatethDay">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">社交账号</label>
+                        <div class="layui-input-inline" style="width:150px;">
+                            <input type="tel" name="Social" lay-verify="" autocomplete="off" class="layui-input" id="Social">
+                        </div>
+                    </div>
+                </div>
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>合同信息</legend>
+                </fieldset>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">选择房源</label>
+                        <div class="layui-input-inline" style="width:100px;margin-right:0;">
+                            <select lay-verify="" id="selectType" name="selectType">
+                                <option value="0">全部</option>
+                                <option value="1">整租</option>
+                                <option value="2">合租</option>
+                                <option value="3">独栋</option>
+                            </select>
+                            <input type="tel" name="HouseType" lay-verify="required" autocomplete="off" class="layui-input" id="HouseType">
+                            <input type="tel" name="HouseId" lay-verify="required" autocomplete="off" class="layui-input" id="HouseId">
+
+                        </div>
+                        <div class="layui-input-inline" style="width:350px;">
+                            <input type="tel" name="HouseName" lay-verify="required" autocomplete="off" class="layui-input" id="HouseName">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">合同时间</label>
+                        <div class="layui-input-inline" style="width:200px;">
+                            <input type="tel" name="BeginTime" lay-verify="required" autocomplete="off" class="layui-input" id="BeginTime" placeholder="合同开始时间">
+
+                        </div>
+                        <div class="layui-input-inline" style="width:200px;">
+                            <input type="tel" name="EndTime" lay-verify="required" autocomplete="off" class="layui-input" id="EndTime" placeholder="合同结束时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="Type" name="Type">
+                                {{#  layui.each(SearchData(d,"type"), function(index, item1){ }}
+                                  <option value="{{item1.Value}}">{{item1.Value}}</option>
+                                {{#  });   }}
+                            </select>
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">付款方式</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="PinLv" name="PinLv">
+                                {{#  layui.each(SearchData(d,"pinlv"), function(index, item1){ }}
+                                <option value="{{item1.Value}}">{{item1.Value}}</option>
+                                {{#  });   }}
+                            </select>
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">首付款方式</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="FirstPay" name="FirstPay">
+                                {{#  layui.each(SearchData(d,"firstpay"), function(index, item1){ }}
+                                <option value="{{item1.Value}}">{{item1.Value}}</option>
+                                {{#  });   }}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">支付方式</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="PayType" name="PayType">
+                                {{#  layui.each(SearchData(d,"PayType"), function(index, item1){ }}
+                                <option value="{{item1.Value}}">{{item1.Value}}</option>
+                                {{#  });   }}
+                            </select>
+                        </div>
+                        <label class="layui-form-label">月租金</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="Recent" lay-verify="required|number" autocomplete="off" class="layui-input" id="Recent">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                     <label class="layui-form-label">杂费</label>
+                     <div class="layui-input-block">
+                         {{#  layui.each(SearchData(d,"zafei"), function(index, item1){ }}
+                             <input type="checkbox" name="{{item1.Code}}" title="{{item1.Name}}" lay-filter="zafei" ztype="{{item1.Type}}" >
+                         {{#  });   }}
+                     </div>
+                </div>
+                 <div class="zafeicontent">
+
+                 </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-block">
+                                <input type="tel" name="Remark" autocomplete="off" class="layui-input" id="Remark">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">附件</label>
+                            <div class="layui-input-block">
+                                <a class="layui-btn layui-btn-primary" id="addimage"><i class="layui-icon">&#xe608;</i> 添加<span class="layui-badge layui-bg-gray" id="imgnumber">0</span></a>
+                                <input type="tel" name="Image" autocomplete="off" class="layui-input" id="Image">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        
+            
+            <div class="form-bottom">
+                <div class="form-wrap">
+                    <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel">取消</button>
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">创建合同</button>
+                </div>
+            </div>
+        </form>
+    </script>
+    <div id="view">
+    </div>
+   
+<script>
+//Demo
+    layui.use(['form'], function(){
+  var form = layui.form;
+
+  //监听提交
+  form.on('submit(save)', function (data) {
+      debugger;
+      var zafeilist = [];
+      $.each($(".zafeicontent .zafeilist"), function (index, item) {
+          debugger;
+          var id = "#" + item.id;
+          var zafei = {};
+          zafei.Name = $(id + " .zafeitit").html();
+          zafei.Amount = $(id + " .zafeiJine").val();
+          zafei.Type = $(id + " .zafeiType").val();
+          zafei.Price = $(id + " .zafeiPrice").val();
+          zafei.Reading = $(id + " .zafeidushu").val();
+          zafei.ChaobiaoTime = $(id + " .Chaobiao").val();
+          zafeilist.push(zafei);
+      });
+      var datafield=data.field;
+      var tjdata = {
+          "BeginTime": datafield.BeginTime, "EndTime": datafield.EndTime, "Type": datafield.Type, "PinLv": datafield.PinLv, "FirstPay": datafield.FirstPay, "Recent": datafield.Recent,"PayType":datafield.PayType,"DayRecnet":datafield.DayRecnet,"Remark":datafield.Remark,"HouseId":datafield.HouseId,"HouseType":datafield.HouseType,
+          "Teant": { "Name": datafield.Name, "Sex": datafield.Sex, "BatethDay": datafield.BatethDay, "Phone": datafield.Phone, "Social": datafield.Social, "Work": datafield.Work, "Hobby": datafield.Hobby, "DocumentType": datafield.DocumentType, "Document": datafield.Document },
+          "Otherfee": zafeilist
+      };
+      var url = doc.baseurl + "/api/Contract/SaveData";
+      doc.Submit1(url, tjdata, Successevent());
+      return false;
+  });
+  function Successevent() {
+      debugger;
+     
+  }
+});
+function complteimg(name, number) {
+    debugger;
+    $("#Image").val(name);
+    $("#imgnumber").html(number);
+}
+</script>  
+    <script src="~/Scripts/Common/jquery.autocomplete.js"></script>
+    <link href="~/Content/jquery.autocomplete.css" rel="stylesheet" />  
+</body>
+

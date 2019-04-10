@@ -1,0 +1,5 @@
+2019-01-16 10:14:36,378 [1] WARN  AutoTaskService.Program [(null)]  - 当前启动数据库类型为:oracle
+2019-01-16 10:14:56,252 [1] WARN  AutoTaskService.Program [(null)]  - 1:oracle
+2019-01-16 10:14:56,254 [1] WARN  AutoTaskService.Program [(null)]  - 2:oracle
+2019-01-16 10:14:56,287 [1] WARN  AutoTaskService.Program [(null)]  - 3:oracle
+2019-01-16 10:14:56,289 [1] WARN  AutoTaskService.Program [(null)]  - 4:oracle

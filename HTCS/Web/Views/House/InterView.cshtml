@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InterView</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/hsc-form.css" rel="stylesheet" />
+    <script src="~/Scripts/Common/LG.js"></script>
+    <script src="~/layui/layui.js"></script>
+    <script>
+  layui.use('element', function(){
+  var element = layui.element;
+  //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+  var layid = location.hash.replace(/^#test1=/, '');
+  var id = getUrlParam("Id");
+  var parentid = getUrlParam("ParentRoomid");
+  $("#iframe_oBasicInfo").attr("src", "BaseInfo?Id=" + id + "&ParentRoomid=" + parentid);
+  $("#iframe_Contract").attr("src", "Contractlist?HouseId=" + id);
+  $("#iframe_Bill").attr("src", "BillList?&HouseId=" + id);
+  $("#iframe_React").attr("src", "Reactlist?Id=" + id + "&HouseId=" + id);
+  element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
+
+  //监听Tab切换，以改变地址hash值
+  element.on('tab(test1)', function(){
+    location.hash = 'test1='+ this.getAttribute('lay-id');
+  });
+  debugger;
+  var winheight= $(window).height();
+  $("body").css("hight", winheight);
+  var content = winheight- $(".layui-tab-title").height()-100;
+  $(".layui-tab-item").css("height", content);
+ 
+});
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]); return null; //返回参数值
+}
+function test() {
+    alert("成功");
+}
+    </script>    
+    <style type="text/css">
+        .order_iframe {
+            height: 100%;
+            width: 100%;
+            border: none;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+    </style>
+
+</head>
+<body>
+  
+    <div class="layui-tab layui-tab-card" style="margin:0px;">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基础信息</li>
+            <li>合同信息</li>
+            <li>账单信息</li>
+            <li>租客信息</li>
+            <li>操作日志</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show" style="padding: 10px;overflow: hidden;">
+                <iframe frameborder="0" class="order_iframe" id="iframe_oBasicInfo" onscroll="no" ></iframe>
+            </div>
+            <div class="layui-tab-item">
+            <iframe frameborder="0" class="order_iframe" id="iframe_Contract" onscroll="no"></iframe>
+            </div>
+            <div class="layui-tab-item">
+                <iframe frameborder="0" class="order_iframe" id="iframe_Bill" onscroll="no"></iframe>
+            </div>
+            <div class="layui-tab-item">
+                <iframe frameborder="0" class="order_iframe" id="iframe_React" onscroll="no"></iframe>
+            </div>
+            <div class="layui-tab-item">
+               5
+            </div>
+            <div class="layui-tab-item">6</div>
+        </div>
+        
+    </div>
+</body>
+</html>

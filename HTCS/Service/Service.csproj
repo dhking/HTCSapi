@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EFBD342E-0942-45FE-A54A-368F048BBCF1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Service</RootNamespace>
+    <AssemblyName>Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '开发环境|AnyCPU'">
+    <OutputPath>bin\开发环境\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ChnCharInfo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=18f031bd02e5e291, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.International.Converters.PinYinConverter.1.0.0\lib\ChnCharInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\package\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\package\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342" />
+    <Reference Include="Quartz, Version=3.0.4.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.4\lib\net452\Quartz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\package\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcountBankService.cs" />
+    <Compile Include="AutoTaskService.cs" />
+    <Compile Include="BaseDataService.cs" />
+    <Compile Include="BillService.cs" />
+    <Compile Include="caiwuService.cs" />
+    <Compile Include="ContrctService.cs" />
+    <Compile Include="ElectricService.cs" />
+    <Compile Include="FinanceService.cs" />
+    <Compile Include="FormatterService.cs" />
+    <Compile Include="GuestService.cs" />
+    <Compile Include="HelpService.cs" />
+    <Compile Include="HoseService.cs" />
+    <Compile Include="HtcsExcelService.cs" />
+    <Compile Include="IndentHouseService.cs" />
+    <Compile Include="Jurisdiction.cs" />
+    <Compile Include="KjxService.cs" />
+    <Compile Include="MapService.cs" />
+    <Compile Include="MenuService.cs" />
+    <Compile Include="messageService.cs" />
+    <Compile Include="OrderService.cs" />
+    <Compile Include="OwerContractService.cs" />
+    <Compile Include="ProceService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PushService.cs" />
+    <Compile Include="RenovationService.cs" />
+    <Compile Include="RepairedService.cs" />
+    <Compile Include="RoleService.cs" />
+    <Compile Include="RzService.cs" />
+    <Compile Include="SignService.cs" />
+    <Compile Include="StatisticsService.cs" />
+    <Compile Include="SysUserService.cs" />
+    <Compile Include="ThirdService.cs" />
+    <Compile Include="ZafeiServcie.cs" />
+    <Compile Include="ZK\HouseZKService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\alipay-sdk-NET-3.0.1\AopSdk.csproj">
+      <Project>{9C11CAE5-5188-4E71-825B-68FC3135728A}</Project>
+      <Name>AopSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ControllerHelper\ControllerHelper.csproj">
+      <Project>{093CB7DB-F980-4C7D-9333-176D711D2AFC}</Project>
+      <Name>ControllerHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{9F441CAD-1F99-425D-8138-5D0752815B4B}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBHelp\DBHelp.csproj">
+      <Project>{FB50B47E-0060-4EC5-BFC4-05F38C410236}</Project>
+      <Name>DBHelp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web\Web.csproj">
+      <Project>{372D33B5-499D-4DE9-9673-A386D2938AB7}</Project>
+      <Name>Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj">
+      <Project>{fbf20963-ea41-473c-8c57-9db1018bfb55}</Project>
+      <Name>SignApplication</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="F:\HTCS\HTCS\Api\obj\开发环境\Package\PackageTmp" />
+  <setAcl path="F:\HTCS\HTCS\Api\obj\开发环境\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="F:\HTCS\HTCS\Api\obj\开发环境\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

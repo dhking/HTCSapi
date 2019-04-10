@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="EntityDB-Web.config Connection String" description="EntityDB 由应用程序在 web.config 中用来访问数据库的连接字符串。" defaultValue="DATA SOURCE=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=106.14.96.37)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)));PASSWORD=20140506;PERSIST SECURITY INFO=True;USER ID=SYSTEM" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="F:\\HTCS\\HTCS\\Api\\obj\\开发环境\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='EntityDB']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection 由应用程序在 web.config 中用来访问数据库的连接字符串。" defaultValue="DefaultConnection_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="F:\\HTCS\\HTCS\\Api\\obj\\开发环境\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,16 @@
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\Tools\WinRAR.exe
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\x64\SQLite.Interop.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\x86\SQLite.Interop.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\Burgeon.Wing3.Release.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\Burgeon.Wing3.Release.pdb
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\EntityFramework.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\Newtonsoft.Json.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\SqliteORM.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\System.Data.SQLite.dll
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\EntityFramework.xml
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\Newtonsoft.Json.xml
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\SqliteORM.pdb
+F:\WING3Product\Burgeon.Wing3.Release\bin\Release\zh-Hans\EntityFramework.resources.dll
+F:\WING3Product\Burgeon.Wing3.Release\obj\Release\Burgeon.Wing3.Release.csprojResolveAssemblyReference.cache
+F:\WING3Product\Burgeon.Wing3.Release\obj\Release\Burgeon.Wing3.Release.dll
+F:\WING3Product\Burgeon.Wing3.Release\obj\Release\Burgeon.Wing3.Release.pdb

@@ -1,0 +1,9 @@
+2019-04-01 11:37:21,456 [66] ERROR DBHelp.LogService [(null)]  - 新增小区异常执行存储过程异常Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00306: 调用 'SP_ADDCELLNAME' 时参数个数或类型错误
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.ProceDAL.CmdProce4(T_CellName model) 位置 F:\HTCS\HTCS\DAL\ProceDAL.cs:行号 130数据:{"Id":0,"Type":2,"Name":"光湖社区","City":0,"Area":310120,"Adress":null,"CityName":"苏州市","AreaName":"奉贤区","CompanyId":1,"regtype":3,"parentid":0,"code":null,"access_token":null,"NotUpdatefield":null,"pageindex":0,"pagesize":0}

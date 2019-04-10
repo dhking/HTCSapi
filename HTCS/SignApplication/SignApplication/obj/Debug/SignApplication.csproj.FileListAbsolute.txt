@@ -1,0 +1,16 @@
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\bin\Debug\SignApplication.exe.config
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\bin\Debug\SignApplication.exe
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\bin\Debug\SignApplication.pdb
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.configWin.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.createContract.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.download.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.Form1.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.selectType.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.user.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.Properties.Resources.resources
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.csproj.GenerateResource.Cache
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.exe
+C:\Users\WenTing\Desktop\SignApplication\SignApplication\obj\Debug\SignApplication.pdb
+C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.exe.config
+C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.exe
+C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.pdb

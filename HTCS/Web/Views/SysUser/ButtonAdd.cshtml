@@ -1,0 +1,97 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<script src="~/Scripts/Common/LG.js"></script>
+<body>
+    <script>
+        layui.use(['laypage', 'layer', 'laytpl', 'jquery', 'form'], function () {
+            var laytpl = layui.laytpl;
+            doc.init(function (result) {
+                doc.baseurl = result;
+            });
+            var url = "/api/Menu/Querymenu";
+            var $ = layui.jquery;
+            debugger;
+            doc.objectQuery(url, null, function (data) {
+                debugger;
+                var getTpl = demo.innerHTML
+           , view = document.getElementById('view');
+                laytpl(getTpl).render(data, function (html) {
+                    view.innerHTML = html;
+                });
+                var form = layui.form; form.render('');
+            });
+        });
+    </script>
+    <script id="demo" type="text/html">
+        <form class="layui-form hcs-form" action="">
+            <div class="form-content">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">按钮名称</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="BtnName" autocomplete="off" class="layui-input" id="BtnName">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">按钮ID</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="BtnNo" lay-verify="required" autocomplete="off" class="layui-input" id="BtnNo">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">所属菜单</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select name="MenuId" lay-verify="required" id="MenuId" lay-search="">
+                                <option value="0">请选择</option>
+                                {{#  layui.each(d.data, function(index, item1){if(item1.Jishu==1){ }}
+                                <option value="{{item1.Id}}">{{item1.name}}</option>
+                                {{#  } });   }}
+                            </select>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-wrap">
+                    <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel">取消</button>
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">保存</button>
+                </div>
+            </div>
+        </form>
+    </script>
+    <div id="view">
+    </div>
+
+    <script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+
+  //监听提交
+  form.on('submit(save)', function (data) {
+      debugger;
+
+      if (data.field.ParentId != 0 ) {
+          data.field.Jishu = 2;
+      }
+      if (data.field.SystemId!= 0 && data.field.Jishu != 2) {
+          data.field.Jishu = 1;
+      }
+
+      var url = doc.baseurl + "/api/Sysuserbutton/edit";
+      doc.Submit(url, data.field);
+      return false;
+  });
+
+});
+function complteimg(name, number) {
+    debugger;
+    $("#Image").val(name);
+    $("#imgnumber").html(number);
+}
+    </script>
+    <script src="~/Scripts/Common/jquery.autocomplete.js"></script>
+    <link href="~/Content/jquery.autocomplete.css" rel="stylesheet" />
+</body>

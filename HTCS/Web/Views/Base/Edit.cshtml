@@ -1,0 +1,93 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<script src="~/Scripts/Common/LG.js"></script>
+<script src="~/Scripts/Common/EditLoad.js"></script>
+<body>
+    <script src="~/layui/layui.js"></script>
+    <script id="main" type="text/html">
+        <form class="layui-form hcs-form" action="">
+            <div class="form-content">
+                <input type="text" name="Id" autocomplete="off" class="layui-input" placeholder="名称" id="Id" style="display:none;" value="{{d.Id}}">
+                <div class="layui-form-item">
+                   
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">字典类型</label>
+                        <div class="layui-input-inline">
+                            <select name="ParaType" lay-filter="ParaType" id="ParaType">
+                                {{# layui.each(d.listparatype, function(index,item) {}}
+                                <option value="{{item.Code}}">{{item.Name}}</option>
+                                {{# }) }}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">是否启用</label>
+                        <div class="layui-input-inline">
+                            <input type="checkbox" name="IsActive" id="IsActive"  lay-skin="switch" lay-text="是|否">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">配备名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="Name" autocomplete="off" class="layui-input" placeholder="名称" id="Name" value="{{d.Name}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-wrap">
+                    <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel" lay-submit="">取消</button>
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">保存</button>
+                </div>
+            </div>
+         
+        </form>
+        
+        
+    </script>
+    <div id="view"></div>
+  <script> 
+      layui.use(['form', 'layer', 'laydate', 'laytpl'], function () {
+          
+          var laytpl = layui.laytpl;
+          var form = layui.form;
+          var $ = layui.$;
+          var getTpl = main.innerHTML
+          , view = document.getElementById('view');
+          var url = apiurl + "/api/BaseData/Queryid";
+          var data1 = { "Id": id };
+          
+          doc.objectQuery(url, data1, function (result) {
+              var realdata = result.numberData;
+              debugger;
+              laytpl(getTpl).render(realdata, function (html) {
+                  view.innerHTML = html;
+              });
+              $("#ParaType").val(realdata.ParaType);
+              if (realdata.IsActive == 1)
+              {
+                  $('#IsActive').attr("checked", 'checked');
+              }
+              form.render();
+          });
+         
+   //监听提交
+     form.on('submit(save)', function (data) {
+      debugger;
+      var url = apiurl + "/api/BaseData/SaveData";
+      if (data.field.IsActive == "on") {
+          data.field.IsActive = 1;
+      }
+      doc.Submit(url,data.field,SuccEvent);
+      return false;
+  });
+  form.on('submit(cancel)', function (data) {
+      debugger;
+      var index = parent.layer.getFrameIndex(window.name);
+      parent.layer.close(index);
+  }); 
+    });
+</script>
+
+</body>

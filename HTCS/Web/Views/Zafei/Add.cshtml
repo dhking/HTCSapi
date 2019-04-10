@@ -1,0 +1,66 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<script src="~/Scripts/Common/LG.js"></script>
+<script src="~/Scripts/Common/allload.js"></script>
+<script src="~/Scripts/Common/EditLoad.js"></script>
+<body>
+    <script src="~/layui/layui.js"></script>
+    <form class="layui-form hcs-form" action="">
+        <div class="form-content">
+            <input type="text" name="Id" autocomplete="off" class="layui-input" placeholder="名称" id="Id" style="display:none;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width:auto;">默认结算方式</label>
+                    <div class="layui-input-inline">
+                        <select name="Type" lay-filter="Type" id="Type">
+                            <option value="1">按固定费用结算</option>
+                            <option value="2">预充值</option>
+                            <option value="3">按抄表结算</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width:auto;">杂费名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="Name" autocomplete="off" class="layui-input" placeholder="名称" id="Name">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+               
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width:auto;">杂费编码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="Code" autocomplete="off" class="layui-input" placeholder="名称" id="Code">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-bottom">
+            <div class="form-wrap">
+                <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel" lay-submit="">取消</button>
+                <button class="layui-btn" id="save" lay-filter="save" lay-submit="">保存</button>
+            </div>
+        </div>
+    </form>
+    <script>
+            layui.use(['form', 'layer', 'laydate', 'laytpl'], function () {
+                var form = layui.form; 
+                //监听提交
+                form.on('submit(save)', function (data) {
+                    debugger;
+                    $("#save").addClass("layui-btn-disabled");
+                    debugger;
+                    var url = apiurl + "/api/Zafei/Savezafei";
+                    doc.Submit(url, data.field, SuccEvent, ErrorEvent);
+                    return false;
+                });
+                form.on('submit(cancel)', function (data) {
+                    debugger;
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+            });
+    </script>
+</body>

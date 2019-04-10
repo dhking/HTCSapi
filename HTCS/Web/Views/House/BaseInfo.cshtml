@@ -1,0 +1,183 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>BaseInfo</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/hsc-form.css" rel="stylesheet" />
+    <script src="~/Scripts/Common/LG.js"></script>
+    <script src="~/layui/layui.js"></script>
+    <script>
+        var id = getUrlParam("Id");
+        var parentid = getUrlParam("ParentRoomid");
+        layui.use(['laypage', 'layer', 'laytpl', 'jquery', 'form'], function () {
+            var form = layui.form;
+            debugger;
+          
+            doc.init(function (result) {
+                doc.baseurl = result;
+            });
+            var url = "/api/House/Querydepent";
+            var paradata = { "Id": id, "ParentRoomid": parentid };
+            doc.objectQuery(url, paradata, function (data) {
+                if (data.Code == 0) {
+                    var laytpl = layui.laytpl;
+                    var getTpl = demo.innerHTML
+             , view = document.getElementById('view');
+                    laytpl(getTpl).render(data.numberData, function (html) {
+                        view.innerHTML = html;
+                    });
+                    var form = layui.form;
+                    form.render('');
+                    Eventclick();
+                } else {
+                    layer.msg("没有查询到数据");
+                }
+            });
+            function Eventclick() {
+                $("#edithouse").click(function () {
+                    var url = "../HousePendent/Edit" + "?&Id=" + id;
+                    parent.parent.ParentOpen(url, ['920px', '600px']);
+                });
+                $("#addyuding").click(function () {
+                    var url = "../HousePendent/Edit" + "?&Id=" + id;
+                    parent.parent.ParentOpen(url, ['920px', '600px']);
+                });
+
+            }
+        });
+        
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        function nullreplace(value) {
+            debugger;
+            if (value==null||value==0){
+                return "未填写";
+            }
+        }
+        function reflash(){
+            alert();
+        }
+    </script>
+    <style>
+        .miaosu {
+            padding: 5px;
+        }
+
+        .miaosu-title {
+            line-height: 40px;
+            font-size: larger;
+            font-weight: 600;
+        }
+
+        .miaosu-content {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+            ul li {
+                float: left;
+                padding-right: 50px;
+                font-size: medium;
+            }
+    </style>
+</head>
+<body>
+    <script id="demo" type="text/html">
+        <form class="layui-form">
+            <div class="miaosu">
+                <div class="miaosu-title">
+                    <label>{{nullreplace(d.house.CellName) }}-{{d.house.BuildingNumber}}栋-{{d.house.RoomId}}室-{{ d.housependent.Name}}</label>
+                </div>
+                <div class="miaosu-content">
+                    <ul>
+                        <li><label>类型:</label><span>{{nullreplace(d.housependent.Huxing)}}</span></li>
+                        <li><label>面积:</label><span>{{d.housependent.Measure}}</span></li>
+                        <li><label>朝向:</label><span>{{d.housependent.Orientation}}</span></li>
+                    </ul>
+                    <div style="clear:both;"></div>
+                    <ul>
+                        <li><label>房管员:</label><span>{{d.house.Fangguanyuan}}</span></li>
+                        <li><label>价格:</label><span>{{nullreplace(d.housependent.Price)}}</span></li>
+                    </ul>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="miaosu-title">
+                    <span>特色</span>
+                </div>
+                <div class="miaosu-content">
+                    <input type="checkbox" title="测试">
+                    <input type="checkbox" title="测试">
+                    <input type="checkbox" title="测试">
+                </div>
+                <div class="miaosu-title">
+                    <span>配备</span>
+                </div>
+                <div class="miaosu-content">
+                   
+                    {{# $.each(d.housependent.listpeibei,function(index1,value1){if(value1.isCheck==1){ }}
+                        <input type="checkbox" title="{{value1.Name}}" checked="checked" name="{{value1.Code}}">
+                      {{# }else{ }}
+                        <input type="checkbox" title="{{value1.Name}}" name="{{value1.Code}}" >
+                     {{# } }) }}  
+                </div>
+                <div class="miaosu-title">
+                    <span>照片</span>
+                </div>
+                <div class="miaosu-content">
+
+                </div>
+                    <div class="miaosu-title">
+                        <span>租客信息</span>
+                    </div>
+                    <div class="miaosu-content">
+                        <ul>
+                            <li><label>姓名:</label><span>张三</span></li>
+                            <li><label>性别:</label><span>男</span></li>
+                            <li><label>电话:</label><span>13761738669</span></li>
+                        </ul>
+                        <div style="clear:both;"></div>
+                        <ul>
+                            <li><label>职业:</label><span>南</span></li>
+                            <li><label>爱好:</label><span>1100</span></li>
+                        </ul>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+        </form>
+    </script>
+        <div class="layui-btn-group caidan-btn">
+
+            <button class="layui-btn layui-btn-primary layui-btn-sm edithouse" id="edithouse">
+                <i class="layui-icon">&#xe642;</i> 编辑
+            </button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm addhouse" id="addyuding">
+                <i class="layui-icon">&#xe608;</i> 添加预订
+            </button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm addhouse" id="addhouse">
+                <i class="layui-icon">&#xe608;</i> 添加合同
+            </button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm trantehouse" id="trantehouse">
+                <i class="layui-icon">&#xe614;</i> 转为装修中
+            </button>
+        </div>
+        
+        <hr class="layui-bg-green">
+        <div id="view"></div>    
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<script src="~/Scripts/Common/LG.js"></script>
+<script src="~/Scripts/Common/EditLoad.js"></script>
+<body>
+    <script src="~/layui/layui.js"></script>
+    <script id="main" type="text/html">
+        <form class="layui-form hcs-form" action="">
+            <input type="tel" name="Id" lay-verify="required" autocomplete="off" class="layui-input" id="Id" value="{{d[0].Id}}" style="display:none;">
+            <div class="form-content">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">菜单代码</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="name"  autocomplete="off" class="layui-input" id="name" value="{{d[0].name}}">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">菜单名称</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="title" lay-verify="required" autocomplete="off" class="layui-input" id="title" value="{{d[0].title}}">
+                        </div>                       
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">图标</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="icon"  autocomplete="off" class="layui-input" id="icon" value="{{d[0].icon}}">
+                        </div>
+                        <label class="layui-form-label">跳转页面</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="jump" autocomplete="off" class="layui-input" id="jump" value="{{doc.ns(d[0].jump)}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">子系统</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select name="SystemId" lay-verify="required" id="SystemId" lay-search="">
+                                <option value="0">请选择</option>
+                             
+                                {{#  layui.each(d[1], function(index, item1){if(item1.Jishu==0){ }}
+                                <option value="{{item1.Id}}">{{item1.name}}</option>
+                                {{#  } });   }}
+                            </select>
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">上级菜单</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select name="ParentId" lay-verify="required" id="ParentId" lay-search="">
+                                <option value="0">请选择</option>
+                                {{#  layui.each(d[1], function(index, item1){if(item1.Jishu==1){ }}
+                                <option value="{{item1.Id}}">{{item1.name}}</option>
+                                {{#  } });   }}
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-wrap">
+                    <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel">取消</button>
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">保存</button>
+                </div>
+            </div>
+        </form>
+    </script>
+    <div id="view"></div>
+    <script>
+      layui.use(['form', 'layer', 'laydate', 'laytpl'], function () {
+          var laytpl = layui.laytpl;
+          var form = layui.form;
+          var $ = layui.$;
+          var getTpl = main.innerHTML
+          , view = document.getElementById('view');
+          var url = apiurl + "/api/Menu/Queryid";
+          var data = { "Id": id };
+          doc.objectQuery(url, data, function (result) {
+              var url1 = apiurl + "/api/Menu/Querymenu";
+              doc.objectQuery(url1, data, function (result1) {
+                  debugger
+                  var realdata = result.numberData;
+                  var resultdata1 = result1.data;
+                  var allresult = [];
+                  allresult.push(realdata);
+                  allresult.push(resultdata1);
+                  debugger;
+                  laytpl(getTpl).render(allresult, function (html) {
+                      view.innerHTML = html;
+                  });
+                  $("#ParentId").val(realdata.ParentId);
+                  $("#SystemId").val(realdata.SystemId);
+                
+              });
+             
+              form.render();
+          });
+     //监听提交
+     form.on('submit(save)', function (data) {
+         debugger;
+      if (data.field.ParentId != 0) {
+          data.field.Jishu = 2;
+      }
+      if (data.field.SystemId != 0 && data.field.Jishu != 2) {
+          data.field.Jishu = 1;
+          data.field.ParentId = data.field.SystemId;
+      }
+      var url = apiurl + "/api/Menu/SaveMenu";
+      doc.Submit(url,JSON.stringify(data.field),SuccEvent);
+      return false;
+     });
+  form.on('submit(cancel)', function (data) {
+      debugger;
+      var index = parent.layer.getFrameIndex(window.name);
+      parent.layer.close(index);
+  });
+    });
+    </script>
+
+</body>

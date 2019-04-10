@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bill</title>
+    <script src="../Content/bootstrap.min.js"></script>
+    <script src="../Content/bootstrap-table.js"></script>
+    <script>
+        $('#table').bootstrapTable({
+            url: url,
+            method: 'post',
+            pageNumber: 1,
+            clickToSelect: true,  
+            queryParamsType: 'limit',
+            classes: 'table table-hover table-no-bordered',
+            responseHandler: function (data) {
+                debugger;
+                return {
+                    "total": data.numberCount,//总页数
+                    "rows": data.numberData   //数据
+                };
+            },
+            onLoadSuccess: function () {
+                var otherheight = $(".m-search").height() + $("#toolbar").height() + $(".fixed-table-pagination").height() + $("layui-tab-title").height() + 140;
+                var tableheight = $(".layui-body").height() - otherheight;
+                debugger;
+                $(".fixed-table-body").css("height", tableheight);
+            },
+            columns: arrcolumn,
+            pagination: true,
+            sidePagination: "server",
+            checkboxHeader: true,
+            clickToSelectv: true,
+            //selectItemName: "btSelectItem",
+            //showRefresh: true,
+            idField: "ID"    
+        });
+    </script>
+</head>
+<body>
+    <table id="table"></table>
+</body>
+</html>

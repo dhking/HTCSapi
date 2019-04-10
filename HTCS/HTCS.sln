@@ -1,0 +1,122 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBHelp", "DBHelp\DBHelp.csproj", "{FB50B47E-0060-4EC5-BFC4-05F38C410236}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{9F441CAD-1F99-425D-8138-5D0752815B4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{EFBD342E-0942-45FE-A54A-368F048BBCF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerHelper", "ControllerHelper\ControllerHelper.csproj", "{093CB7DB-F980-4C7D-9333-176D711D2AFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapping.cs", "Mapping.cs\Mapping.cs.csproj", "{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEST", "TEST\TEST.csproj", "{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{3A731482-E558-4D10-BDFE-37427685F373}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{372D33B5-499D-4DE9-9673-A386D2938AB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTaskService", "AutoTaskService\AutoTaskService.csproj", "{E6B31C42-AB81-4C00-B308-C2201FF27B99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Burgeon.Wing3.Release", "Burgeon.Wing3.Release\Burgeon.Wing3.Release.csproj", "{94997EF5-3141-4CEB-9019-43D1F4913809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopSdk", "alipay-sdk-NET-3.0.1\AopSdk.csproj", "{9C11CAE5-5188-4E71-825B-68FC3135728A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignApplication", "C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj", "{FBF20963-EA41-473C-8C57-9DB1018BFB55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		开发环境|Any CPU = 开发环境|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB50B47E-0060-4EC5-BFC4-05F38C410236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB50B47E-0060-4EC5-BFC4-05F38C410236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB50B47E-0060-4EC5-BFC4-05F38C410236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB50B47E-0060-4EC5-BFC4-05F38C410236}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB50B47E-0060-4EC5-BFC4-05F38C410236}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{FB50B47E-0060-4EC5-BFC4-05F38C410236}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{9F441CAD-1F99-425D-8138-5D0752815B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F441CAD-1F99-425D-8138-5D0752815B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F441CAD-1F99-425D-8138-5D0752815B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F441CAD-1F99-425D-8138-5D0752815B4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F441CAD-1F99-425D-8138-5D0752815B4B}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{9F441CAD-1F99-425D-8138-5D0752815B4B}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{EFBD342E-0942-45FE-A54A-368F048BBCF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFBD342E-0942-45FE-A54A-368F048BBCF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFBD342E-0942-45FE-A54A-368F048BBCF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFBD342E-0942-45FE-A54A-368F048BBCF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFBD342E-0942-45FE-A54A-368F048BBCF1}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{EFBD342E-0942-45FE-A54A-368F048BBCF1}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{093CB7DB-F980-4C7D-9333-176D711D2AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093CB7DB-F980-4C7D-9333-176D711D2AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093CB7DB-F980-4C7D-9333-176D711D2AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093CB7DB-F980-4C7D-9333-176D711D2AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093CB7DB-F980-4C7D-9333-176D711D2AFC}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{093CB7DB-F980-4C7D-9333-176D711D2AFC}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{3A731482-E558-4D10-BDFE-37427685F373}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{372D33B5-499D-4DE9-9673-A386D2938AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372D33B5-499D-4DE9-9673-A386D2938AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372D33B5-499D-4DE9-9673-A386D2938AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372D33B5-499D-4DE9-9673-A386D2938AB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372D33B5-499D-4DE9-9673-A386D2938AB7}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
+		{372D33B5-499D-4DE9-9673-A386D2938AB7}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
+		{E6B31C42-AB81-4C00-B308-C2201FF27B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B31C42-AB81-4C00-B308-C2201FF27B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B31C42-AB81-4C00-B308-C2201FF27B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B31C42-AB81-4C00-B308-C2201FF27B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6B31C42-AB81-4C00-B308-C2201FF27B99}.开发环境|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B31C42-AB81-4C00-B308-C2201FF27B99}.开发环境|Any CPU.Build.0 = Release|Any CPU
+		{94997EF5-3141-4CEB-9019-43D1F4913809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94997EF5-3141-4CEB-9019-43D1F4913809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94997EF5-3141-4CEB-9019-43D1F4913809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94997EF5-3141-4CEB-9019-43D1F4913809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94997EF5-3141-4CEB-9019-43D1F4913809}.开发环境|Any CPU.ActiveCfg = Release|Any CPU
+		{94997EF5-3141-4CEB-9019-43D1F4913809}.开发环境|Any CPU.Build.0 = Release|Any CPU
+		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C11CAE5-5188-4E71-825B-68FC3135728A}.开发环境|Any CPU.ActiveCfg = Release|Any CPU
+		{9C11CAE5-5188-4E71-825B-68FC3135728A}.开发环境|Any CPU.Build.0 = Release|Any CPU
+		{FBF20963-EA41-473C-8C57-9DB1018BFB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBF20963-EA41-473C-8C57-9DB1018BFB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBF20963-EA41-473C-8C57-9DB1018BFB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF20963-EA41-473C-8C57-9DB1018BFB55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBF20963-EA41-473C-8C57-9DB1018BFB55}.开发环境|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF20963-EA41-473C-8C57-9DB1018BFB55}.开发环境|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

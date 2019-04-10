@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '开发环境|AnyCPU'">
+    <OutputPath>bin\开发环境\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\package\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoTask.cs" />
+    <Compile Include="Baidu.cs" />
+    <Compile Include="Base\City.cs" />
+    <Compile Include="Base\T_Basics_Peibei.cs" />
+    <Compile Include="BasicModel.cs" />
+    <Compile Include="Bill\PlAction.cs" />
+    <Compile Include="Bill\T_Bill.cs" />
+    <Compile Include="Bill\T_BillList.cs" />
+    <Compile Include="Bill\T_WrapBill.cs" />
+    <Compile Include="ContractEnum.cs" />
+    <Compile Include="Contrct\T_OwernContract.cs" />
+    <Compile Include="Contrct\T_Contrct.cs" />
+    <Compile Include="Contrct\T_Otherfee.cs" />
+    <Compile Include="ControllerFix.cs" />
+    <Compile Include="CustomMultipartFormDataStreamProvider.cs" />
+    <Compile Include="ElecUser.cs" />
+    <Compile Include="File.cs" />
+    <Compile Include="FinanceModel.cs" />
+    <Compile Include="Formatter.cs" />
+    <Compile Include="Guest.cs" />
+    <Compile Include="HouseReport.cs" />
+    <Compile Include="HouseRz.cs" />
+    <Compile Include="HouseTrant.cs" />
+    <Compile Include="House\HouseModel.cs" />
+    <Compile Include="House\HousePendent.cs" />
+    <Compile Include="House\HouseQuery.cs" />
+    <Compile Include="House\HouseZK.cs" />
+    <Compile Include="House\T_CellName.cs" />
+    <Compile Include="ids.cs" />
+    <Compile Include="Inittuizu.cs" />
+    <Compile Include="kjx.cs" />
+    <Compile Include="Map\MapAdress.cs" />
+    <Compile Include="Menu\T_Menu.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="PagingModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Pure.cs" />
+    <Compile Include="PushModel.cs" />
+    <Compile Include="Renovation.cs" />
+    <Compile Include="Repaire.cs" />
+    <Compile Include="SignVersion.cs" />
+    <Compile Include="Socket.cs" />
+    <Compile Include="StatisticsModel.cs" />
+    <Compile Include="SysResult.cs" />
+    <Compile Include="House\WrapHouseModel.cs" />
+    <Compile Include="TENANT\T_TENANT.cs" />
+    <Compile Include="Triger.cs" />
+    <Compile Include="T_MessageQueue.cs" />
+    <Compile Include="T_tx.cs" />
+    <Compile Include="T_ZafeiList.cs" />
+    <Compile Include="User\T_SysUser.cs" />
+    <Compile Include="User\User.cs" />
+    <Compile Include="zfbModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

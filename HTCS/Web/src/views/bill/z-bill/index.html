@@ -1,0 +1,75 @@
+﻿
+<script src="../../../../Scripts/bill_business.js"></script>
+<link href="../../../../Content/Home.css" rel="stylesheet" />
+<style>
+    .fywz {
+        position: absolute;
+    }
+</style>
+<!--结束-->
+<div class="layui-fluid" style="background-color:#ffffff;">
+    <div class="m-search">
+        <form class="layui-form hcs-form" action="" lay-filter="search" id="bill-search-form">
+            <div class="m-search-item">
+                <input type="text" name="Id" autocomplete="off" class="layui-input" placeholder="账单编号" id="Id" style="width:auto;">
+            </div>
+            <div class="m-search-item">
+                <input type="text" name="dd" autocomplete="off" placeholder="房间" class="layui-input" id="dd" style="width:auto;">
+            </div>
+            <div class="m-search-item">
+                <input type="text" name="ddd" autocomplete="off" placeholder="租客姓名" class="layui-input" id="ddd" style="width:auto;">
+            </div>
+            <div class="m-search-item">
+                <input type="text" name="ShouldReceive" placeholder="日期" autocomplete="off" class="layui-input" id="ShouldReceive">
+            </div>
+            <div class="m-search-item">
+                <button class="layui-btn" lay-submit="" lay-filter="search">搜索</button>
+            </div>
+            <div class="m-search-item" style="float:right;line-height:38px;">
+                <label id="yuqitype">
+
+                </label>
+            </div>
+            <div style="clear:both;"></div>
+        </form>
+    </div>
+    <script id="billbtnscribt" type="text/html">
+        {{#  layui.each(d, function(index, item){}}
+        <button class="layui-btn layui-btn-primary {{item.BtnNo}}" hturl="/SysUser/ButtonAdd?apiurl=">
+            <i class="layui-icon">&#xe654;</i>{{item.BtnName}}
+        </button>
+        {{#   });   }}
+    </script>
+    <div id="toolbar">
+        <div class="layui-btn-group">
+            <div id="bill-button-view" style="overflow:hidden;"></div>
+            <button class="layui-btn layui-btn-primary" id="menu-add-btn" hturl="/Bill/Add?apiurl=">
+                <i class="layui-icon">&#xe654;</i>添加
+            </button>
+            <button class="layui-btn layui-btn-primary" id="menu-edit-btn" hturl="/Bill/Edit?apiurl=">
+                <i class="layui-icon">&#xe642;</i>编辑
+            </button>
+            <button class="layui-btn layui-btn-primary" id="menu-delete-btn" hturl="/api/BaseData/delete">
+                <i class="layui-icon">&#xe640;</i>作废账单
+            </button>
+
+            <button class="layui-btn layui-btn-primary" id="receivebtn" hturl="/Bill/Receive">
+                <i class="layui-icon">&#x1007;</i>收款
+            </button>
+        </div>
+    </div>
+    <div class="layui-tab layui-tab-card" lay-filter="tabletab">
+        <ul class="layui-tab-title" style="margin-bottom:0;">
+            <li value="999" class="layui-this">所有</li>
+            <li value="0">未付款</li>
+            <li value="1">已付款</li>
+        </ul>
+        <div class="layui-tab-content" style="padding:0px;margin:0px;">
+            <table id="bill-main-table" lay-filter="demoEvent"></table>
+        </div>
+    </div>
+    <div>
+
+    </div>
+
+</div>

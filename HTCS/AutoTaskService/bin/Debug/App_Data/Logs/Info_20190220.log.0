@@ -1,0 +1,14 @@
+2019-02-20 21:31:29,997 [1] WARN  AutoTaskService.Program [(null)]  - 当前启动数据库类型为:oracle
+2019-02-20 21:31:37,734 [1] WARN  AutoTaskService.Program [(null)]  - 1:oracle
+2019-02-20 21:31:37,734 [1] WARN  AutoTaskService.Program [(null)]  - 2:oracle
+2019-02-20 21:31:37,749 [1] WARN  AutoTaskService.Program [(null)]  - 3:oracle
+2019-02-20 21:31:37,749 [1] WARN  AutoTaskService.Program [(null)]  - 4:oracle
+2019-02-20 21:31:38,078 [1] WARN  AutoTaskService.Program [(null)]  - 项目加载完成
+2019-02-20 21:31:38,109 [1] INFO  DBHelp.LogService [(null)]  - 测试成功
+2019-02-20 21:31:38,109 [1] INFO  DBHelp.LogService [(null)]  - oracle
+2019-02-20 21:31:38,109 [1] INFO  DBHelp.LogService [(null)]  - 22222
+2019-02-20 21:31:48,346 [1] WARN  AutoTaskService.Program [(null)]  - 参数加载完成!共:65
+2019-02-20 21:31:48,893 [1] WARN  AutoTaskService.Program [(null)]  - 自动启动完成
+2019-02-20 21:31:50,596 [1] INFO  AutoTaskService.QuartzServer [(null)]  - 开始加在任务成配置......
+2019-02-20 21:31:50,596 [1] INFO  AutoTaskService.QuartzServer [(null)]  - oracle
+2019-02-20 21:31:50,596 [1] INFO  AutoTaskService.QuartzServer [(null)]  - 正在启动升级程序启动消息监听服务......

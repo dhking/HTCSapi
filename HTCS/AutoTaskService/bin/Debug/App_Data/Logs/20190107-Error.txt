@@ -1,0 +1,23 @@
+2019-01-07 22:30:16,737 [1] FATAL AutoTaskService.Program [(null)]  - 启动自动任务异常
+ 异常:网络传输: TCP 传输地址连接故障
+at method:AutoTaskService.Program::logException @189 +file:F:\HTCS\HTCS\AutoTaskService\Program.cs
+at method:AutoTaskService.Program::Main @175 +file:F:\HTCS\HTCS\AutoTaskService\Program.cs
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): 网络传输: TCP 传输地址连接故障 ---> OracleInternal.Network.NetworkException (0x80004005): 网络传输: TCP 传输地址连接故障 ---> System.Net.Sockets.SocketException (0x80004005): 向一个无法连接的网络尝试了一个套接字操作。 106.14.96.37:1521
+   在 System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   在 OracleInternal.Network.TcpTransportAdapter.Connect(ConnectionOption conOption)
+   在 OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   在 OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName)
+   在 OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, String instanceName)
+   在 OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, String affinityInstanceName, Boolean bForceMatch)
+   在 OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, String affinityInstanceName, Boolean bForceMatch)
+   在 OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword)
+   在 Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   在 DAL.Common.SqlHelper.ExecuteDataset(String connectionString, CommandType commandType, String commandText, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 581
+   在 DAL.SysParaRepository.GetAllToDataSet(String dbType) 位置 F:\HTCS\HTCS\DAL\SysParaRepository.cs:行号 381
+   在 DAL.SysParaRepository.GetAllToList(String dbType) 位置 F:\HTCS\HTCS\DAL\SysParaRepository.cs:行号 416
+   在 AutoTaskService.DB.SysParaService.GetAllToList(String& msg, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\SysParaService.cs:行号 31
+   在 AutoTaskService.Program.Main(String[] args) 位置 F:\HTCS\HTCS\AutoTaskService\Program.cs:行号 105

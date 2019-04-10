@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script>
+        $(function () {
+            var height = 100;
+            $("#test").click(function () {
+
+                height += 100;
+                $(".kbchild").css("height", height + "px");
+            });
+            $(".parent").scroll(function () {
+              
+            });
+        })
+       
+      
+    </script>
+   <style>
+       .kbchild{height:1000px;background-color:#4cff00;}
+       .parent{height:800px;width:800px;background-color:#808080;color:#ffffff;position:relative;overflow:scroll;}
+       .child{position:absolute;height:100px;width:100px;background-color:#ff0000;bottom:0;color:#ffffff;}
+   </style>
+    
+</head>
+<body>
+   <div class="parent">
+       我是父元素
+       <div class="kbchild">
+       我是可变子元素<div class="child">我是子元素</div></div>
+     
+   </div>
+    <button id="test">变大</button>
+</body>
+</html>

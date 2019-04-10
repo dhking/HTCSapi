@@ -1,0 +1,47 @@
+﻿<link href="../Content/Home.css" rel="stylesheet" />
+<script>
+    debugger;
+    var $ = layui.jquery;
+    $("ul.hcs-menu li").mouseover(function () {
+        
+        $(this).addClass("mouseovermenu");
+    });
+    $("ul.hcs-menu li").mouseout(function () {
+
+        $(this).removeClass("mouseovermenu");
+    });
+    $("#addhouse").click(function () {
+        layer.closeAll();
+        layer.open({
+            type: 2,
+            title: '添加房源',
+            skin: 'two-layer',
+            shadeClose: true,
+            maxmin: true, 
+            area: ['920px', '600px'],
+            content: 'http://localhost:4411/House/Add'
+        });
+       
+    });
+    $("#addhetong").click(function () {
+        layer.closeAll();
+        layer.open({
+            type: 2,
+            title: '添加合同',
+            skin: 'two-layer',
+            shadeClose: true,
+            maxmin: true,
+            area: ['920px', '900px'],
+            content: 'http://localhost:4411/Contract/Add'
+        });
+
+    });
+</script>
+<ul class="hcs-menu">
+    <li id="addhouse">
+        <a> 添加房源</a>
+    </li>
+    <li id="addhetong">
+        <a> 添加合同</a>
+    </li>
+</ul>

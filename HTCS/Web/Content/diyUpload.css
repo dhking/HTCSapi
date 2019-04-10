@@ -1,0 +1,290 @@
+﻿@charset "utf-8";
+/* CSS Document*/
+.my-index{
+    z-index:100;
+}
+#wrap .parentFileBox {
+	width:auto ;
+	height:auto ;
+	overflow:hidden ;
+	position:relative ; 
+  
+}
+#wrap .parentFileBox>.fileBoxUl {
+	position:relative ;
+	width:100% ;
+	height:auto ;
+	overflow:hidden ;
+	padding-bottom:5px ; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li.diyUploadHover {
+        min-width: 170px ;
+	float:left  ;
+	border:1px solid #09F  ;
+	border-radius:5px  ;
+	width:170px  ;
+	height:150px  ;
+	margin-top:5px  ;
+	margin-left:5px  ;
+	overflow:hidden  ;
+	position:relative  ;
+	background-color:#099 ; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.viewThumb {
+	position:absolute ;
+	top:0 ;
+	left:0 ;
+	width:170px ;
+	height:150px ;
+	/*overflow:hidden ;*/
+        margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.viewThumb>img {
+	width:100%;
+	height:100%; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diySuccess {
+	position:absolute ;
+	width:32px ;
+	height:32px ;
+	top:2px ;
+	left:2px ;
+	cursor:pointer ; margin-left: 0px;
+	display:none;
+    
+}
+#wrap .diy{
+
+    min-width: 170px ;
+	float:left  ;
+	border:1px solid #09F  ;
+	border-radius:5px ;
+	width:170px  ;
+	height:150px  ;
+	margin-top:5px  ;
+	margin-left:5px  ;
+	overflow:hidden  ;
+	position:relative ;
+	background-color:#099 ; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyCancel{
+    position:absolute ;
+	width:32px ;
+	height:32px ;
+	top:2px ;
+	right:2px ;
+	cursor:pointer ; margin-left: 0px ;
+}
+#wrap .parentFileBox > .fileBoxUl > li > .diyCancel {
+   
+    background: url(../../Images/x_alt.png) no-repeat;
+  
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyCancel1{
+    position:absolute;
+	width:32px;
+	height:32px;
+	top:2px;
+	right:2px;
+	cursor:pointer; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyCancel1 {
+	background:url(../../Images/x_alt.png) no-repeat ;
+ margin-left: 0px ;
+
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyCancel3{
+    position:absolute;
+	width:32px;
+	height:32px;
+	top:2px;
+	right:2px;
+	cursor:pointer;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyCancel3 {
+	background:url(../../Images/x_alt.png) no-repeat ;
+ margin-left: 0px ;
+
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diySuccess {
+	background:url(../../Images/check_alt.png) no-repeat;
+	cursor:default; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyFileName {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	color:#fff;
+	font-size:12px;
+	display:none;
+	background:url(../../Images/bgblack.png); margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyBar {
+	top:0;
+	left:0;
+	position: absolute;
+	width: 170px;
+	height: 150px;
+	line-height:150px;
+	background:url(../../Images/bgblack.png);
+	display:none; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyBar>.diyProgressText {
+	font-size:14px;
+	text-align:center;
+	color:#f00;
+	position:relative;
+	 margin-left: 0px ;
+     width:170px;
+     height:150px;
+
+}
+#wrap .parentFileBox>.fileBoxUl>li>.diyBar>.diyProgress {
+	position:absolute ;
+	left:0 ;
+	top:42% ;
+	height:24px ;
+	width:100% ;
+	background-color:#09F; margin-left: 0px ;
+	filter:alpha(opacity=70);
+	-moz-opacity:0.7;
+	opacity:0.7;
+
+}
+#wrap .parentFileBox>.diyButton {
+	width:100%;
+	margin-top:5px;
+	margin-bottom:5px;
+	height:20px;
+	line-height:20px;
+	text-align:center; margin-left: 0px ;
+}
+#wrap .parentFileBox>.diyButton>a {
+	padding:5px 10px 5px 10px  ;
+	background-color:#09C ;
+	color:#FFF ; margin-left: 0px ;
+	font-size:12px ;
+	text-decoration:none ;
+	border-radius:3px ;
+}
+#wrap .parentFileBox>.diyButton>a:hover {
+	background-color:#0CC;
+	color:#F30; margin-left: 0px ;
+  
+}
+/*#wrap{z-index:-100;}*/
+#wrap .parentFileBox>.fileBoxUl>li:hover {
+	-moz-box-shadow: 3px 3px 4px #FF0;
+	-webkit-box-shadow: 3px 3px 4px #FF0;
+	box-shadow: 3px 3px 4px #FF0; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>.diyUploadHover:hover .diyCancel {
+	display:block; margin-left: 0px ;
+}
+#wrap .parentFileBox>.fileBoxUl>li:hover .diyFileName {
+	display:block;
+    margin-left: 0px ;
+}
+#wrap .avi_diy_bg,.txt_diy_bg,.doc_diy_bg,.zip_diy_bg,.csv_diy_bg,.xls_diy_bg,.mp3_diy_bg,.pdf_diy_bg,.rar_diy_bg {
+	background-position:center;
+	background-repeat:no-repeat;
+}
+.avi_diy_bg {
+	background-image:url(../Images/filebg/avi.png);
+}
+.txt_diy_bg {
+	background-image:url(../Images/filebg/txt.png);
+}
+.doc_diy_bg {
+	background-image:url(../Images/filebg/doc.png);
+}
+.zip_diy_bg {
+	background-image:url(../Images/filebg/zip.png);
+}
+.csv_diy_bg {
+	background-image:url(../Images/filebg/csv.png);
+}
+.xls_diy_bg {
+	background-image:url(../Images/filebg/xls.png);
+}
+.mp3_diy_bg {
+	background-image:url(../Images/filebg/mp3.png);
+}
+.pdf_diy_bg {
+	background-image:url(../Images/filebg/pdf.png);
+}
+.rar_diy_bg {
+	background-image:url(../Images/filebg/rar.png);
+}
+.checklis{
+    min-width:70px ;
+    width:70px ;
+    display:block;
+}
+.checklisfirst{
+    min-width:160px ;
+    width:160px ;
+    display:block;
+}
+.column1{
+    text-align: right;
+    display: inline-block;
+    color: #555;
+    line-height: 26px;
+}
+  .zafeilist {
+        padding: 10px;
+    }
+
+        .zafeilist ul li {
+            width: 70px;
+            height: 40px;
+            background-color: #DDDDDD;
+            float: left;
+            margin-right: 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            .zafeilist ul li.fouce {
+                background-color: #2523e6;
+                color: #f1e6e6;
+            }
+
+            .zafeilist ul li span {
+                line-height: 50px;
+                text-align: center;
+                display: block;
+            }
+
+    .zhide {
+        display: none;
+    }
+
+    .gzafei li {
+        padding: 10px;
+    }
+
+    .zafei_title {
+        border-bottom: 1px solid #DDDDDD;
+        margin-left: 50px;
+        font-size: larger;
+    }
+
+    .paytype2, .paytype1 {
+        display: none;
+    }
+    .gray-input4{
+    width: 250px;
+    border: 1px solid #ddd;
+    border-top: 1px solid #555;
+    border-left: 1px solid #555;
+    height: 16px;
+    line-height: 16px;
+    padding: 3px 5px;
+    margin-left: 2px;
+    }

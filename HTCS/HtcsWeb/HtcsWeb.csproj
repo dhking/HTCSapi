@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B2549D2E-EB88-467A-8235-E9D37F241993}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HtcsWeb</RootNamespace>
+    <AssemblyName>HtcsWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\base_business.js" />
+    <Content Include="Scripts\billedit_business.js" />
+    <Content Include="Scripts\billlist_business.js" />
+    <Content Include="Scripts\bill_business.js" />
+    <Content Include="Scripts\bootstrap-select1.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Common\allload.js" />
+    <Content Include="Scripts\Common\base_js.js" />
+    <Content Include="Scripts\Common\bootstrap-select.js" />
+    <Content Include="Scripts\Common\bootstrap-select1.js" />
+    <Content Include="Scripts\Common\bootstrap-table-edit.js" />
+    <Content Include="Scripts\Common\bootstrap-table.min.js" />
+    <Content Include="Scripts\Common\CityLd.js" />
+    <Content Include="Scripts\Common\countries.js" />
+    <Content Include="Scripts\Common\demo.js" />
+    <Content Include="Scripts\Common\diyUpload_single.js" />
+    <Content Include="Scripts\Common\echarts.common.min.js" />
+    <Content Include="Scripts\Common\EditLoad.js" />
+    <Content Include="Scripts\Common\House.js" />
+    <Content Include="Scripts\Common\jquery.autocomplete.js" />
+    <Content Include="Scripts\Common\jquery.js" />
+    <Content Include="Scripts\Common\jquery.min.js" />
+    <Content Include="Scripts\Common\jquery.mockjax.js" />
+    <Content Include="Scripts\Common\LG.js" />
+    <Content Include="Scripts\Common\public-base.js" />
+    <Content Include="Scripts\Common\test.js" />
+    <Content Include="Scripts\Common\uploadjs.js" />
+    <Content Include="Scripts\Common\webuploader.html5only.min.js" />
+    <Content Include="Scripts\Contract_business.js" />
+    <Content Include="Scripts\formSelects.js" />
+    <Content Include="Scripts\index_business.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\menu_business.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\p-base-layui-chid.js" />
+    <Content Include="Scripts\p-base-layui.js" />
+    <Content Include="Scripts\p-base.js" />
+    <Content Include="Scripts\p-childbase.js" />
+    <Content Include="Scripts\publicbessins.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sysbutton_business.js" />
+    <Content Include="Scripts\sysrole_business.js" />
+    <Content Include="Scripts\sysuseradd_business.js" />
+    <Content Include="Scripts\sysuseredit_business.js" />
+    <Content Include="Scripts\sysuser_business.js" />
+    <Content Include="Scripts\zafei_business.js" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="src\config.js" />
+    <Content Include="src\controller\common.js" />
+    <Content Include="src\controller\console.js" />
+    <Content Include="src\controller\echarts.common.min.js" />
+    <Content Include="src\controller\user.js" />
+    <Content Include="src\index.js" />
+    <Content Include="src\lib\admin.js" />
+    <Content Include="src\lib\extend\echarts.js" />
+    <Content Include="src\lib\extend\echartsTheme.js" />
+    <Content Include="src\lib\extend\htcsLG.js" />
+    <Content Include="src\lib\extend\htcsradio.js" />
+    <Content Include="src\lib\view.js" />
+    <Content Include="src\style\admin.css" />
+    <Content Include="src\style\login.css" />
+    <Content Include="src\style\res\bg-none.jpg" />
+    <Content Include="src\style\res\logo-black.png" />
+    <Content Include="src\style\res\logo.png" />
+    <Content Include="src\views\app\content\comment.html" />
+    <Content Include="src\views\app\content\list.html" />
+    <Content Include="src\views\app\content\tags.html" />
+    <Content Include="src\views\app\forum\list.html" />
+    <Content Include="src\views\app\forum\replys.html" />
+    <Content Include="src\views\app\mall\category.html" />
+    <Content Include="src\views\app\mall\list.html" />
+    <Content Include="src\views\app\mall\specs.html" />
+    <Content Include="src\views\app\message\detail.html" />
+    <Content Include="src\views\app\message\index.html" />
+    <Content Include="src\views\app\说明.txt" />
+    <Content Include="src\views\base\menu\add.html" />
+    <Content Include="src\views\base\menu\index.html" />
+    <Content Include="src\views\base\menu\rrrr.html" />
+    <Content Include="src\views\base\p-basetype.html" />
+    <Content Include="src\views\bill\z-bill\index.html" />
+    <Content Include="src\views\component\anim\index.html" />
+    <Content Include="src\views\component\auxiliar\index.html" />
+    <Content Include="src\views\component\badge\index.html" />
+    <Content Include="src\views\component\button\index.html" />
+    <Content Include="src\views\component\carousel\index.html" />
+    <Content Include="src\views\component\code\index.html" />
+    <Content Include="src\views\component\flow\index.html" />
+    <Content Include="src\views\component\form\element.html" />
+    <Content Include="src\views\component\form\group.html" />
+    <Content Include="src\views\component\grid\all.html" />
+    <Content Include="src\views\component\grid\list.html" />
+    <Content Include="src\views\component\grid\mobile-pc.html" />
+    <Content Include="src\views\component\grid\mobile.html" />
+    <Content Include="src\views\component\grid\speed-dial.html" />
+    <Content Include="src\views\component\grid\stack.html" />
+    <Content Include="src\views\component\laydate\index.html" />
+    <Content Include="src\views\component\layer\list.html" />
+    <Content Include="src\views\component\layer\special-demo.html" />
+    <Content Include="src\views\component\layer\theme.html" />
+    <Content Include="src\views\component\laypage\index.html" />
+    <Content Include="src\views\component\laytpl\index.html" />
+    <Content Include="src\views\component\nav\index.html" />
+    <Content Include="src\views\component\panel\index.html" />
+    <Content Include="src\views\component\progress\index.html" />
+    <Content Include="src\views\component\table\index.html" />
+    <Content Include="src\views\component\tabs\index.html" />
+    <Content Include="src\views\component\timeline\index.html" />
+    <Content Include="src\views\component\upload\index.html" />
+    <Content Include="src\views\component\util\index.html" />
+    <Content Include="src\views\component\说明.txt" />
+    <Content Include="src\views\house\h-house\add.html" />
+    <Content Include="src\views\house\h-house\index.html" />
+    <Content Include="src\views\house\h-house\testsanj.html" />
+    <Content Include="src\views\iframe\base\index.html" />
+    <Content Include="src\views\iframe\base\indextype.html" />
+    <Content Include="src\views\iframe\contract\index.html" />
+    <Content Include="src\views\iframe\index.html" />
+    <Content Include="src\views\iframe\layer\iframe.html" />
+    <Content Include="src\views\iframe\link\baidu.html" />
+    <Content Include="src\views\iframe\link\layui.html" />
+    <Content Include="src\views\iframe\link\layuiAdmin.html" />
+    <Content Include="src\views\iframe\menu\index.html" />
+    <Content Include="src\views\iframe\zafei\index.html" />
+    <Content Include="src\views\iframe\说明.txt" />
+    <Content Include="src\views\index.html" />
+    <Content Include="src\views\layout.html" />
+    <Content Include="src\views\msystem\about.html" />
+    <Content Include="src\views\msystem\get.html" />
+    <Content Include="src\views\msystem\more.html" />
+    <Content Include="src\views\msystem\QuickAdd.html" />
+    <Content Include="src\views\msystem\sysbutton\index.html" />
+    <Content Include="src\views\msystem\sysrole\index.html" />
+    <Content Include="src\views\msystem\sysuser\index.html" />
+    <Content Include="src\views\msystem\theme.html" />
+    <Content Include="src\views\msystem\说明.txt" />
+    <Content Include="src\views\senior\echarts\bar.html" />
+    <Content Include="src\views\senior\echarts\line.html" />
+    <Content Include="src\views\senior\echarts\map.html" />
+    <Content Include="src\views\senior\im\chat.html" />
+    <Content Include="src\views\senior\im\index.html" />
+    <Content Include="src\views\senior\im\kefu.html" />
+    <Content Include="src\views\senior\说明.txt" />
+    <Content Include="src\views\set\base\email.html" />
+    <Content Include="src\views\set\base\website.html" />
+    <Content Include="src\views\set\security\index.html" />
+    <Content Include="src\views\set\说明.txt" />
+    <Content Include="src\views\temp.html" />
+    <Content Include="src\views\template\tips\404.html" />
+    <Content Include="src\views\template\tips\error.html" />
+    <Content Include="src\views\template\tips\test.html" />
+    <Content Include="src\views\template\user\forget.html" />
+    <Content Include="src\views\template\user\login.html" />
+    <Content Include="src\views\template\user\reg.html" />
+    <Content Include="src\views\template\说明.txt" />
+    <Content Include="src\views\tongji\index.html" />
+    <Content Include="src\views\user\administrators\list.html" />
+    <Content Include="src\views\user\administrators\role.html" />
+    <Content Include="src\views\user\forget.html" />
+    <Content Include="src\views\user\login.html" />
+    <Content Include="src\views\user\reg.html" />
+    <Content Include="src\views\user\user\list.html" />
+    <Content Include="src\views\user\说明.txt" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dist\" />
+    <Folder Include="layui\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>54528</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:54528/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

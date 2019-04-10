@@ -1,0 +1,70 @@
+﻿<style>
+    .fywz {
+        position: absolute;
+    }
+</style>
+<link href="~/start/layui/css/layui.css" rel="stylesheet" />
+<script src="~/start/layui/layui.js"></script>
+<link rel="stylesheet" href="../Content/bootstrap.min.css">
+<link rel="stylesheet" href="../Content/bootstrap-table.css">
+<script src="../Content/jquery.min.js"></script>
+<script src="../Content/bootstrap.min.js"></script>
+<script src="../Content/bootstrap-table.js"></script>
+<script src="../Scripts/Common/LG.js"></script>
+<script src="../../../Scripts/p-base.js"></script>
+<script src="../Content/bootstrap-table-zh-CN.js"></script>
+<script src="../../../Scripts/zafei_business.js"></script>
+<link href="../../../Content/Home.css" rel="stylesheet" />
+<!--结束-->
+<div class="layui-fluid" style="background-color:#ffffff;">
+    <div class="m-search">
+        <form class="layui-form hcs-form" action="" lay-filter="search">
+            <div class="m-search-item">
+                <label class="layui-form-label" style="width:auto;">名称</label>
+                <input type="text" name="Name" autocomplete="off" class="layui-input" placeholder="" id="Name" style="width:auto;">
+            </div>
+            <div class="m-search-item">
+                <select name="IsActive" lay-verify="required" id="IsActive">
+                    <option value="999">是否启用</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+            <div class="m-search-item">
+                <select name="Type" lay-verify="required" id="Type">
+                    <option value="999">配备类型</option>
+                    <option value="1">公开配备</option>
+                    <option value="0">私有配备</option>
+                </select>
+            </div>
+            <div class="m-search-item">
+                <button class="layui-btn" lay-submit="" lay-filter="search">搜索</button>
+            </div>
+            <div style="clear:both;"></div>
+        </form>
+    </div>
+
+    <div id="toolbar">
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-primary" id="tooladd" hturl="/Zafei/Add?apiurl=">
+                <i class="layui-icon">&#xe654;</i>添加
+            </button>
+            <button class="layui-btn layui-btn-primary" id="tooledit" hturl="/Zafei/Edit?apiurl=">
+                <i class="layui-icon">&#xe642;</i>编辑
+            </button>
+            <button class="layui-btn layui-btn-primary" id="tooldelete" hturl="/api/Zafei/delete">
+                <i class="layui-icon">&#xe640;</i>删除
+            </button>
+           
+        </div>
+
+    </div>
+    <div class="layui-tab layui-tab-card" lay-filter="tabletab">
+        <ul class="layui-tab-title" style="margin-bottom:0;">
+            <li value="999" class="layui-this">所有</li>
+        </ul>
+        <div class="layui-tab-content" style="padding:0px;margin:0px;">
+            <table id="table"></table>
+        </div>
+    </div>
+</div>

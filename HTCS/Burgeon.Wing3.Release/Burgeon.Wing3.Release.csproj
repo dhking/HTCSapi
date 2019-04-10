@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{94997EF5-3141-4CEB-9019-43D1F4913809}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Burgeon.Wing3.Release</RootNamespace>
+    <AssemblyName>Burgeon.Wing3.Release</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SqliteORM, Version=1.1.4490.37074, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.86.0\orm\SqliteORM.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SQLite, Version=1.0.86.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.86.0\orm\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppVersionLibrary.cs" />
+    <Compile Include="CookieHelper.cs" />
+    <Compile Include="Environment\BaseCommand.cs" />
+    <Compile Include="Environment\Client.cs" />
+    <Compile Include="Environment\CommandContext.cs" />
+    <Compile Include="Environment\CommandNavigator.cs" />
+    <Compile Include="Environment\CommandRequestContext.cs" />
+    <Compile Include="Environment\CommandResult.cs" />
+    <Compile Include="Environment\Commands\AwakenReceiveResourceCommand.cs" />
+    <Compile Include="Environment\Commands\AwakenSendResourceCommand.cs" />
+    <Compile Include="Environment\Commands\VersionGetAllVersionCommand.cs" />
+    <Compile Include="Environment\Commands\VersionHistoryLogCommand.cs" />
+    <Compile Include="Environment\Commands\VersionProcessPublishCommand.cs" />
+    <Compile Include="Environment\Commands\VersionPublishFinalCommand.cs" />
+    <Compile Include="Environment\Commands\VersionRemoveVersionCommand.cs" />
+    <Compile Include="Environment\Commands\VersionSearchResourceCommand.cs" />
+    <Compile Include="Environment\Commands\VersionSendPublishFinalCommand.cs" />
+    <Compile Include="Environment\Commands\VersionSendVersionLogCommand.cs" />
+    <Compile Include="Environment\Commands\VersionBuildCommand.cs" />
+    <Compile Include="Environment\Commands\VersionLogCommand.cs" />
+    <Compile Include="Environment\Commands\VersionPublishCommand.cs" />
+    <Compile Include="Environment\Commands\VersionUpgradeCommand.cs" />
+    <Compile Include="Environment\CommandEvents.cs" />
+    <Compile Include="Environment\IReadAs.cs" />
+    <Compile Include="Environment\Resources\AwakenRarVersionResource.cs" />
+    <Compile Include="Environment\Resources\AwakenVersionResource.cs" />
+    <Compile Include="Environment\Resources\HttpRarVersionResource.cs" />
+    <Compile Include="Environment\ResultStatus.cs" />
+    <Compile Include="Http\HttpRequestResponseExtension.cs" />
+    <Compile Include="Http\RequestPostContainer.cs" />
+    <Compile Include="Http\VersionRequest.cs" />
+    <Compile Include="Http\RequestType.cs" />
+    <Compile Include="Http\VersionResponse.cs" />
+    <Compile Include="Http\ResposeStatus.cs" />
+    <Compile Include="Indecies\VersionSeach.cs" />
+    <Compile Include="Models\LocalVersion.cs" />
+    <Compile Include="Models\ProcessResult.cs" />
+    <Compile Include="Models\AppVersion.cs" />
+    <Compile Include="Models\Publishing.cs" />
+    <Compile Include="Models\ResourceMapping.cs" />
+    <Compile Include="Models\VersionLog.cs" />
+    <Compile Include="PublishManager.cs" />
+    <Compile Include="ReleaseUser.cs" />
+    <Compile Include="ReleaseUserContext.cs" />
+    <Compile Include="ReleaseUserManager.cs" />
+    <Compile Include="RunContext.cs" />
+    <Compile Include="Sandbox\SandboxNotifyRun.cs" />
+    <Compile Include="Sandbox\SandboxRunErrorListener.cs" />
+    <Compile Include="Sandbox\SandboxRunLog.cs" />
+    <Compile Include="Sandbox\SandboxRunNotifyBag.cs" />
+    <Compile Include="Sandbox\SandboxRunListener.cs" />
+    <Compile Include="Security\VersionAwakenSecurity.cs" />
+    <Compile Include="SQLite\SQLiteORMAccessor.cs" />
+    <Compile Include="Utils\AssemblyAttributeUtil.cs" />
+    <Compile Include="Utils\AssemblyPropertyUtil.cs" />
+    <Compile Include="StepLog\VersionRealLogger.cs" />
+    <Compile Include="Utils\CmdUtil.cs" />
+    <Compile Include="Utils\ConfigurationUtil.cs" />
+    <Compile Include="Environment\ICommand.cs" />
+    <Compile Include="Environment\ResourceEnvironment.cs" />
+    <Compile Include="Environment\Resources\RarVersionResource.cs" />
+    <Compile Include="Environment\Resources\VersionResource.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\DownloadUtil.cs" />
+    <Compile Include="Utils\EncryptUtil.cs" />
+    <Compile Include="Security\ISecurity.cs" />
+    <Compile Include="Utils\FileSeachUtil.cs" />
+    <Compile Include="Utils\IOUtil.cs" />
+    <Compile Include="Utils\Killer.cs" />
+    <Compile Include="Utils\ManagementSearchKeys.cs" />
+    <Compile Include="Utils\ManagementUtil.cs" />
+    <Compile Include="Security\SecurityResult.cs" />
+    <Compile Include="Security\VersionResourceSecurity.cs" />
+    <Compile Include="Security\VersionResourceSecurityContext.cs" />
+    <Compile Include="StepLog\ILogger.cs" />
+    <Compile Include="StepLog\MemoryCacheLogger.cs" />
+    <Compile Include="StepLog\VersionSessionLogger.cs" />
+    <Compile Include="Utils\ProcessUtil.cs" />
+    <Compile Include="Utils\RarUtil.cs" />
+    <Compile Include="Utils\SandboxRunUtil.cs" />
+    <Compile Include="Utils\SetupUtil.cs" />
+    <Compile Include="Utils\TypeGenericUtil.cs" />
+    <Compile Include="Utils\UrlParameterUtil.cs" />
+    <Compile Include="Utils\VersionBatchCommandUtil.cs" />
+    <Compile Include="Utils\XmlDesSerializeUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tools\WinRAR.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

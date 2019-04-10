@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="api" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^F:\\HTCS\\HTCS\\Api\\obj\\开发环境\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^F:\\HTCS\\HTCS\\Api\\obj\\开发环境\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="EntityDB-Web.config Connection String" description="" value="DATA SOURCE=106.14.96.37/orcl;PASSWORD=20140506;PERSIST SECURITY INFO=True;USER ID=SYSTEM" tags="">
+    <parameterEntry kind="XmlFile" scope="F:\\HTCS\\HTCS\\Api\\obj\\开发环境\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='EntityDB']/@connectionString" />
+  </parameter>
+</parameters>

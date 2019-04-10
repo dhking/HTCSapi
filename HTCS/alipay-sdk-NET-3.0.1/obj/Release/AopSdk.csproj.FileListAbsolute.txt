@@ -1,0 +1,5 @@
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\bin\Release\AopSdk.dll
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\bin\Release\AopSdk.pdb
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Release\AopSdk.csprojResolveAssemblyReference.cache
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Release\AopSdk.dll
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Release\AopSdk.pdb

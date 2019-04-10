@@ -1,0 +1,179 @@
+<script src="../../Scripts/index_business.js"></script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8">
+                <div class="layui-row layui-col-space8">
+                    <script id="indexcaiwuscript" type="text/html">
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                                        <div carousel-item>
+                                            <ul class="layui-row layui-col-space10">
+                                                <li class="layui-col-xs3">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>应付</h3>
+                                                        <p><cite>{{d.CopeWith}}</cite></p>
+                                                    </a>
+                                                </li>
+                                                <li class="layui-col-xs3">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>待付</h3>
+                                                        <p><cite>{{d.Paid}}</cite></p>
+                                                    </a>
+                                                </li>
+                                                <li class="layui-col-xs3">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>应收</h3>
+                                                        <p><cite>{{d.Receivable}}</cite></p>
+                                                    </a>
+                                                </li>
+                                                <li class="layui-col-xs3">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>今日已收</h3>
+                                                        <p><cite>{{d.Receivableed}}</cite></p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                    <div id="index-caiwu-view"></div>     
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    <div class="layui-form-item">
+                                        <div class="layui-inline">
+
+                                            <div class="layui-input-inline" style="width: 200px;">
+                                                <input type="text" name="" autocomplete="off" class="layui-input" placeholder="小区">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+
+                                            <div class="layui-input-inline" style="width: 100px;">
+                                                <input type="text" name="price_min" placeholder="日期" autocomplete="off" class="layui-input" id="billdate">
+                                            </div>
+                                        </div>
+                                        <label id="yuqitype" style="float:right;">
+
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="layui-tab layui-tab-brief layadmin-latestData">
+                                    <ul class="layui-tab-title">
+                                        <li class="layui-this">待收账单</li>
+                                        <li>待付账单</li>
+                                        <li>即将搬入</li>
+                                        <li>即将退房</li>
+                                    </ul>
+                                    <div class="layui-tab-content">
+                                        <div class="layui-tab-item layui-show">
+                                            <table id="index-daishou-table"></table>
+                                        </div>
+                                        <div class="layui-tab-item">
+                                            <table id="index-daifu-table"></table>
+                                        </div>
+                                        <div class="layui-tab-item">
+                                            <table id="index-banru-table"></table>
+                                        </div>
+                                        <div class="layui-tab-item">
+                                            <table id="index-tuifang-table"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-row layui-col-space8">
+                    <script id="indexyudingscript" type="text/html">
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <div class="layui-card-body">
+
+                                    <div class="layui-carousel layadmin-carousel layadmin-backlog">
+
+                                        <div carousel-item>
+                                            <ul class="layui-row layui-col-space10">
+                                                <li class="layui-col-xs4">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>预约</h3>
+                                                        <p><cite>{{d.Appointment}}</cite></p>
+                                                    </a>
+                                                </li>
+                                                <li class="layui-col-xs4">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>报修</h3>
+                                                        <p><cite>{{d.Repair}}</cite></p>
+                                                    </a>
+                                                </li>
+                                                <li class="layui-col-xs4">
+                                                    <a lay-href="" class="layadmin-backlog-body">
+                                                        <h3>预订</h3>
+                                                        <p><cite>{{d.Book}}</cite></p>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                    <div id="index-yuding-view"></div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                库存
+
+                                <label id="housetype" style="float:right;">
+
+                                </label>
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-hide" id="index-kucun-table"></table>
+                                <div id="index-kucun-chart" style="height:250px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <div style="float:left;">待办事项</div>
+                                <div style="float:right;">
+                                    <button class="layui-btn layui-btn-primary" id="tooladd" hturl="/SysUser/Add?apiurl=">
+                                        <i class="layui-icon">&#xe654;</i>新增
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div class="layui-card-body">
+                                <table class="layui-hide" id="index-daiban-table"></table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+

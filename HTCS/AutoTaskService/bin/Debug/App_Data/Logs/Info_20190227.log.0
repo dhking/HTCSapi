@@ -1,0 +1,12 @@
+2019-02-27 08:10:04,131 [EC233Server_Worker-1] INFO  AutoTaskService.BaseJobImpl [(null)]  - 短信组.添加催租短信队列13running...
+2019-02-27 08:10:04,220 [EC233Server_Worker-2] INFO  AutoTaskService.BaseJobImpl [(null)]  - 短信组.发送短信6running...
+2019-02-27 08:10:58,531 [1] WARN  AutoTaskService.Program [(null)]  - --启动结束--
+2019-02-27 08:11:41,817 [1] WARN  AutoTaskService.Program [(null)]  - 当前启动数据库类型为:oracle
+2019-02-27 08:11:51,644 [1] WARN  AutoTaskService.Program [(null)]  - 1:oracle
+2019-02-27 08:11:51,645 [1] WARN  AutoTaskService.Program [(null)]  - 2:oracle
+2019-02-27 08:11:51,660 [1] WARN  AutoTaskService.Program [(null)]  - 3:oracle
+2019-02-27 08:11:51,661 [1] WARN  AutoTaskService.Program [(null)]  - 4:oracle
+2019-02-27 08:11:51,899 [1] WARN  AutoTaskService.Program [(null)]  - 项目加载完成
+2019-02-27 08:11:51,944 [1] INFO  DBHelp.LogService [(null)]  - 测试成功
+2019-02-27 08:11:51,945 [1] INFO  DBHelp.LogService [(null)]  - oracle
+2019-02-27 08:11:51,945 [1] INFO  DBHelp.LogService [(null)]  - 22222

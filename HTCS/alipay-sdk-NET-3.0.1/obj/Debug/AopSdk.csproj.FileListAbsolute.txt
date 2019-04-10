@@ -1,0 +1,9 @@
+F:\jinrong\jinrong\alipay-sdk-NET-3.0.1\bin\Debug\AopSdk.dll
+F:\jinrong\jinrong\alipay-sdk-NET-3.0.1\bin\Debug\AopSdk.pdb
+F:\jinrong\jinrong\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.csprojResolveAssemblyReference.cache
+F:\jinrong\jinrong\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.dll
+F:\jinrong\jinrong\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.pdb
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\bin\Debug\AopSdk.dll
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\bin\Debug\AopSdk.pdb
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.dll
+F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.pdb

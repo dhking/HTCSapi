@@ -1,0 +1,52 @@
+﻿.layui-upload-list{}
+.item {
+    float:left;
+    background-color: #fff;
+    padding: 20px 10px 10px;
+    font-size: 13px;
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+    cursor: pointer;
+    width:140px;
+    margin-right:10px;
+}
+.remove {
+    position: absolute;
+    right: 5px;
+    top: 8px;
+    cursor: pointer;
+}
+.cc{
+     position: absolute;
+     bottom:5px;
+     right:50px;
+   
+}
+.error{
+    position: absolute;
+    right: 40px;
+    top: 80px;
+    padding:5px;
+    width:80px;
+    background-color:#2F4056;
+    color:aliceblue;
+    text-align:center;
+}
+.success{
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    cursor: pointer;
+}
+img {
+    vertical-align: middle;
+}
+img {
+    border: 0;
+}
+.layui-upload-img{height: 140px;width:140px;}
+.form-wrap{padding:20px;float:right;padding-top:10px;padding-bottom:10px;}
+.form-bottom{ position:fixed;bottom:0px;background-color:#eeeeee;width:100%;
+                  border-top:1px solid #e2e2e2;
+    }

@@ -1,0 +1,185 @@
+﻿<link href="~/start/layui/css/layui.css" rel="stylesheet" />
+<script src="~/start/layui/layui.js"></script>
+<link rel="stylesheet" href="../Content/bootstrap.min.css">
+<link rel="stylesheet" href="../Content/bootstrap-table.css">
+<script src="~/Scripts/Common/jquery.min.js"></script>
+<script src="../Content/bootstrap.min.js"></script>
+<script src="~/Scripts/Common/bootstrap-table.min.js"></script>
+<script src="../Content/bootstrap-table-zh-CN.js"></script>
+<script src="~/Scripts/Common/bootstrap-table-edit.js"></script>
+<script src="~/Scripts/Common/bootstrap-select.js"></script>
+<script src="~/Scripts/Common/bootstrap-select1.js"></script>
+<script src="../Scripts/Common/LG.js"></script>
+<script src="../../../Scripts/p-childbase.js"></script>
+<script src="../../../Scripts/sysuseredit_business.js"></script>
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+<script>
+    layui.use(['form', 'layer', 'laydate', 'laytpl'], function () {
+        var laytpl = layui.laytpl;
+        var form = layui.form;
+        var $ = layui.$;
+        var getTpl = main.innerHTML
+        , view = document.getElementById('view');
+        var url =  "/api/Sysuser/QueryUser";
+        debugger;
+        var data = { "Id": id };
+        var allresult = [];
+        doc.objectQuery(url, data, function (result) {
+            var url1 = "/api/Sysshop/Querylistshopnopage";
+            doc.objectQuery(url1, {}, function (result1) {
+                debugger;
+                var realdata = result.numberData;
+                var resultdata1 = result1.numberData;
+                
+                allresult.push(realdata);
+                allresult.push(resultdata1);
+                debugger;
+                laytpl(getTpl).render(allresult, function (html) {
+                    view.innerHTML = html;
+                });
+                CloseEvent();
+            });
+            $('.selectpicker').selectpicker({
+                noneSelectedText: "==请选择门店==",
+                width: "84%"
+            });
+            debugger;
+            var arr = allresult[0].AuthShop.split(',');
+            $('.selectpicker').selectpicker('val', arr);
+            // 缺一不可
+            $('.selectpicker').selectpicker('refresh');
+            $('.selectpicker').selectpicker('render');
+         
+            form.render('');
+
+        })
+    })
+</script>
+<body>
+    <script id="main" type="text/html">
+        <form class="layui-form hcs-form-child" action="">
+            <div class="form-bottom-child">
+                <div class="form-wrap-child">
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">保存</button>
+                    <a class="layui-btn layui-btn layui-btn-primary" id="cancel" >取消</a>
+                </div>
+            </div>
+            <div class="form-content-child">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="Id" autocomplete="off" class="layui-input" id="Id" value="{{d[0].Id}}">
+                            <input type="tel" name="Name" autocomplete="off" class="layui-input" id="Name" value="{{d[0].Name}}">
+                        </div>
+                        <label class="layui-form-label" style="width: 100px;">真实姓名</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="title" lay-verify="required" autocomplete="off" class="layui-input" id="title" value="{{d[0].Name}}">
+                        </div>
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="Password" autocomplete="off" class="layui-input" id="Password" value="{{d[0].Password}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手机</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="jump" autocomplete="off" class="layui-input" id="jump">
+                        </div>
+                        <label class="layui-form-label" style="width: 100px;">邮箱</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <input type="tel" name="jump" autocomplete="off" class="layui-input" id="jump">
+                        </div>
+                        <label class="layui-form-label">门店</label>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select class="selectpicker" name="AuthShop" id="AuthShop" data-live-search="true" multiple="multiple" lay-ignore>
+                                <option value="w999999">全部</option>
+                                {{#  layui.each(d[1], function(index, item1){ }}
+                                <option value="{{item1.Id}}">{{item1.Name}}</option>
+                                {{#   });   }}
+                            </select>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+       
+    </script>
+    <div id="view"></div> 
+    <div class="layui-child-list">
+        <div class="layui-child-title">
+            <h4>用户角色</h4>
+        </div>
+        <div id="toolbar" class="layui-child-toolbar">
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-primary" id="tooladd" hturl="/Base/Add?apiurl=">
+                    <i class="layui-icon">&#xe654;</i>添加
+                </button>
+
+
+            </div>
+        </div>
+        <table id="table"></table>
+    </div>
+    <script>
+            //Demo
+            layui.use('form', function () {
+                var form = layui.form;
+
+                //监听提交
+                form.on('submit(save)', function (data) {
+                    debugger;
+                    var shops = $('#AuthShop').val();
+                    if (shops != null && shops != "") {
+                        data.field.AuthShop = shops.toString();
+                    }
+                   
+                    savechild(data);
+                    return false;
+                });
+
+            });
+            function savechild(data) {
+                var re = $('#table').bootstrapTable('Save');
+
+                if (re == false) {
+                    return false;
+                }
+                var allTableData = $('#table').bootstrapTable('getData');//获取表格的所有内容行
+                $.each($('#table').bootstrapTable('getModiDatas'), function (index, value) {
+                    if (value.Id != 0) {
+                        updatedata.push(value);
+                    }
+                });
+                $.each(allTableData, function (index, value) {
+                    if (value.Id == 0) {
+                        adddata.push(value);
+                    }
+                });
+                var savedata = {};
+                savedata.delete = deletedata;
+                savedata.update = updatedata;
+                savedata.dataadd = adddata;
+                savedata.main = data.field;
+                doc.Submit(saveurl, JSON.stringify(savedata), function (result) {
+
+                    deletedata = [];
+                    updatedata = [];
+                    adddata = [];
+
+                });
+
+            }
+            function complteimg(name, number) {
+                debugger;
+                $("#Image").val(name);
+                $("#imgnumber").html(number);
+            }
+
+    </script>
+
+</body>

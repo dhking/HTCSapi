@@ -1,0 +1,77 @@
+﻿
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+    <TITLE> 分配权限 </TITLE>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+   
+    <link href="~/zTree_v3/css/demo.css" rel="stylesheet" />
+    <link href="~/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/zTree_v3/js/jquery-1.4.4.min.js"></script>
+    <script src="~/zTree_v3/js/jquery.ztree.core.js"></script>
+    <script src="~/zTree_v3/js/jquery.ztree.excheck.js"></script>
+    <script src="../Scripts/Common/LG.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+
+    <SCRIPT LANGUAGE="JavaScript">
+        layui.use(['form', 'layer'], function () {
+            var zTreeObj;
+            // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+            var setting = {
+                check: {
+                    autoCheckTrigger: false, chkboxType: { "Y": "ps", "N": "ps" },
+                    chkStyle: "checkbox", enable: true,
+                    nocheckInherit: false, chkDisabledInherit: false,
+                    radioType: "leve"
+                }
+            };
+            // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+            var zNodes = [
+            {
+                name: "test1", open: true, children: [
+                  { name: "test1_1", doCheck: false }, { name: "test1_2" }]
+            },
+            {
+                name: "test2", open: true, children: [
+                  { name: "test2_1" }, { name: "test2_2" }]
+            }
+            ];
+            $(document).ready(function () {
+                doc.init(function (result) {
+                    doc.baseurl = result;
+                });
+                var url = "/api/Sysrole/Querypreetion";
+                doc.objectQuery(url, { RoleId: 23 }, function (data) {
+                    debugger;
+                    zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.numberData);
+                    $.fn.zTree.init($("#treeDemo"), setting, data.numberData);
+                    $("#save").click(function () {
+                        debugger;
+                        $("#test").html(JSON.stringify(zTreeObj.getCheckedNodes(true)));
+                        var saveurl= doc.baseurl + "/api/Sysrole/Savepreetion";
+                        var changedata= zTreeObj.getChangeCheckedNodes();
+                        var savedata = zTreeObj.getCheckedNodes(true);
+                        var alldata = {};
+                        alldata.savedata = savedata;
+                        alldata.changedata = changedata;
+                        $("#test").html(alldata);
+                        doc.Submit1(saveurl, JSON.stringify(alldata), function () {
+                        });
+                    });
+                });
+            });
+        })
+    </SCRIPT>
+</HEAD>
+<BODY>
+    <div class="content_wrap">
+        <div class="zTreeDemoBackground left">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+
+        <button id="save">保存</button>
+    </div>
+    <div id="test"></div>
+</BODY>
+</HTML>

@@ -1,0 +1,79 @@
+﻿<style>
+    .fywz {
+        position: absolute;
+    }
+
+    .othersearch {
+        margin-bottom: 10px;
+    }
+
+    body .demo-class .layui-layer-btn .layui-layer-btn1 {
+        background: #59acff;
+        color: #FFF;
+    }
+
+    body .demo-class .layui-layer-btn .layui-layer-btn0 {
+        border: 1px solid #e7e7e7;
+        color: #666;
+        background-color: #FFF;
+    }
+</style>
+<title>按钮管理</title>
+<script src="../Content/jquery.min.js"></script>
+<script src="../Scripts/Common/LG.js"></script>
+<script src="../../../../Scripts/p-base-layui.js"></script>
+<script src="../../../../Scripts/sysbutton_business.js"></script>
+<link href="../../../../Content/Home.css" rel="stylesheet" />
+<!--结束-->
+<div class="layui-fluid" style="background-color:#ffffff;">
+    <div class="m-search othersearch">
+        <form class="layui-form hcs-form" action="" lay-filter="search">
+            <div class="m-search-item">
+                <label class="layui-form-label" style="width:auto;">合同编号</label>
+                <input type="text" name="Id" autocomplete="off" class="layui-input" placeholder="" id="Name" style="width:auto;">
+            </div>
+            <div class="m-search-item">
+                <select name="IsActive" lay-verify="required" id="IsActive">
+                    <option value="999">是否启用</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+            <div class="m-search-item">
+                <select name="Type" lay-verify="required" id="Type">
+                    <option value="999">配备类型</option>
+                    <option value="1">公开配备</option>
+                    <option value="0">私有配备</option>
+                </select>
+            </div>
+            <div class="m-search-item">
+                <button class="layui-btn" lay-submit="" lay-filter="search">搜索</button>
+            </div>
+            <div style="clear:both;"></div>
+        </form>
+    </div>
+    <script id="main" type="text/html">
+        {{#  layui.each(d, function(index, item){}}
+        <button class="layui-btn layui-btn-primary {{item.BtnNo}}"  hturl="/SysUser/ButtonAdd?apiurl=">
+            <i class="layui-icon">&#xe654;</i>{{item.BtnName}}
+        </button>
+        {{#   });   }}
+    </script>
+        <div id="toolbar" >
+
+            <div class="layui-btn-group">
+                <div id="view" style="overflow:hidden;"></div>
+            </div>
+        </div>
+        <div class="layui-tab layui-tab-card" lay-filter="tabletab">
+            <ul class="layui-tab-title" style="margin-bottom:0;">
+                <li value="999" class="layui-this">所有</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:0px;margin:0px;">
+                <table id="sysbutton-table" lay-filter="demoEvent"></table>
+            </div>
+
+        </div>
+
+
+</div>

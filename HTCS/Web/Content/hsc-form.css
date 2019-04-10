@@ -1,0 +1,21 @@
+﻿.hcs-form{
+    padding-bottom:30px;
+}
+.hcs-form-child{
+    padding-bottom:0px;
+}
+.form-content{padding:10px;}
+.form-content-child{padding:10px;}
+.form-bottom{ position:fixed;bottom:0px;background-color:#eeeeee;width:100%;
+                  border-top:1px solid #e2e2e2;          
+    }
+.form-bottom-child{ position:fixed;bottom:0px;background-color:#eeeeee;width:100%;
+                  border-top:1px solid #e2e2e2;z-index:9000;
+                
+    }
+.form-wrap-child{padding:10px;float:right;padding-top:10px;padding-bottom:10px;}
+.form-wrap{padding:20px;float:right;padding-top:10px;padding-bottom:10px;}
+.layui-child-list{border:1px solid #e2e2e2;border-top-width:0;}
+.layui-child-toolbar{padding:5px;background-color:#eeeeee;
+}
+.layui-child-title{padding-left:5px;}

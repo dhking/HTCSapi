@@ -1,0 +1,608 @@
+2019-03-12 08:30:02,930 [EC233Server_Worker-2] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 08:35:00,075 [EC233Server_Worker-4] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 08:35:18,948 [EC233Server_Worker-3] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 08:40:00,097 [EC233Server_Worker-6] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 08:40:18,906 [EC233Server_Worker-5] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 08:45:00,280 [EC233Server_Worker-8] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 08:45:18,908 [EC233Server_Worker-7] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 08:50:00,085 [EC233Server_Worker-10] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 08:50:18,922 [EC233Server_Worker-9] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 08:55:00,073 [EC233Server_Worker-1] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 08:55:18,914 [EC233Server_Worker-2] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 09:00:00,382 [EC233Server_Worker-3] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 09:00:18,907 [EC233Server_Worker-4] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 09:05:00,078 [EC233Server_Worker-5] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 09:05:18,907 [EC233Server_Worker-6] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 09:10:00,083 [EC233Server_Worker-7] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 09:10:18,907 [EC233Server_Worker-8] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 09:15:00,075 [EC233Server_Worker-9] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 09:15:18,915 [EC233Server_Worker-10] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96
+2019-03-12 09:20:00,080 [EC233Server_Worker-2] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-06550: 第 1 行, 第 7 列: 
+PLS-00905: 对象 SYSTEM.SP_CALLSMS 无效
+ORA-06550: 第 1 行, 第 7 列: 
+PL/SQL: Statement ignored
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.VerifyExecution(OracleConnectionImpl connectionImpl, Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, OracleException& exceptionForArrayBindDML, Boolean bFirstIterationDone)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(OracleConnection connection, OracleCommand cmd, CommandType commandType, String commandText, OracleTransaction trans, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 382
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 101
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2019-03-12 09:20:18,908 [EC233Server_Worker-1] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:ORA-12570: 网络会话: 意外的数据包读取错误
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> OracleInternal.Network.NetworkException (0x80004005): ORA-12570: 网络会话: 意外的数据包读取错误 ---> System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.Network.ReaderStream.Read(OraBuf OB)
+   在 OracleInternal.TTC.OraBufReader.GetDataFromNetwork()
+   在 OracleInternal.TTC.OraBufReader.Read(Boolean bIgnoreData)
+   在 OracleInternal.TTC.MarshallingEngine.UnmarshalUB1(Boolean bIgnoreData)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 Oracle.ManagedDataAccess.Client.OracleException.HandleError(OracleTraceLevel level, OracleTraceTag tag, Exception ex, OracleLogicalTransaction oracleLogicalTransaction)
+   在 OracleInternal.TTC.TTCExecuteSql.ReceiveExecuteResponse(Accessor[]& defineAccessors, Accessor[] bindAccessors, Boolean bHasReturningParams, SQLMetaData& sqlMetaData, SqlStatementType statementType, Int64 noOfRowsFetchedLastTime, Int32 noOfRowsToFetch, Int32& noOfRowsFetched, Int64& queryId, Int32 longFetchSize, Int64 initialLOBFetchSize, Int64[] scnFromExecution, Boolean bAllInputBinds, Int32 arrayBindCount, DataUnmarshaller& dataUnmarshaller, MarshalBindParameterValueHelper& marshalBindParamsHelper, Int64[]& rowsAffectedByArrayBind, Boolean bDefineDone, Boolean& bMoreThanOneRowAffectedByDmlWithRetClause, List`1& implicitRSList, Boolean bLOBArrayFetchRequired)
+   在 OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, Boolean isFromEF)
+   在 Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   在 DAL.Common.SqlHelper.ExecuteNonQuery(String connectionString, OracleCommand cmd, OracleTransaction trans) 位置 F:\HTCS\HTCS\DAL\Common\SqlHelper.cs:行号 204
+   在 DAL.SysAutoTaskHistoryRepository.Insert(SysAutoTaskHistoryModel entity, OracleConnection cn, OracleTransaction trans, String dbType) 位置 F:\HTCS\HTCS\DAL\HisTroDAL.cs:行号 123
+   在 AutoTaskService.DB.AutoTaskServiceDB.Insert(Int32 SysAutoTaskId, Byte execStatus, String execMessage, Int32 totalSeconds, String jobPara1, String jobPara2, String OwnerId, String InstanceId, String dbType) 位置 F:\HTCS\HTCS\AutoTaskService\DB\AutoTaskService.cs:行号 138
+   在 AutoTaskService.BaseJobImpl.AfterExecute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 169
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 96

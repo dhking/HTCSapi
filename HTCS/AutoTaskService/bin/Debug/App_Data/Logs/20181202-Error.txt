@@ -1,0 +1,56 @@
+2018-12-02 12:18:56,903 [EC233Server_Worker-10] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:网络传输: TCP 传输地址连接故障
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): 网络传输: TCP 传输地址连接故障 ---> OracleInternal.Network.NetworkException (0x80004005): 网络传输: TCP 传输地址连接故障 ---> System.Net.Sockets.SocketException (0x80004005): 向一个无法连接的网络尝试了一个套接字操作。 106.14.96.37:1521
+   在 System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   在 OracleInternal.Network.TcpTransportAdapter.Connect(ConnectionOption conOption)
+   在 OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   在 OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName)
+   在 OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, String instanceName)
+   在 OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, String affinityInstanceName, Boolean bForceMatch)
+   在 OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, String affinityInstanceName, Boolean bForceMatch)
+   在 OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword)
+   在 Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 97
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94
+2018-12-02 12:20:00,005 [EC233Server_Worker-2] FATAL AutoTaskService.BaseJobImpl [(null)]  - 执行任务出现异常
+ 异常:网络传输: TCP 传输地址连接故障
+at method:AutoTaskService.BaseJobImpl::logException :50 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:AutoTaskService.BaseJobImpl::Execute :100 +file:F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs
+at method:Quartz.Core.JobRunShell::Run :187 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Core\JobRunShell.cs
+at method:Quartz.Simpl.SimpleThreadPool+WorkerThread::Run :485 +file:c:\Work\OpenSource\Quartz.NET\quartznet\src\Quartz\Simpl\SimpleThreadPool.cs
+at method:System.Threading.ThreadHelper::ThreadStart_Context :0 +file:
+at method:System.Threading.ExecutionContext::RunInternal :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ExecutionContext::Run :0 +file:
+at method:System.Threading.ThreadHelper::ThreadStart :0 +file:
+
+
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): 网络传输: TCP 传输地址连接故障 ---> OracleInternal.Network.NetworkException (0x80004005): 网络传输: TCP 传输地址连接故障 ---> System.Net.Sockets.SocketException (0x80004005): 向一个无法连接的网络尝试了一个套接字操作。 106.14.96.37:1521
+   在 System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   在 OracleInternal.Network.TcpTransportAdapter.Connect(ConnectionOption conOption)
+   在 OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   在 OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName)
+   在 OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, String instanceName)
+   在 OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, String affinityInstanceName, Boolean bForceMatch)
+   在 OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, String affinityInstanceName, Boolean bForceMatch)
+   在 OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword)
+   在 Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   在 DAL.Common.SysTableRepository.ExecuteNonQuery(String connectionString, CommandType commandType, String commandText, Int32 timeoutSecond, OracleParameter[] commandParameters) 位置 F:\HTCS\HTCS\DAL\Common\sqlBase.cs:行号 97
+   在 AutoTaskService.JobImpl.StoredProcedureJob.ExecuteJob(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\JobImpl\StoredProcedureJob.cs:行号 86
+   在 AutoTaskService.BaseJobImpl.Execute(IJobExecutionContext context) 位置 F:\HTCS\HTCS\AutoTaskService\BaseJobImpl.cs:行号 94

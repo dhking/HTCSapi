@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/Common/LG.js"></script>
+<script src="~/layui/layui.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/Scripts/Common/uploadjs.js"></script>
+<link href="~/Content/uploadcss.css" rel="stylesheet" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>图片上传</title>
+</head>
+    <body>
+        
+        <div class="layui-upload">
+            <button type="button" class="layui-btn" id="test2" style="margin-left:20px;margin-top:20px;">选择图片</button>
+            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;background-color:#e2e2e2;">     
+                <div class="layui-upload-list" id="demo2" >
+                    <div class="col-6-24 item">
+                            <img src="https://o6niowncl.qnssl.com/house_image/o_1c5mvr6tl10si1adk12jcmff1kdvs.png?imageView2/1/w/130/h/140/q/70" alt="alert">
+                            <i class="layui-icon remove" style="font-size: 30px;color:#FF5722;">&#x1007;</i>
+                            <i class="layui-icon success" style="font-size: 30px;color:#5FB878;">&#x1005;</i>   
+                    </div>
+                        <div class="col-6-24 item">
+                            <i class="layui-icon remove" style="font-size: 30px;color:#FF5722;">&#x1007;</i>
+                            <img src="https://o6niowncl.qnssl.com/house_image/o_1c5mvr6tl10si1adk12jcmff1kdvs.png?imageView2/1/w/130/h/140/q/70">
+                            <span class="error">上传失败</span>
+                            <span class="cc">
+                                <a class="layui-btn layui-btn-sm btcc">重新上传</a>
+                            </span>
+                        </div>
+                </div>
+                <div style="clear:both;"></div>
+            </blockquote>
+        </div>
+        <div class="form-bottom">
+            <div class="form-wrap">
+                <a class="layui-btn layui-btn layui-btn-primary" id="cancel">取消</a>
+                <a class="layui-btn" id="save"  lay-submit="">完成</a>
+            </div>
+        </div>
+    </body>
+
+</html>

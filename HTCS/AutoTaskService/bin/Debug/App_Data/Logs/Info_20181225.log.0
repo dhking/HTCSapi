@@ -1,0 +1,16 @@
+2018-12-25 10:10:33,251 [1] WARN  AutoTaskService.Program [(null)]  - 当前启动数据库类型为:oracle
+2018-12-25 10:10:41,891 [1] WARN  AutoTaskService.Program [(null)]  - 1:oracle
+2018-12-25 10:10:41,891 [1] WARN  AutoTaskService.Program [(null)]  - 2:oracle
+2018-12-25 10:10:41,907 [1] WARN  AutoTaskService.Program [(null)]  - 3:oracle
+2018-12-25 10:10:41,907 [1] WARN  AutoTaskService.Program [(null)]  - 4:oracle
+2018-12-25 10:10:42,735 [1] WARN  AutoTaskService.Program [(null)]  - 项目加载完成
+2018-12-25 10:10:42,766 [1] INFO  DBHelp.LogService [(null)]  - 测试成功
+2018-12-25 10:10:42,766 [1] INFO  DBHelp.LogService [(null)]  - oracle
+2018-12-25 10:10:42,766 [1] INFO  DBHelp.LogService [(null)]  - 22222
+2018-12-25 10:10:49,056 [1] WARN  AutoTaskService.Program [(null)]  - 参数加载完成!共:65
+2018-12-25 10:10:49,634 [1] WARN  AutoTaskService.Program [(null)]  - 自动启动完成
+2018-12-25 10:10:50,462 [1] INFO  AutoTaskService.QuartzServer [(null)]  - 开始加在任务成配置......
+2018-12-25 10:10:50,462 [1] INFO  AutoTaskService.QuartzServer [(null)]  - oracle
+2018-12-25 10:10:50,462 [1] INFO  AutoTaskService.QuartzServer [(null)]  - 正在启动升级程序启动消息监听服务......
+2018-12-25 10:10:50,571 [1] INFO  AutoTaskService.QuartzServer [(null)]  - 启动升级程序启动消息监听服务 成功,监听路径：F:\HTCS\HTCS\AutoTaskService\bin\Sandbox\Notify\version.upgrade
+2018-12-25 10:10:54,774 [1] INFO  AutoTaskService.QuartzServer [(null)]  - autoTaskService不为空

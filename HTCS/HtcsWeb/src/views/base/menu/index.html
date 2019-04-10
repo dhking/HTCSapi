@@ -1,0 +1,70 @@
+﻿<style>
+    .fywz {
+        position: absolute;
+    }
+   body{overflow-y: scroll;}
+</style>
+<title>菜单管理</title>
+<script src="../../../Scripts/menu_business.js"></script>
+<script src="../../../../Scripts/Common/public-base.js"></script>
+<link href="../../../Content/Home.css" rel="stylesheet" />
+<body style="overflow-y: scroll;">
+    <!--结束-->
+    <div class="layui-fluid" style="background-color:#ffffff;">
+        <div class="m-search">
+            <form class="layui-form hcs-form" action="" lay-filter="search" id="menu-search-form">
+                <div class="m-search-item">
+                    <input type="text" name="Name" autocomplete="off" class="layui-input" placeholder="菜单名称" id="Name" style="width:auto;">
+                </div>
+                <div class="m-search-item">
+                    <select name="IsActive">
+                        <option value="">上级菜单</option>
+                    </select>
+                </div>
+                <div class="m-search-item">
+                    <select name="Type" >
+                        <option value="">子系统</option>
+                        <option value="1">公开配备</option>
+                        <option value="0">私有配备</option>
+                    </select>
+                </div>
+                <div class="m-search-item">
+                    <button class="layui-btn" lay-submit="" lay-filter="search">搜索</button>
+                </div>
+                <div style="clear:both;"></div>
+            </form>
+        </div>
+        <script id="menubtnscribt" type="text/html">
+            {{#  layui.each(d, function(index, item){}}
+            <button class="layui-btn layui-btn-primary {{item.BtnNo}}" hturl="/SysUser/ButtonAdd?apiurl=">
+                <i class="layui-icon">&#xe654;</i>{{item.BtnName}}
+            </button>
+            {{#   });   }}
+        </script>
+        <div id="toolbar">
+            <div class="layui-btn-group">
+                <div id="menu-button-view" style="overflow:hidden;"></div>
+                <button class="layui-btn layui-btn-primary" id="menu-add-btn"  hturl="/Menu/Add?apiurl=">
+                    <i class="layui-icon ">&#xe654;</i>添加
+                </button>
+                <button class="layui-btn layui-btn-primary" id="menu-edit-btn"  hturl="/Menu/Edit?apiurl=">
+                    <i class="layui-icon">&#xe642;</i>编辑
+                </button>
+                <button class="layui-btn layui-btn-primary" id="menu-delete-btn"  hturl="api/Menu/delete">
+                    <i class="layui-icon">&#xe640;</i>删除
+                </button>
+            </div>
+        </div>
+        <div class="layui-tab layui-tab-card" lay-filter="tabletab">
+            <ul class="layui-tab-title" style="margin-bottom:0;">
+                <li value="999" class="layui-this">所有</li>
+
+            </ul>
+            <div class="layui-tab-content" style="padding:0px;margin:0px;">
+                <table id="menu-index-table" lay-filter="demoEvent"></table>
+            </div>
+        </div>
+        
+
+    </div>
+</body>

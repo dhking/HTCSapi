@@ -1,0 +1,276 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<script src="~/Scripts/Common/LG.js"></script>
+<body>
+    <script>
+        var isSearch = false;
+        layui.use(['laypage', 'layer', 'laytpl', 'jquery', 'form'], function () {
+            var laytpl = layui.laytpl;
+            doc.init(function (result) {
+                doc.baseurl = result;
+            });
+            var url = "/api/BaseData/Query";
+            var $ = layui.jquery;
+
+            debugger;
+            doc.objectQuery(url, { "teseorpeibei": 1}, function (data) {
+                var getTpl = demo.innerHTML
+           , view = document.getElementById('view');
+                laytpl(getTpl).render(data.numberData, function (html) {
+                    view.innerHTML = html;
+                });
+                var form = layui.form; form.render('');
+                event();
+            });
+            
+        });
+        function event(){
+            $('#CellName1').devbridgeAutocomplete({
+                lookup: function (query, done) {
+                    debugger;
+                    var querydata = {};
+                    var city = $("#City1").find("option:selected").text();;
+                    if (city == null || city == "") {
+                        layer.msg('请先选择城市', { icon: 5 });
+                        return;
+                    }
+                    querydata.xiaoqu = query;
+                    querydata.city = city;
+                    doc.objectQuery("/api/Map/Querybuxiaoqu", querydata, function (result) {
+                        debugger;
+                        if (result.numberData != null) {
+                            var realresut = [];
+                            var val = {};
+                            $.each(result.numberData, function (tindex, tvalue) {
+                                val.value = tvalue.name + "-" + tvalue.adname + tvalue.address;
+                                val.data = tvalue.name + "-" + tvalue.adname + tvalue.address;
+                                val.name=tvalue.name;
+                                val.adname=tvalue.adname;
+                                val.address=tvalue.address;
+                                val.pname=tvalue.pname;
+                                val.cityname=tvalue.cityname;
+                                val.pcode = tvalue.pcode;
+                                val.citycode = tvalue.citycode;
+                                val.adcode = tvalue.adcode;
+                                val.business_area = tvalue.business_area;
+                                realresut.push(val);
+                            });
+                            var dresult = {
+                                suggestions: realresut
+                            };
+                            done(dresult);
+                        }
+                    })
+                },
+                minChars: 1,
+                onSelect: function (suggestion) {
+                    isSearch = true;
+                    $("#Province").val(suggestion.pcode);
+                    $("#Area").val(suggestion.adcode);
+                    $("#City").val(suggestion.citycode);
+                    $("#ProvinceName").val(suggestion.pname);
+                    $("#CityName").val(suggestion.cityname);
+                    $("#AreamName").val(suggestion.adname);
+                    $("#BusinessArea").val(suggestion.business_area);
+                    $("#CellName").val(suggestion.name);
+                    $("#Adress").val(suggestion.address);
+
+                },
+                showNoSuggestionNotice: true,
+                noSuggestionNotice: function () {
+                    
+                    return '<span>找不到小区,可手动添加</span>'
+
+                },
+                groupBy: 'category'
+            });
+            $("#addimage").click(function () {
+                layer.open({
+                    type: 2,
+                    title: '图片上传插件',
+                    skin: 'two-layer',
+                    shadeClose: true,
+                    maxmin: true,
+                    area: ['800', '500px'],
+                    content: '../Upload/Indexnew?img=' + $("#Image").val()
+                });
+            });
+        }
+    </script>
+    <script id="demo" type="text/html">
+        <form class="layui-form hcs-form" action="">
+            <div class="form-content">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">选择城市</label>
+                        <div class="layui-input-inline">
+                            <select name="City1" lay-verify="required" id="City1" lay-search="">
+                                <option value="0"></option>
+                                {{#  layui.each(d.city, function(index, item1){ }}
+                                  <option value="{{item1.Id}}">{{item1.RegionName}}</option>
+                                {{#  });   }}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto;">小区</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="CellName1" autocomplete="off" class="layui-input" placeholder="小区名称" id="CellName1" style="width:380px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">门牌号</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="RoomId"  autocomplete="off" class="layui-input" id="RoomId">
+                            <input type="tel" name="Province"  autocomplete="off" class="layui-input" id="Province">
+                            <input type="tel" name="City"  autocomplete="off" class="layui-input" id="City">
+                            <input type="tel" name="Area"  autocomplete="off" class="layui-input" id="Area">
+                            <input type="tel" name="ProvinceName"  autocomplete="off" class="layui-input" id="ProvinceName">
+                            <input type="tel" name="CityName"  autocomplete="off" class="layui-input" id="CityName">
+                            <input type="tel" name="AreamName"  autocomplete="off" class="layui-input" id="AreamName">
+                            <input type="tel" name="BusinessArea" autocomplete="off" class="layui-input" id="BusinessArea">
+                            <input type="tel" name="CellName"  autocomplete="off" class="layui-input" id="CellName">
+                            <input type="tel" name="Adress" autocomplete="off" class="layui-input" id="Adress">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">单元号</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="Unit" lay-verify="required|number" autocomplete="off" class="layui-input" id="Unit">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">楼号</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="BuildingNumber" lay-verify="required|number" autocomplete="off" class="layui-input" id="BuildingNumber">
+                        </div>
+                    </div>
+                </div>
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>房源详情</legend>
+                </fieldset>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">户型</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="ShiNumber" name="ShiNumber">
+                                <option value="">几室</option>
+                                <option value="1">1室</option>
+                                <option value="2">2室</option>
+                                <option value="3">3室</option>
+                                <option value="4">4室</option>
+                                <option value="5">5室</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select name="TingNumber" lay-verify="required" id="TingNumber" >
+                                <option value="">几厅</option>
+                                <option value="1">1厅</option>
+                                <option value="2">2厅</option>
+                                <option value="3">3厅</option>
+                                <option value="4">4厅</option>
+                                <option value="5">5厅</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select name="WeiNumber" lay-verify="required" id="WeiNumber">
+                                <option value="">几卫</option>
+                                <option value="1">1卫</option>
+                                <option value="2">2卫</option>
+                                <option value="3">3卫</option>
+                                <option value="4">4卫</option>
+                                <option value="5">5卫</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">层高</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="NowFloor" lay-verify="required|number" autocomplete="off" class="layui-input" id="NowFloor" placeholder="当前层">
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="AllFloor" lay-verify="required|number" autocomplete="off" class="layui-input" id="AllFloor" placeholder="总层">
+
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="phone" lay-verify="required|number" autocomplete="off" class="layui-input" id="MEASURE" placeholder="面积">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">配备</label>
+                    <div class="layui-input-block">
+                        {{#  layui.each(d.peipei, function(index, item){ }}
+                        <input type="checkbox" name="{{item.Code}}" title="{{item.Name}}">
+                        {{#  });   }}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片</label>
+                    <div class="layui-input-block">
+                        <a class="layui-btn layui-btn-primary" id="addimage"><i class="layui-icon">&#xe608;</i> 添加<span class="layui-badge layui-bg-gray" id="imgnumber">0</span></a>
+                        <input type="tel" name="Image"  autocomplete="off" class="layui-input" id="Image">
+                    </div>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-wrap">
+                    <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel">取消</button>
+                    <button class="layui-btn" id="saveon" lay-filter="saveon" lay-submit="">保存并继续创建房源</button>
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">创建房源</button>
+                </div>
+            </div>
+        </form>
+            
+    </script>
+    <div id="view">
+    </div>
+    
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+
+  //监听提交
+  form.on('submit(save)', function (data) {
+      debugger;
+      
+      var cell = $("#CellName").val();
+   
+      var adress1 = cell.split("-")[1];
+      if (isSearch == false) {
+          layer.msg('请选择小区', { icon: 5 });
+          return false;
+      }
+      if (cell == "") {
+          layer.msg('请选择正确小区', { icon: 5 });
+          return false;
+      }
+      var listpeibei=[];
+      $.each($("#view input:checkbox:checked"), function (index, value) {
+          var peibei = {};
+          peibei.Code = value.name;
+          peibei.Name = value.title;
+          peibei.isCheck = 1;
+          listpeibei.push(peibei);
+      })
+      data.field.listpeibei = listpeibei;
+      var url = doc.baseurl+"/api/House/SaveHouse";
+      doc.Submit1(url, data.field,Success);
+      return false;
+  });
+  function Success() {
+      parent.all().QueryInit();
+  }
+});
+function complteimg(name, number) {
+    debugger;
+    $("#Image").val(name);
+    $("#imgnumber").html(number);
+}
+</script>
+<script src="~/Scripts/Common/jquery.autocomplete.js"></script>
+<link href="~/Content/jquery.autocomplete.css" rel="stylesheet" />
+</body>

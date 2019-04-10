@@ -1,0 +1,11 @@
+2019-03-24 12:10:26,046 [1] WARN  AutoTaskService.Program [(null)]  - 当前启动数据库类型为:oracle
+2019-03-24 12:10:33,777 [1] WARN  AutoTaskService.Program [(null)]  - 1:oracle
+2019-03-24 12:10:33,777 [1] WARN  AutoTaskService.Program [(null)]  - 2:oracle
+2019-03-24 12:10:33,793 [1] WARN  AutoTaskService.Program [(null)]  - 3:oracle
+2019-03-24 12:10:33,793 [1] WARN  AutoTaskService.Program [(null)]  - 4:oracle
+2019-03-24 12:10:34,012 [1] WARN  AutoTaskService.Program [(null)]  - 项目加载完成
+2019-03-24 12:10:34,043 [1] INFO  DBHelp.LogService [(null)]  - 测试成功
+2019-03-24 12:10:34,043 [1] INFO  DBHelp.LogService [(null)]  - oracle
+2019-03-24 12:10:34,043 [1] INFO  DBHelp.LogService [(null)]  - 22222
+2019-03-24 12:10:39,231 [1] WARN  AutoTaskService.Program [(null)]  - 启动自动任务异常
+2019-03-24 15:17:00,478 [1] WARN  AutoTaskService.Program [(null)]  - 当前启动数据库类型为:oracle

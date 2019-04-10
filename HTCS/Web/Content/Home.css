@@ -1,0 +1,111 @@
+﻿ul.hcs-menu{
+    margin-top:20px;
+}
+ul.hcs-menu  li{
+    line-height:33px;
+
+}
+ul.hcs-menu  li a{
+   text-align:center;
+   cursor: pointer;
+   padding-left:20px;
+}
+.mouseovermenu{background-color:#f2f2f2
+;}
+
+.panel-name{float:left;line-height:46px;}
+.m-panel-title{}
+.m-comtent{padding:20px;}
+.m-wrap{margin-bottom:10px;}
+        .m-title {
+            font-weight:600;
+            font-size:initial;
+        }
+        .m-panel-body {
+            background-color:#fff;
+            position:relative;
+            margin-right: 10px;
+            float: left;
+            border: 1px solid #d2d2d2;
+             margin-bottom:5px;
+            width: 250px;
+        }
+        .m-zt-k{ border-left: 4px solid #ff4b5e;}
+        .m-zt-y{ border-left: 4px solid  #1bb974;}
+        .m-top {
+            /*height: 150px;*/
+            padding-bottom:5px;
+        }
+            .m-top ul li {
+             
+                display: block;
+                padding:5px;
+              
+            }
+                .m-top ul li span {
+                    font-size:inherit;
+                    padding:2px;
+                }
+
+        .m-caidan {
+            background-color: #d2d2d2;
+            display: none;
+             padding-bottom:5px;
+        }
+        .m-caidan-wrap{padding-top:5px;}
+         .m-caidan ul li{
+           padding:2px;
+         
+        }
+        .m-cl {
+            line-height: 40px;
+            padding: 5px;
+            background-color: #5b68fc;
+            margin-left: 5px;
+            color: #ddd;
+            cursor: Pointer;
+        }
+        .m-red{color:red;}
+        #fy{padding-left:20px;}
+        #view{overflow:scroll;}
+     
+        .m-search{padding-left:40px;padding-right:40px;padding-top:20px;padding-bottom:10px;}
+        .m-search-item{float:left;margin-right:10px;}
+        .caidan-btn{padding-right:40px;line-height:36px;float:right;}
+          .m-row {
+            float:right;
+            display:block;
+            cursor: pointer;
+            padding-left:20px;
+            
+           vertical-align: bottom;
+           cursor: pointer;
+        }
+          .caidan-icon{float:right;cursor:pointer;display:block;}
+          ul.project-span-box {
+    background-color: #fff;
+    position: absolute;
+    z-index: 99;
+    width: 80px;
+    
+    top:25px;
+    /* height: 80px; */
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px;
+    right: 0px;
+    display:none;
+}
+          .project-span-box li {
+    list-style: none;
+    line-height: 50px;
+    color: #8f91a1;
+    clear: both;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+/*.layui-table-cell .layui-form-checkbox[lay-skin="primary"] {
+	top: 50%;
+	transform: translateY(-50%);
+}*/
+  

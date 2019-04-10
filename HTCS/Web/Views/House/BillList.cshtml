@@ -1,0 +1,55 @@
+﻿<style>
+    .fywz {
+        position: absolute;
+    }
+
+    .othersearch {
+        margin-bottom: 10px;
+    }
+
+    body .demo-class .layui-layer-btn .layui-layer-btn1 {
+        background: #59acff;
+        color: #FFF;
+    }
+
+    body .demo-class .layui-layer-btn .layui-layer-btn0 {
+        border: 1px solid #e7e7e7;
+        color: #666;
+        background-color: #FFF;
+    }
+</style>
+<script src="../Content/jquery.min.js"></script>
+<link href="~/start/layui/css/layui.css" rel="stylesheet" />
+<script src="~/start/layui/layui.js"></script>
+<script src="../Scripts/Common/LG.js"></script>
+<script src="~/Scripts/p-base-layui-chid.js"></script>
+<link href="../../../../Content/Home.css" rel="stylesheet" />
+<script src="~/Scripts/billlist_business-child.js"></script>
+<!--结束-->
+<div class="layui-fluid" style="background-color:#ffffff;">
+    <div id="toolbar">
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-primary" id="tooladd" hturl="/Base/Add?apiurl=">
+                <i class="layui-icon">&#xe654;</i>添加
+            </button>
+            <button class="layui-btn layui-btn-primary" id="tooledit" hturl="/Bill/Edit?apiurl=">
+                <i class="layui-icon">&#xe642;</i>编辑
+            </button>
+            <button class="layui-btn layui-btn-primary" id="tooldelete" hturl="/api/BaseData/delete">
+                <i class="layui-icon">&#xe640;</i>作废账单
+            </button>
+
+            <button class="layui-btn layui-btn-primary" id="receivebtn" hturl="/Bill/Receive">
+                <i class="layui-icon">&#x1007;</i>收款
+            </button>
+        </div>
+    </div>
+    <div class="layui-tab layui-tab-card" lay-filter="tabletab">
+        <ul class="layui-tab-title" style="margin-bottom:0;">
+            <li value="999" class="layui-this">所有</li>
+        </ul>
+        <div class="layui-tab-content" style="padding:0px;margin:0px;">
+            <table id="table"></table>
+        </div>
+    </div>
+</div>

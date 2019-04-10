@@ -1,0 +1,185 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/hsc-form.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<script src="~/Scripts/Common/LG.js"></script>
+<body>
+    <script>
+        layui.use(['laypage', 'layer', 'laytpl', 'jquery', 'form'], function () {
+            var laytpl = layui.laytpl;
+            doc.init(function (result) {
+                doc.baseurl = result;
+            });
+            var url = "/api/House/Querydepent";
+            var $ = layui.jquery;
+            var id = getUrlParam("Id");
+            debugger;
+            doc.objectQuery(url, { "Id": id}, function (data) {
+                var getTpl = demo.innerHTML
+           , view = document.getElementById('view');
+                laytpl(getTpl).render(data.numberData, function (html) {
+                    view.innerHTML = html;
+                });
+                $("#Huxing").val(data.numberData.housependent.Huxing);
+
+                var form = layui.form; form.render('');
+                event();
+            });
+        });
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        function event(){
+            $("#addimage").click(function () {
+                layer.open({
+                    type: 2,
+                    title: '图片上传插件',
+                    skin: 'two-layer',
+                    shadeClose: true,
+                    maxmin: true,
+                    area: ['800', '500px'],
+                    content: '../Upload/Indexnew?img=' + $("#Image").val()
+                });
+            });
+        }
+    </script>
+    <script id="demo" type="text/html">
+        <form class="layui-form hcs-form" action="">
+            <input type="tel" name="ID"  autocomplete="off" class="layui-input" id="ID" value="{{d.housependent.ID}}" style="display:none;">
+            <div class="form-content">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房间名</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="Name" lay-verify="required" autocomplete="off" class="layui-input" id="Name" value="{{d.housependent.Name}}">
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">类型</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="Huxing" name="Huxing">
+                                <option value="0">请选择</option>
+                                <option value="1">主卧</option>
+                                <option value="2">次卧</option>
+                                
+                            </select>  
+                        </div>
+                        <label class="layui-form-label" style="width:auto;">面积</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="Measure" lay-verify="required|number" autocomplete="off" class="layui-input" id="Measure" value="{{d.housependent.Measure}}">
+                        </div>
+                        <label class="layui-form-label">朝向</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select lay-verify="required" id="Orientation" name="Orientation">
+                                <option value="0">东</option>
+                                <option value="1">南</option>
+                                <option value="2">西</option>
+                                <option value="3">北</option>
+                            </select>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">价格</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="tel" name="Price" lay-verify="required|number" autocomplete="off" class="layui-input" id="Price" value="{{d.housependent.Price}}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layui-form-item" id="peibei">
+                    <label class="layui-form-label">配备</label>
+                    <div class="layui-input-block">
+                        {{#  layui.each(d.housependent.listpeibei, function(index, item){ }}
+                        {{# if(item.isCheck==1){ }}
+                        <input type="checkbox" name="{{item.Code}}" title="{{item.Name}}" checked>
+                        {{# } else{ }}
+                        <input type="checkbox" name="{{item.Code}}" title="{{item.Name}}">
+                        {{# } }}
+                        {{#  });   }}
+                    </div>
+                </div>
+                <div class="layui-form-item" id="tese">
+                    <label class="layui-form-label">特色</label>
+                    <div class="layui-input-block">
+                        {{#  layui.each(d.housependent.listtese, function(index, item){ }}
+                        {{# if(item.IsCheck==1){ }}
+                        <input type="checkbox" name="{{item.Code}}" title="{{item.Name}}" checked>
+                        {{# } else{ }}
+                        <input type="checkbox" name="{{item.Code}}" title="{{item.Name}}">
+                        {{# } }}
+                        {{#  });   }}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片</label>
+                    <div class="layui-input-block">
+                        <a class="layui-btn layui-btn-primary" id="addimage"><i class="layui-icon">&#xe608;</i> 添加<span class="layui-badge layui-bg-gray" id="imgnumber">0</span></a>
+                        <input type="tel" name="Image"  autocomplete="off" class="layui-input" id="Image">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea" id="Remarks" name="Remarks" >{{d.housependent.Remarks}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-wrap">
+                    <button class="layui-btn layui-btn layui-btn-primary" id="cancel" lay-filter="cancel">取消</button>
+                    <button class="layui-btn" id="save" lay-filter="save" lay-submit="">保存</button>
+                </div>
+            </div>
+        </form>
+
+    </script>
+    <div id="view">
+    </div>
+    <script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+
+  //监听提交
+  form.on('submit(save)', function (data) {
+      debugger;
+      var listpeibei = [];
+      var listtese = [];
+      $.each($("#peibei input:checkbox:checked"), function (index, value) {
+          var peibei = {};
+          peibei.Code = value.name;
+          peibei.Name = value.title;
+          peibei.HouseId = data.field.ID;
+          peibei.isCheck = 1;
+          listpeibei.push(peibei);
+      });
+      $.each($("#tese input:checkbox:checked"), function (index, value) {
+          var tese = {};
+          tese.Code = value.name;
+          tese.Name = value.title;
+          tese.HouseId = data.field.ID;
+          tese.isCheck = 1;
+          listtese.push(tese);
+      });
+      data.field.listpeibei = listpeibei;
+      data.field.listtese = listtese;
+      var url = doc.baseurl + "/api/House/editsavepentHouse";
+      doc.Submit(url, data.field, Success);
+      return false;
+  });
+
+});
+function complteimg(name, number) {
+    debugger;
+    $("#Image").val(name);
+    $("#imgnumber").html(number);
+}
+function Success() {
+    parent.reflash();
+}
+
+    </script>
+   
+</body>

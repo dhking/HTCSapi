@@ -1,0 +1,10 @@
+﻿.htcsspan {
+    border: 1px solid #000000;
+  
+    padding:0 6px;
+    border-radius: 10px;
+    margin:5px;
+    cursor:pointer;
+}
+.i-radio-wrapper{ border: 1px solid #ff4b5e;
+    color: #ff4b5e !important;}
