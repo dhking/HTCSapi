@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SignApplication;
+
 using System.Activities.Statements;
 using System.Web;
 using System.IO;
 using System.Configuration;
 using Model.Contrct;
 using DAL;
+using SignApplication;
 
 namespace Service
 {
@@ -48,7 +49,7 @@ namespace Service
             //查询公司编号
             ContrctDAL dal = new ContrctDAL();
             T_Contrct contract = dal.querycontract(long.Parse(model.no));
-            SysResult sysresult= pdal.Cmdproce10(new Pure() { Spname = "sp_reducenumber", Ids = contract.CompanyId.ToStr(), Other = "2" });
+            SysResult sysresult= pdal.Cmdproce10(new Pure() { Spname = "sp_reducenumber", Ids = contract.CompanyId.ToStr(), Other = "2",Other1= model.no });
             return sysresult;
         }
         public SysResult completionContract(SignVersion model)
@@ -68,9 +69,7 @@ namespace Service
             string context = RSAUtil.GetSignContent(parameters);
             string sign_val = RSAUtil.sign(context, Config.PRIVATE_KEY);
             sign_val = HttpUtility.UrlEncode(sign_val, Encoding.UTF8);
-
             parameters.Add("sign_val", sign_val);
-
             string result = HTTPUtil.CreatePostHttpResponse(Config.URL + "completionContract", parameters);
 
             Signresult signresult = Newtonsoft.Json.JsonConvert.DeserializeObject<Signresult>(result);
@@ -79,6 +78,7 @@ namespace Service
             sysresult.Message = signresult.msg;
             return sysresult;
         }
+        //个人证书
         public SysResult personReg(SignVersion model)
         {
             SysResult sysresult = new SysResult();
@@ -101,6 +101,31 @@ namespace Service
             sysresult.Message = signresult.msg;
             return sysresult;
         }
+        //企业证书
+        public SysResult entpReg(SignVersion model)
+        {
+            SysResult sysresult = new SysResult();
+            IDictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("name", model.name);
+            parameters.Add("certificate", model.certificate);
+            parameters.Add("address", model.address);
+            parameters.Add("contact", model.contact);
+            parameters.Add("mobile", model.mobile);
+            parameters.Add("user_code", model.user_code);
+            parameters.Add("zqid", Config.ZQID);
+            string context = RSAUtil.GetSignContent(parameters);
+            string sign_val = RSAUtil.sign(context, Config.PRIVATE_KEY);
+            sign_val = HttpUtility.UrlEncode(sign_val, Encoding.UTF8);
+
+            parameters.Add("sign_val", sign_val);
+
+            string result = HTTPUtil.CreatePostHttpResponse(Config.URL + "entpReg", parameters);
+            Signresult signresult = Newtonsoft.Json.JsonConvert.DeserializeObject<Signresult>(result);
+            sysresult.Code = int.Parse(signresult.code);
+            sysresult.Message = signresult.msg;
+            return sysresult;
+        }
+       
         public SysResult<WrapContract> signAuto(SignVersion model)
         {
             SysResult<WrapContract> result = new SysResult<WrapContract>();
@@ -140,6 +165,7 @@ namespace Service
                 string html = HTTPUtil.formatFormatHtml(parameters, Config.URL + "mobileSignView");
                 string htmls = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title></title></head><body>" + html + "</body></html>";
                 wrap.form = htmls;
+                wrap.onlinesign = 1;
                 result.numberData = wrap;
             }
             return result;

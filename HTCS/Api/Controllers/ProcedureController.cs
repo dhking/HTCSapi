@@ -24,11 +24,13 @@ namespace Api.Controllers
             return service.CmdProce2(model);
         }
         [Route("api/Procedure/zhuanyifgy")]
+        [JurisdictionAuthorize(name = new string[] { "zsysuser-zhuanyi-bt" })]
         public SysResult zhuanyifgy(Pure model)
         {
             return service.CmdProce3(model);
         }
         [Route("api/Procedure/signbill")]
+        [JurisdictionAuthorize(name = new string[] { "signbill" })]
         public SysResult signbill(Pure model)
         {
             return service.CmdProce4(model);

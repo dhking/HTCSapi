@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+
     public class WrapGuest
     {
         public long Id { get; set; }

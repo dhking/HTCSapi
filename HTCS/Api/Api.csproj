@@ -293,6 +293,7 @@
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ElectricController.cs" />
     <Compile Include="Controllers\FormatterController.cs" />
+    <Compile Include="Controllers\CleanController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HouseControllers.cs" />
@@ -473,10 +474,6 @@
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{EFBD342E-0942-45FE-A54A-368F048BBCF1}</Project>
       <Name>Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj">
-      <Project>{FBF20963-EA41-473C-8C57-9DB1018BFB55}</Project>
-      <Name>SignApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

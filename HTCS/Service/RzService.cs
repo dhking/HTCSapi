@@ -1,6 +1,7 @@
 ﻿using ControllerHelper;
 using DAL.Common;
 using Model;
+using Model.Bill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,21 +111,22 @@ namespace Service
             rzdal.save(userid, HouseId, typestr, content, CompanyId);
             return sysresult;
         }
-        //添加账单日志
-        public SysResult addzdrz(long HouseId, long userid, long CompanyId, int type)
+        //账单日志
+        public SysResult addzdrz(T_Bill oribill, T_Bill nowbill,long userid)
         {
             SysResult sysresult = new SysResult();
-            string typestr = "账单操作";
-            string content = "账单操作";
-            if (type == 0)
+            string typestr = "";
+            string content = "";
+            if (oribill.BillType == 0)
             {
-                content = "新增账单";
+                typestr = "租客账单";
             }
-            else
+            if (oribill.BillType  ==1)
             {
-                content = "编辑账单";
+                typestr = "业主账单";
             }
-            save(userid, HouseId, typestr, content, CompanyId);
+            content = "账单编辑操作-"+oribill.stage+"期;操作前金额" + oribill.Amount + ";操作后金额" + nowbill.Amount;
+            save(userid, oribill.HouseId, typestr, content, oribill.CompanyId);
             return sysresult;
         }
         //业主合同日志

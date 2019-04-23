@@ -45,11 +45,11 @@ namespace DAL
             //整租查询
             var data = from m in baobiao select m;
             Expression<Func<HouseReport, bool>> where = m => 1 == 1;
-            data = data.Where(where);
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
             }
+            data = data.Where(where);
             IOrderByExpression<HouseReport> order1 = new OrderByExpression<HouseReport, long>(p => p.Id, true);
             List<HouseReport> list = QueryableForList(data, orderablePagination, order1);
             return list;

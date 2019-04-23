@@ -91,9 +91,10 @@ namespace DAL
             {
                 where1 = where1.And(m => m.sign == model.sign);
             }
-            data = data.Where(where);
+           
             data1 = data1.Where(where1);
             where = where.And(m=>(data1.Select(p => p.ParentRoomid)).Contains(m.Id));
+            data = data.Where(where);
             IOrderByExpression<HouseModel> order = new OrderByExpression<HouseModel, long>(p => p.Id, model.GroupBy);
             listhouse = this.QueryableForList<HouseModel>(data, orderablePagination, order);
             count = data1.Where(p => data.Select(m => m.Id).Contains(p.ParentRoomid)).Count();
@@ -498,7 +499,7 @@ namespace DAL
             else
             {
                
-                ModifiedModel(model,false,new string[] { "LocalId", "Status", "Electricid", "uuid", "RecrntType", "Renttime", "CompanyId" });
+                ModifiedModel(model,false,new string[] { "CreateTime", "LocalId", "Status", "Electricid", "uuid", "RecrntType", "Renttime", "CompanyId" });
             }
             return model.Id;
         }

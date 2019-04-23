@@ -92,6 +92,7 @@ namespace Model.Contrct
         public string Name { get; set; }
         public int Sex { get; set; }
         public int issign { get; set; }
+     
         public int Status { get; set; }
         public int[] arrStatus { get; set; }
         [NotMapped]
@@ -145,6 +146,13 @@ namespace Model.Contrct
         public string accounts { get; set; }
 
         public string bank { get; set; }
+        //楼层
+        public int floor { get; set; }
+        //总高
+        public int allfloor { get; set; }
+        //面积
+        public int mesure { get; set; }
+        //
         //城市筛选条件
         [NotMapped]
         public int City { get; set; }

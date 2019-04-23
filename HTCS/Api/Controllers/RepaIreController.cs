@@ -27,10 +27,8 @@ namespace Api.Controllers
     {
         RepairedService service = new RepairedService();
         LogService log = new LogService();
-   
         //分页查询
         [Route("api/Repaire/Querylist")]
-       
         public SysResult<List<WrapRepaire>> Querylist(Repaire model)
         {
             string jsonData = JsonConvert.SerializeObject(model);
@@ -44,8 +42,6 @@ namespace Api.Controllers
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            //model.storeid = user.storeid;
-
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
             sysresult = service.Query(model, this.OrderablePagination);
             return sysresult;
@@ -56,7 +52,6 @@ namespace Api.Controllers
             string jsonData = JsonConvert.SerializeObject(model);
             log.logInfo("分页查询" + jsonData);
             SysResult<List<WrapRepaire>> sysresult = new SysResult<List<WrapRepaire>>();
-           
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
             sysresult = service.Query(model, this.OrderablePagination);
             return sysresult;
@@ -66,7 +61,6 @@ namespace Api.Controllers
         public SysResult<WrapRepaire> Queryxq(Guest model)
         {
             SysResult<WrapRepaire> sysresult = new SysResult<WrapRepaire>();
-
             sysresult = service.Queryxq(model);
             return sysresult;
         }
@@ -79,13 +73,21 @@ namespace Api.Controllers
             return sysresult;
         }
         //报修列表展示后台
-        [JurisdictionAuthorize(name = new string[] { "repaire/" })]
+        [JurisdictionAuthorize(name = new string[] { "repaire" })]
         [Route("api/Repaire/hRepairList")]
         public SysResult<List<RepairList>> hRepairList(RepairList model)
         {
-            
             SysResult<List<RepairList>> sysresult = new SysResult<List<RepairList>>();
             sysresult = service.Queryhrepairlist(model);
+            return sysresult;
+        }
+        //报修子表
+        [Route("api/hRepaire/Queryxq")]
+        public SysResult<WrapRepaire> hQueryxq(Guest model)
+        {
+            SysResult<WrapRepaire> sysresult = new SysResult<WrapRepaire>();
+
+            sysresult = service.hQueryxq(model);
             return sysresult;
         }
         //保存报修

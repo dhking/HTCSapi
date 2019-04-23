@@ -97,12 +97,12 @@ namespace API
         }
 
         //添加合租房源
-        [JurisdictionAuthorize(name = new string[] { "hhouseadd" })]
+        [JurisdictionAuthorize(name = new string[] { "hhouseadd", "hhouseedit" })]
         [Route("api/House/SaveHouse")]
         public SysResult<List<HousePendent>> SaveHouse(HouseModel model)
         {
-            
             SysResult<List<HousePendent>> result = new SysResult<List<HousePendent>>(0, "保存成功");
+           
             try
             {
                 string jsonData = JsonConvert.SerializeObject(model);
@@ -133,10 +133,6 @@ namespace API
                 model.CompanyId = user.CompanyId;
                 model.CreatePerson = user.RealName;
                 T_SysUser newuser = getnewuer(user);
-                if (model.storeid == 0 && newuser.storeids.Length>0)
-                {
-                    model.storeid = newuser.storeids[0];
-                }
                 result = service.saveHouse(model, user.Id);
                 
             }
@@ -182,10 +178,7 @@ namespace API
                 model.RecrntType = 1;
                 model.CompanyId = user.CompanyId;
                 T_SysUser newuser = getnewuer(user);
-                if (model.storeid == 0 && newuser.storeids.Length > 0)
-                {
-                    model.storeid = newuser.storeids[0];
-                }
+                
                 result = service.saveHouse(model,user.Id);
 
             }
@@ -232,7 +225,7 @@ namespace API
             return service.saveeditHouse(model, user.Id);
         }
         //删除房间
-        [JurisdictionAuthorize(name = new string[] { "hhousedelete" })]
+        [JurisdictionAuthorize(name = new string[] { "hhousedelete", "zhousedelete" })]
         [Route("api/House/deletedepentHouse")]
         [HttpPost]
         public SysResult deletedepentHouse(HouseModel model)
@@ -282,7 +275,7 @@ namespace API
                 errmsg += "小区名称不能为空";
                 return result;
             }
-            if (model.BuildingNumber==0)
+            if (model.BuildingNumber==null)
             {
                 result = false;
                 errmsg += "楼号不能为空";

@@ -126,6 +126,7 @@ namespace Api.Controllers
             return sysresult;
         }
         //编辑公区
+        [JurisdictionAuthorize(name = new string[] { "dhouseadd" })]
         [Route("api/IndependHouse/Update")]
         public SysResult Update(HouseModel model)
         {
@@ -142,6 +143,7 @@ namespace Api.Controllers
             return sysresult;
         }
         //添加//编辑楼层
+        [JurisdictionAuthorize(name = new string[] { "dhouseedit", "dhouseadd" })]
         [Route("api/IndependHouse/savefloor")]
         public SysResult addfloor(T_Floor model)
         {
@@ -162,12 +164,13 @@ namespace Api.Controllers
         }
         //删除楼层
         [Route("api/IndependHouse/delelefloor")]
-
+        [JurisdictionAuthorize(name = new string[] { "dhousedelete" })]
         public SysResult delelefloor(T_Floor model)
         {
             return service.deleteData(model);
         }
         //删除公寓
+        [JurisdictionAuthorize(name = new string[] { "dhousedelete" })]
         [Route("api/IndependHouse/delele")]
         public SysResult deleleindenthouse(HouseModel model)
         {

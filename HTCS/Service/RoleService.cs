@@ -1,5 +1,6 @@
 ﻿using ControllerHelper;
 using DAL;
+using DAL.Common;
 using Model;
 using Model.Bill;
 using Model.House;
@@ -153,9 +154,20 @@ namespace Service
         //删除
         public SysResult delete(iids model)
         {
-           
             SysResult result = new SysResult();
             dal.delete(model);
+            //删除用户删除token
+            if (model.Table == "T_SYSUSER")
+            {
+                string access_token = ConvertHelper.GetMd5HashStr(model.ids); ;
+                string key = "sysuser_key" + access_token;
+                RedisHtcs redis = new RedisHtcs();
+                if (!redis.Delete(key))
+                {
+                    result.Code = 1;
+                    result.Message = "缓存未删除";
+                }
+            }
             return result;
         }
 

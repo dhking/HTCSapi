@@ -60,7 +60,7 @@ namespace Service
             long housecount = 0;
             dtmode dtmo = gettuizutime(model.Idletime);
             listhouse = dal.Querylist(model, dtmo, orderablePagination,out housecount);
-            listpent = pentdal.Querybyparentids(listhouse.Select(p=>p.Id).ToList(),0);
+            listpent = pentdal.Querybyparentids(listhouse.Select(p=>p.Id).ToList(), model.Status);
             if (listhouse.Count > 0)
             {
                 foreach (var mo in listhouse)
@@ -321,10 +321,39 @@ namespace Service
             }
             return result;
         }
+        public long fgystore(long userid)
+        {
+            if (userid == 0)
+            {
+                return 0;
+            }
+            UserDAL1 dal = new UserDAL1();
+            T_SysUser user = dal.QueryUerbyid(new T_SysUser() {Id=userid });
+            if (user != null)
+            {
+                if (user.storeids != null && user.storeids.Length > 0)
+                {
+                    return user.storeids[0];
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
         public SysResult<List<HousePendent>> saveHouse(HouseModel model,long userid)
         {
             SysResult<List<HousePendent>> result = new SysResult<List<HousePendent>>();
+            result.numberData= new List<HousePendent>();
             SysResult voliteresult = Volite(model);
+            if (model.storeid == 0)
+            {
+                model.storeid = fgystore(model.HouseKeeper);
+            }
             long type = model.Id;
             
             if (voliteresult.Code != 0)
@@ -343,8 +372,6 @@ namespace Service
                 int pentresult = pentdal.autoSavePent(parentid, model.ShiNumber, model.CompanyId);
                 if (pentresult > 0)
                 {
-                    List<HousePendent> pent = pentdal.Querybyparentid(parentid);
-                    result.numberData = pent;
                     //生成装修单
                     if (model.Status == 3)
                     {
@@ -361,6 +388,8 @@ namespace Service
                     result.Message = "保存失败";
                 }
             }
+            List<HousePendent> pent = pentdal.Querybyparentid(parentid);
+            result.numberData = pent;
             //添加操作日志
             RzService reservice = new RzService();
             reservice.addrz(model, type, userid, parentid);
@@ -575,6 +604,7 @@ namespace Service
             }
             if (model != null)
             {
+                pent.PublicImage = model.PublicImg;
                 pent.Adress = model.Adress;
             }
             if (pent.PrivateTeshe != null)

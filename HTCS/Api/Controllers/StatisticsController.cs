@@ -4,6 +4,7 @@ using ControllerHelper;
 using Microsoft.Owin;
 using Model;
 using Model.Base;
+using Model.User;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -65,8 +66,17 @@ namespace Api.Controllers
         }
         //月度统计
         [Route("api/PCHome/Query1")]
-        public SysResult<WrappcStatic> PCHome1(MonthPersent month)
+        public SysResult<MonthPersent1> PCHome1(MonthPersent month)
         {
+            SysResult<MonthPersent1> sysresult = new SysResult<MonthPersent1>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            month.CompanyId = user.CompanyId;
             return service.PCHome1(month);
         }
     }

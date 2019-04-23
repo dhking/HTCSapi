@@ -78,6 +78,7 @@
     <Compile Include="ElectricService.cs" />
     <Compile Include="FinanceService.cs" />
     <Compile Include="FormatterService.cs" />
+    <Compile Include="CleanService.cs" />
     <Compile Include="GuestService.cs" />
     <Compile Include="HelpService.cs" />
     <Compile Include="HoseService.cs" />
@@ -125,13 +126,13 @@
       <Project>{5B2AED0E-2836-4A1F-8C67-BB9A5EC0B8A7}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj">
+      <Project>{FBF20963-EA41-473C-8C57-9DB1018BFB55}</Project>
+      <Name>SignApplication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Web\Web.csproj">
       <Project>{372D33B5-499D-4DE9-9673-A386D2938AB7}</Project>
       <Name>Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj">
-      <Project>{fbf20963-ea41-473c-8c57-9db1018bfb55}</Project>
-      <Name>SignApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

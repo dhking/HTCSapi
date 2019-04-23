@@ -17,10 +17,20 @@ namespace Api.Controllers
         public SysResult<List<WrapHouseRz>> Querylist(HouseRz model)
         {
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                SysResult<List<WrapHouseRz>> result = new SysResult<List<WrapHouseRz>>();
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            model.companyid = user.CompanyId;
             return service.Query(model, this.OrderablePagination);
         }
     
         [Route("api/RzService/add")]
+        [JurisdictionAuthorize(name = new string[] { "addrz" })]
         public SysResult add(HouseRz model)
         {
             T_SysUser user = GetCurrentUser(GetSysToken());

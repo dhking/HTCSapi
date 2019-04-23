@@ -19,7 +19,7 @@ namespace Api.Controllers
     {
         RenovationService service = new RenovationService();
         //分页查询
-        [JurisdictionAuthorize(name = new string[] { "Renovation/" })]
+        [JurisdictionAuthorize(name = new string[] { "Renovation" })]
         [Route("api/Renovation/Querylist")]
         public SysResult<List<WrapRenovation>> Querylist(Renovation model)
         {

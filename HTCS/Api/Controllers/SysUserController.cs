@@ -88,7 +88,21 @@ namespace Api.Controllers
                 reslut.Message = "请先登录";
                 return reslut;
             }
-            return service.QueryUser(user);
+            return service.QueryUser(model);
+        }
+        [Route("api/Sysuser/QueryUser1")]
+        public SysResult<T_SysUser> QueryUser1(T_SysUser model)
+        {
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            SysResult<T_SysUser> reslut = new SysResult<T_SysUser>();
+            if (user == null)
+            {
+                reslut.Code = 1002;
+                reslut.Message = "请先登录";
+                return reslut;
+            }
+            reslut.numberData = user;
+            return reslut;
         }
         //个人信息查询APP
         [Route("api/Sysuser/appQueryUser")]
@@ -157,6 +171,8 @@ namespace Api.Controllers
         }
         //新增用户
         [Route("api/Sysuser/addUser")]
+        [JurisdictionAuthorize(name = new string[] { "zsysuser-edit-bt" })]
+        
         public SysResult addUser(T_SysUser model)
         {
             model.userimg = "moren.png";
@@ -172,7 +188,8 @@ namespace Api.Controllers
             model.CompanyId = user.CompanyId;
             return service.addUser(model);
         }
-
+        
+        [JurisdictionAuthorize(name = new string[] { "sysuser" })]
         [Route("api/Sysuser/Querylist")]
         public SysResult<List<T_SysUser>> Querylist(T_SysUser model)
         {

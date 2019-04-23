@@ -19,6 +19,7 @@ namespace Model.Base
         public string title { get; set; }
 
         public string content { get; set; }
+        public string htmlcontent { get; set; }
         [NotMapped]
         public int onlinesign { get; set; }
         public int isdefault { get; set; }
@@ -38,15 +39,15 @@ namespace Model.Base
 
         public string phone { get; set; }
 
-        public string name { get; set; }
+       
 
         public long CompanyId { get; set; }
-        public string account { get; set; }
+      
 
         public decimal Amount { get; set; }
 
         public decimal orderamount { get; set; }
-        public string bank { get; set; }
+        
     
         public string url { get; set; }
 
@@ -56,22 +57,28 @@ namespace Model.Base
 
         public int onlinesign { get; set; }
 
+        public int rentmessage { get; set; }
+
         public int Zfrz { get; set; }
 
         public int IdenTity { get; set; }
-
-        public string zfb { get; set; }
-
-        public string wx { get; set; }
-
-        public string zfbname { get; set; }
-
-        public string wxname { get; set; }
 
         public long contractnumber { get; set; }
 
         public long smsnumber { get; set; }
 
+        //企业名称
+        public string name { get; set; }
+        //机构代码
+        public string certificate { get; set; }
+        //企业地址
+        public string address { get; set; }
+        //企业联系人
+        public string contact { get; set; }
+        //是否颁发证书
+        public int isreg { get; set; }
+        //品牌
+        public string brand { get; set; }
         [NotMapped]
         public string yzm { get; set; }
     }

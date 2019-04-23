@@ -24,7 +24,15 @@ namespace Service
         {
             SysResult result = new SysResult();
             //检查房间是否绑定智能电表
-
+            if (model.Otherfee != null)
+            {
+               if( model.Otherfee.Count != model.Otherfee.Select(c => new { c.Name }).Distinct().Count())
+                {
+                    result.Code = 1;
+                    result.Message = "押金或杂费项不能重复";
+                    return result;
+                }
+            }
             //判断是新增还是修改
             int type = 0;
             if (model.Id != 0)
@@ -91,7 +99,7 @@ namespace Service
                             model.Yajin.ForEach(p => p.IsYajin = 1);
                             other = context.SaveOtherFee(model.Yajin, ContractId);
                         }
-                        bool re = context.CmdBill(ContractId, "system",type, out errmsg);
+                        bool re = context.CmdBill(ContractId, "system",type, model.issendmessage, out errmsg);
                         //添加日志
                         RzService rzservice = new Service.RzService();
                         rzservice.contractaddrz(model.HouseId, sysuser.Id, model.CompanyId, type);
@@ -287,6 +295,7 @@ namespace Service
             SysResult<WrapContract> result = new SysResult<WrapContract>();
             ContrctDAL dal = new ContrctDAL();
             WrapContract cont =dal.Querycontract(model.Id);
+            result.numberData = cont;
             bool iselec = false;
             if (cont == null)
             {
@@ -300,7 +309,7 @@ namespace Service
                 result.Code = 1;
                 return result;
             }
-            if (cont.issign != 1 && cont.Document ==null)
+            if (cont.onlinesign == 1 && cont.Document ==null)
             {
                 result.Message = "电子签约身份证号不能为空";
                 result.Code = 1;
@@ -315,19 +324,35 @@ namespace Service
             //查询电子合同数量
             if (cont.onlinesign == 1)
             {
-                SysResult sresult = new SysResult();
-                sresult = checkelec(cont.Id, cont.CompanyId);
-                if (sresult.Code == 0)
+                BaseDataDALL bdal = new DAL.BaseDataDALL();
+                T_account account = bdal.queryaccount(cont.CompanyId);
+                if (account != null)
                 {
-                    iselec = true;
+                    if (account.contractnumber > 0)
+                    {
+                        SignService signservice = new SignService();
+                        //企业证书创建
+                        if (account.name != null && account.certificate != null && account.address != null && account.contact != null)
+                        {
+                            if (account.isreg == 0)
+                            {
+                                SysResult regresult = signservice.entpReg(new SignVersion() { name = account.name, certificate = account.certificate, address = account.address, user_code = ConvertHelper.GetMd5HashStr(account.CompanyId.ToStr()), contact = account.contact, mobile = account.phone });
+                                if (regresult.Code == 0)
+                                {
+                                    account.isreg = 1;
+                                    bdal.saveaccount1(account);
+                                }
+                            }     
+                        }
+                        iselec = true;
+                        
+                    }
+                    //电子签约
+                    if (cont.onlinesign == 1 && iselec == true)
+                    {
+                        return result = signonline(cont, account);
+                    }
                 }
-                if (sresult.Code !=0&&sresult.Code != 1)
-                {
-                    result.Message = sresult.Message;
-                    result.Code = sresult.Code;
-                    return result;
-                }
-
             }
             dal.SaveContrct1(new T_Contrct() { Id=cont.Id,Status=5});
             //授权电子钥匙
@@ -346,23 +371,16 @@ namespace Service
                     kjxser.sendzk(key, new syspara() { UserName = cont.Phone,CompanyId= mo.CompanyId });
                 }
             }
-            //电子签约
-            if (cont.onlinesign == 1)
-            {
-              
-
-              return  result=signonline(cont);
-            }
+           
             result.Message = "签约成功";
             result.Code = 0;
             return result;
         }
         
-        public SysResult<WrapContract> signonline(WrapContract model)
+        public SysResult<WrapContract> signonline(WrapContract model, T_account account )
         {
             SysResult<WrapContract> result = new SysResult<WrapContract>();
             SignService signservice = new SignService();
-            
             //个人证书创建
             if (model.issign == 0&& model.Document!=null)
             {
@@ -373,12 +391,25 @@ namespace Service
             CreateWord word = new DAL.Common.CreateWord();
             BaseDataService tempservice = new BaseDataService();
             T_template temp = tempservice.morenQuery(model).numberData;
-            word.Create(temp.content,filename);
+            temp.content = addusercode(temp.content, ConvertHelper.GetMd5HashStr(model.TeantId.ToStr()), ConvertHelper.GetMd5HashStr(account.CompanyId.ToStr()), account.name, model.Name);
+            word.SaveAsWord(temp.content, filename);
             //提交合同文本
             signservice.createForWord(new SignVersion() { no = model.Id.ToStr(), filename = filename });
+            //企业自动签署
+            result = signservice.signAuto(new SignVersion() { no = model.Id.ToStr(), user_code = ConvertHelper.GetMd5HashStr(account.CompanyId.ToStr()), sign_type = "自动签署" });
             //签署合同点击签署
-            result= signservice.signAuto(new SignVersion() { no = model.Id.ToStr(), user_code = ConvertHelper.GetMd5HashStr(model.TeantId.ToStr()),sign_type= "SIGNATURE" });
+            result = signservice.signAuto(new SignVersion() { no = model.Id.ToStr(), user_code = ConvertHelper.GetMd5HashStr(model.TeantId.ToStr()),sign_type= "SIGNATURE" });
             return result;
+        }
+        public string addusercode(string content,string usercode,string encode,string jianame,string yiname)
+        {
+            string insertuser = "<span style='margin-left:15px;color:snow;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + usercode + " </span>";
+            string inserten = "<span style='margin-left:15px;color:snow;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + encode + "</span>";
+            int startindex = content.IndexOf(yiname)+ yiname.Length;
+            content=content.Insert(startindex, insertuser);
+            startindex = content.IndexOf(jianame) + jianame.Length;
+            content=content.Insert(startindex, inserten);
+            return content;
         }
         //钥匙授权期限
         public SysResult getcontractbylock(string lockid,out long start,out long end)
@@ -418,11 +449,11 @@ namespace Service
             }
             if (account.contractnumber == 0)
             {
-                warp.onlinesignstr += "电子合同不足,签约后无法律效应。";
+                warp.onlinesignstr += "电子合同不足;";
             }
             if (account.smsnumber == 0)
             {
-                warp.onlinesignstr += "短信不足，无法发送短信。";
+                warp.onlinesignstr += "短信不足";
             }
             List<CEnum> paytype = new List<CEnum>();
             paytype.Add(new CEnum() { key = 1, Value = "支付宝" });
@@ -434,27 +465,31 @@ namespace Service
             type.Add(new CEnum() { key = 1, Value = "日租" });
             type.Add(new CEnum() { key = 2, Value = "月租" });
             warp.type = type;
-            //List<CEnum> firstpay = new List<CEnum>();
-            //firstpay.Add(new CEnum() { key = 1, Value = "押一付一" });
-            //firstpay.Add(new CEnum() { key = 2, Value = "押一付二" });
-            //firstpay.Add(new CEnum() { key = 3, Value = "押三付二" });
-            //warp.Add(new WrapEnum() { name = "firstpay", value = firstpay });
+            //普通频率
             List<CEnum> pinlv = new List<CEnum>();
-            pinlv.Add(new CEnum() { key = 0, Value = "随租金支付" });
             pinlv.Add(new CEnum() { key = 1, Value = "一月一付" });
             pinlv.Add(new CEnum() { key = 2, Value = "二月一付" });
             pinlv.Add(new CEnum() { key = 3, Value = "三月一付" });
             pinlv.Add(new CEnum() { key = 6, Value = "六月一付" });
             pinlv.Add(new CEnum() { key = 12, Value = "一年一付" });
             pinlv.Add(new CEnum() { key = 24, Value = "两年一付" });
-            pinlv.Add(new CEnum() { key = 99, Value = "一次付清" });
             warp.pinlv = pinlv;
+            //杂费频率
+            List<CEnum> zafeipinlv = new List<CEnum>();
+            zafeipinlv.Add(new CEnum() { key = 0, Value = "随租金支付" });
+            zafeipinlv.Add(new CEnum() { key = 1, Value = "一月一付" });
+            zafeipinlv.Add(new CEnum() { key = 2, Value = "二月一付" });
+            zafeipinlv.Add(new CEnum() { key = 3, Value = "三月一付" });
+            zafeipinlv.Add(new CEnum() { key = 6, Value = "六月一付" });
+            zafeipinlv.Add(new CEnum() { key = 12, Value = "一年一付" });
+            zafeipinlv.Add(new CEnum() { key = 24, Value = "两年一付" });
+            zafeipinlv.Add(new CEnum() { key = 999, Value = "一次付清" });
+            warp.zafeipinlv = zafeipinlv;
             List<CEnum> work = new List<CEnum>();
             work.Add(new CEnum() { key = 1, Value = "程序员" });
             work.Add(new CEnum() { key = 2, Value = "业务员" });
             work.Add(new CEnum() { key = 3, Value = "金融规划师" });
             warp.work = work;
-            
             List<CEnum> Hobby = new List<CEnum>();
             Hobby.Add(new CEnum() { key = 1, Value = "足球" });
             Hobby.Add(new CEnum() { key = 2, Value = "篮球" });
@@ -462,7 +497,6 @@ namespace Service
             warp.Hobby = Hobby;
             List<T_ZafeiList> zafeilist = new List<T_ZafeiList>();
             warp.zafei = dal.Query(new T_ZafeiList() {IsActive=1,TuiType=0 });
-          
             result.numberData = warp; 
             return result;
         }

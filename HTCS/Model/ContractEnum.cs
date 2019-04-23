@@ -18,6 +18,7 @@ namespace Model
         public List<CEnum> paytype { get; set; }
         public List<CEnum> type { get; set; }
         public List<CEnum> pinlv { get; set; }
+        public List<CEnum> zafeipinlv { get; set; }
         public List<CEnum> work { get; set; }
         public List<CEnum> Hobby { get; set; }
         public List<T_ZafeiList> zafei { get; set; }

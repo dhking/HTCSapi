@@ -60,6 +60,7 @@
     <Compile Include="Bill\T_Bill.cs" />
     <Compile Include="Bill\T_BillList.cs" />
     <Compile Include="Bill\T_WrapBill.cs" />
+    <Compile Include="clean.cs" />
     <Compile Include="ContractEnum.cs" />
     <Compile Include="Contrct\T_OwernContract.cs" />
     <Compile Include="Contrct\T_Contrct.cs" />

@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Burgeon.Wing3.Release", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopSdk", "alipay-sdk-NET-3.0.1\AopSdk.csproj", "{9C11CAE5-5188-4E71-825B-68FC3135728A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignApplication", "C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj", "{FBF20963-EA41-473C-8C57-9DB1018BFB55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignApplication", "SignApplication.NET\SignApplication\SignApplication\SignApplication.csproj", "{FBF20963-EA41-473C-8C57-9DB1018BFB55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

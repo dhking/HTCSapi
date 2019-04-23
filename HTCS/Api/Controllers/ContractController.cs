@@ -1,4 +1,5 @@
 ﻿using API.CommonControllers;
+using DAL.Common;
 using DBHelp;
 using Model;
 using Model.Contrct;
@@ -18,7 +19,19 @@ namespace Api.Controllers
     public class ContractController :DataCenterController
     {
         ContrctService service = new ContrctService();
-        [Route("api/Contract/SaveData")] 
+        //测试生成word
+        [Route("api/Contract/Create")]
+        [HttpPost]
+        public SysResult Create(T_Contrct model)
+        {
+            SysResult sysresult = new SysResult();
+            CreateWord dal =  new CreateWord();
+            //dal.SaveAsWord(@"D:\Contract\contract_615.docx");
+            dal.SaveAsWord(@"<h2 style='text-align:left;'>你好</ h2 >我是企业", @"D:\Contract\1.doc");
+            return sysresult;
+        }
+        [Route("api/Contract/SaveData")]
+        [JurisdictionAuthorize(name = new string[] { "zcontract-add-btn", "menu-edit-btn" })]
         public SysResult SaveHouse(T_Contrct model)
         {
             string jsonData = JsonConvert.SerializeObject(model);

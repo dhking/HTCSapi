@@ -14,6 +14,7 @@ namespace Api.Controllers
     public class MenuController : DataCenterController
     {
         MenuService service = new MenuService();
+        [JurisdictionAuthorize(name = new string[] { "menu" })]
         [Route("api/Menu/Querymenu")]
         public Model.SysResult<List<T_Menu>> Querymenu()
         {
@@ -41,6 +42,8 @@ namespace Api.Controllers
 
         }
         [Route("api/Menu/SaveMenu")]
+        [JurisdictionAuthorize(name = new string[] { "menu-add-btn", "menu-edit-btn" })]
+        
         public SysResult SaveMenu(T_Menu model)
         {
             return service.Savemenu(model);

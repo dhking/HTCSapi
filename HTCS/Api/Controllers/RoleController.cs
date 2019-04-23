@@ -98,20 +98,29 @@ namespace Api.Controllers
         [Route("api/Role/save")]
         public SysResult save(T_SysRole bill)
         {
+            SysResult sysresult = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            bill.CompanyId = user.CompanyId;
             return service.save(bill);
         }
         [Route("api/rolr/Queryrole")]
         public SysResult<T_SysRole> QueryUser(T_SysRole model)
         {
-
+           
             return service.QueryUser(model);
         }
         //删除
         [Route("api/tongyong/delete")]
+        [JurisdictionAuthorize(isty = 1)]
         [HttpPost]
         public SysResult delete(iids ids)
         {
-
             return service.delete(ids);
         }
     }

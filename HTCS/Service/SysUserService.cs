@@ -11,6 +11,7 @@ using Model.Menu;
 using Model.Bill;
 using Model.Base;
 using Model.House;
+using DAL.Common;
 
 namespace Service
 {
@@ -101,7 +102,8 @@ namespace Service
                 JWTHelp jwt = new JWTHelp();
                 T_SysUser reuser = new T_SysUser();
                 reuser = user;
-                string access_token = jwt.getToken(user.Name, user.Password);
+                //string access_token = jwt.getToken(user.Name, user.Password);
+                string access_token = ConvertHelper.GetMd5HashStr(reuser.Id.ToStr()); ;
                 RedisHtcs rds = new RedisHtcs();
                 string key = "sysuser_key" + access_token;
                 reuser.Id = user.Id;
@@ -323,7 +325,57 @@ namespace Service
             
             return req;
         }
+        //一一公寓
+        //public yzRequest GetRequest(int Type, string Phone)
+        //{
+        //    yzRequest req = new yzRequest();
+        //    req.Phone = Phone;
+        //    req.yzm = getguid();
+        //    req.Type = Type;
+        //    if (Type == 1)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163438170";
+        //    }
+        //    if (Type == 2)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163432944";
+        //    }
+        //    if (Type == 3)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163438171";
+        //    }
+        //    if (Type == 4)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163438168";
+        //    }
+        //    if (Type == 5)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163432943";
+        //    }
+        //    if (Type == 6)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163438166";
+        //    }
+        //    //绑定合同
+        //    if (Type == 7)
+        //    {
+        //        req.TemplateCode = "SMS_163432942";
+        //    }
+        //    //支付密码
+        //    if (Type == 8)
+        //    {
+        //        req.Temp = "{\"number\":\"" + req.yzm + "\"}";
+        //        req.TemplateCode = "SMS_163438167";
+        //    }
 
+        //    return req;
+        //}
         public SysResult withdrawal(T_Record model)
         {
             SysResult result = new SysResult();
@@ -612,6 +664,7 @@ namespace Service
         public SysResult addUser(T_SysUser model)
         {
             SysResult result = new SysResult();
+            T_SysUser user = new T_SysUser();
             Dictionary<string, string> dic = getstr(model.storeid);
             model.area = dic["area"];
             model.city = dic["city"];
@@ -622,12 +675,23 @@ namespace Service
                     PushService pushservice = new PushService();
                     pushservice.Zhuce(new ParamPhsh() { Mobile = model.Name, deviceid = model.registrationId });
                 }
-              
-                result = result.SuccessResult("添加成功");
+                if (model.Id != 0)
+                {
+                    T_SysUser query = dal.QueryUerbyid(new T_SysUser() { Id = model.Id });
+                    List<T_SysUserRole> listrole = dal.listrole(user.Id);
+                    List<long> roleids = listrole.Select(p => p.SysRoleId).ToList();
+                    query.listpression = Querybasepressionbuuser(roleids).numberData;
+                    JWTHelp jwt = new JWTHelp();
+                    string access_token =ConvertHelper.GetMd5HashStr(model.Id.ToStr());
+                    RedisHtcs rds = new RedisHtcs();
+                    string key = "sysuser_key" + access_token;
+                    rds.SetModel<T_SysUser>(key, query);
+                }
+                result = result.SuccessResult("保存成功");
             }
             else
             {
-                result = result.SuccessResult("添加失败");
+                result = result.SuccessResult("保存失败");
             }
             return result;
         }

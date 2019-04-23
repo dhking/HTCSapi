@@ -26,6 +26,8 @@ namespace Model.House
         public string PrivateTeshe { get; set; }
         public string PrivatePeibei { get; set; }
         public string PrivateImage { get;set;}
+        [NotMapped]
+        public string PublicImage { get; set; }
         public int Status { get; set; }
         public DateTime RecentTime { get; set; }
         public int IsRm { get; set; }

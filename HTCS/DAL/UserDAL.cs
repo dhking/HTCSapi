@@ -28,7 +28,7 @@ namespace DAL
         public T_SysUser Login(T_SysUser model)
         {
             T_SysUser user = new T_SysUser();
-            var data = from n in BbUser where (n.Mobile == model.Mobile && n.Password == model.Password)|| (n.Name == model.Name && n.Password == model.Password) select n;
+            var data = from n in BbUser where (n.Mobile == model.Mobile && n.Password == model.Password) select n;
             user = data.FirstOrDefault();
 
 
@@ -43,7 +43,7 @@ namespace DAL
         }
         public T_SysUser QueryUerbyid(T_SysUser model)
         {
-            var data = from n in BbUser select n;
+            var data = (from n in BbUser select n).AsNoTracking();
             Expression<Func<T_SysUser, bool>> where = m => 1 == 1;
             if (model.Id != 0)
             {
@@ -80,7 +80,7 @@ namespace DAL
             }
             else
             {
-                PLModifiedModel<T_SysUser>(model, false);
+                PLModifiedModel<T_SysUser>(model, false,new string[] {"CompanyId" });
                 if (model.listrole != null)
                 {
                     foreach (var mo in model.listrole)

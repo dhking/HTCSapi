@@ -24,6 +24,8 @@ namespace Mapping.cs
             Property(m => m.isdefault).HasColumnName("ISDEFAULT");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
             Property(m => m.ispublic).HasColumnName("ISPUBLIC");
+            Property(m => m.htmlcontent).HasColumnName("HTMLCONTENT");
+            
         }
     }
     public class BaseDataMaping : BaseEntityTypeMap<T_Basics>
@@ -73,8 +75,7 @@ namespace Mapping.cs
             Property(m => m.name).HasColumnName("NAME");
             Property(m => m.onlinesign).HasColumnName("ONLINESIGN");
             Property(m => m.phone).HasColumnName("PHONE");
-            Property(m => m.account).HasColumnName("ACCOUNT");
-            Property(m => m.bank).HasColumnName("BANK");
+           
             Property(m => m.orderamount).HasColumnName("ORDERAMOUNT");
             Property(m => m.password).HasColumnName("PASSWORD");
             Property(m => m.OnlinePay).HasColumnName("ONLINEPAY");
@@ -84,13 +85,16 @@ namespace Mapping.cs
             Property(m => m.Amount).HasColumnName("AMOUNT");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
 
+            Property(m => m.rentmessage).HasColumnName("RENTMESSAGE");
 
-            Property(m => m.zfb).HasColumnName("ZFB");
-            Property(m => m.wx).HasColumnName("WX");
-            Property(m => m.zfbname).HasColumnName("ZFBNAME");
-            Property(m => m.wxname).HasColumnName("WXNAME");
+            Property(m => m.name).HasColumnName("NAME");
+            Property(m => m.certificate).HasColumnName("CERTIFICATE");
+            Property(m => m.address).HasColumnName("ADDRESS");
+            Property(m => m.contact).HasColumnName("CONTACT");
+            Property(m => m.isreg).HasColumnName("ISREG");
             Property(m => m.contractnumber).HasColumnName("CONTRACTNUMBER");
             Property(m => m.smsnumber).HasColumnName("SMSNUMBER");
+            Property(m => m.brand).HasColumnName("BRAND");
         }
     }
     public class tuoguanMaping : BaseEntityTypeMap<t_tuoguan>

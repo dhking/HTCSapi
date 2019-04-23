@@ -18,6 +18,15 @@ namespace Model
         public string sign_type { get; set; }
         public long  ContractId { get; set; }
 
+
+        public string certificate { get; set; }
+        public string address { get; set; }
+        public string contact { get; set; }
+
+
+        public string mobile { get; set; }
+        public string signature_type { get; set; }
+
     }
     public class Signresult
     {

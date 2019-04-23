@@ -17,7 +17,7 @@ namespace Api.Controllers
     public class BillController: DataCenterController
     {
         BillService service = new BillService();
-        [JurisdictionAuthorize(name = new string[] { "bill" })]
+        [JurisdictionAuthorize(name = new string[] { "z-bill", "y-bill" })]
         [Route("api/Bill/Querylist")]
        
         public SysResult<List<T_WrapBill>> Querypeibei(T_WrapBill model)
@@ -76,6 +76,7 @@ namespace Api.Controllers
         }
        
         [HttpPost]
+        [JurisdictionAuthorize(name = new string[] { "bill-edit-btn" })]
         [Route("api/Bill/edit")]
         public SysResult edit(PlAction<T_BillList, T_BillList> model)
         {
@@ -85,11 +86,13 @@ namespace Api.Controllers
         [Route("api/Bill/receive")]
         public SysResult receive(T_Bill bill)
         {
-            bill.NotUpdatefield = new string[] { "TeantId", "BeginTime", "EndTime", "HouseId", "HouseType", "CreatePerson", "ShouldReceive", "ContractId", "Amount", "Explain", "payee", "accounts", "bank", "type","sign" };
+            bill.NotUpdatefield = new string[] { "Object", "TeantId", "BeginTime", "EndTime", "HouseId", "HouseType", "CreatePerson", "ShouldReceive", "ContractId", "Amount", "Explain", "payee", "accounts", "bank", "type","sign", "BillType" };
             return service.savebill(bill);
         }
         [HttpPost]
         [Route("api/Bill/save")]
+        
+        [JurisdictionAuthorize(name = new string[] { "bill-add-btn"})]
         public SysResult save(T_Bill bill)
         {
             SysResult sysresult = new SysResult();
@@ -106,6 +109,8 @@ namespace Api.Controllers
         //账单详情
         [HttpPost]
         [Route("api/Bill/Querybillbyid")]
+        [JurisdictionAuthorize(name = new string[] { "bill-view-btn", "ybill-view-btn" })]
+        
         public SysResult<T_WrapBill> Querybillbyid(T_WrapBill model)
         {
             return service.Querybase(model);
@@ -113,6 +118,7 @@ namespace Api.Controllers
         //账单手动收款
         [HttpPost]
         [Route("api/Bill/receivebill")]
+        [JurisdictionAuthorize(name = new string[] { "fukuan" })]
         public SysResult receivebill(T_Bill model)
         {
             return service.receive(model);
@@ -127,6 +133,7 @@ namespace Api.Controllers
         }
         //催租短信
         [HttpPost]
+        [JurisdictionAuthorize(name = new string[] { "bill-sendmessage-btn" })]
         [Route("api/Bill/cuizu")]
         public SysResult cuizu(T_WrapBill model)
         {
@@ -136,6 +143,7 @@ namespace Api.Controllers
         //批量催租短信
         [HttpPost]
         [Route("api/Bill/pcuizu")]
+        [JurisdictionAuthorize(name = new string[] { "bill-sendmessage-btn" })]
         public SysResult pcuizu(List<T_WrapBill> model)
         {
             SysUserService sysservice = new SysUserService();

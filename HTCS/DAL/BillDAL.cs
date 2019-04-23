@@ -88,7 +88,7 @@ namespace DAL
                     {
                         where = where.And(c => user.citys.Contains(c.CityName));
                     }
-                    where = where.Or(c => model.Status != 2);
+                    //where = where.Or(c => model.Status != 2);
                 }
             }
             
@@ -427,7 +427,23 @@ namespace DAL
         }
         public T_Bill queryid(T_Bill model)
         {
-            var mo = from m in Bill where m.Id == model.Id select m;
+            var mo = (from m in Bill where m.Id == model.Id select m).AsNoTracking();
+            return mo.FirstOrDefault();
+        }
+
+
+        public T_Bill queryby(T_Bill model)
+        {
+            var mo = from m in Bill  select m;
+            Expression<Func<T_Bill, bool>> where = m => 1 == 1;
+            if (model.ContractId != 0)
+            {
+                where = where.And(p => p.ContractId == model.ContractId);
+            }
+            if (model.stage != 0)
+            {
+                where = where.And(p => p.stage == model.stage);
+            }
             return mo.FirstOrDefault();
         }
 

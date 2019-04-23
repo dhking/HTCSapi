@@ -59,6 +59,7 @@
     <Compile Include="Bill\T_BillMapping.cs" />
     <Compile Include="ButtonMapping.cs" />
     <Compile Include="CellNameMapping.cs" />
+    <Compile Include="cleanMapping.cs" />
     <Compile Include="Contrct\OwerContractMapping.cs" />
     <Compile Include="FinanceMapping.cs" />
     <Compile Include="CityMapping.cs" />

@@ -29,7 +29,7 @@ namespace Api.Controllers
             sysresult = service.Querymenu();
             return sysresult;
         }
-        
+        [JurisdictionAuthorize(name = new string[] { "editzafei", "addzafei" })]
         [Route("api/Zafei/Savezafei")]
         public SysResult Savezafei(T_ZafeiList model)
         {
@@ -40,6 +40,7 @@ namespace Api.Controllers
         {
             return service.Queryid(model);
         }
+        [JurisdictionAuthorize(name = new string[] { "deletezafei" })]
         [Route("api/Zafei/delete")]
         [HttpPost]
         public SysResult delete(iids ids)

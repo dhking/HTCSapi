@@ -120,7 +120,7 @@ namespace DAL
                 List<T_Otherfee> fee = new List<T_Otherfee>();
                 fee = QueryFee(contract.Id);
                 List<T_Otherfee> otherfee = fee.Where(p => p.IsYajin == 0).ToList();
-                List<T_Otherfee> jajin = fee.Where(p => p.IsYajin == 1).ToList();
+                List<T_Otherfee> jajin = fee.Where(p => p.IsYajin == 1).DistinctBy(p => p.Name).ToList();
                 contract.Otherfee = otherfee;
                 contract.Yajin = jajin;
             }

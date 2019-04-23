@@ -127,7 +127,7 @@ namespace DAL
         }
 
         //pc端运营数据
-        public DataSet StatisticsPCQuery1(DateTime month)
+        public DataSet StatisticsPCQuery1(DateTime month,long companyid)
         {
 
             OracleCommand cmd = new OracleCommand();
@@ -136,6 +136,10 @@ namespace DAL
             paramwmscode.Direction = ParameterDirection.Input;
             paramwmscode.Value = month;
             cmd.Parameters.Add(paramwmscode);
+            OracleParameter pararcompany = new OracleParameter("rcompany", OracleDbType.Int64);
+            pararcompany.Direction = ParameterDirection.Input;
+            pararcompany.Value = companyid;
+            cmd.Parameters.Add(pararcompany);
             OracleParameter paramCode = new OracleParameter("Code", OracleDbType.Int16);
             paramCode.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(paramCode);
@@ -201,9 +205,20 @@ namespace DAL
             IOrderByExpression<T_memo> order = new OrderByExpression<T_memo, long>(p => p.Id, true);
             return this.QueryableForList<T_memo>(data, orderablePagination, order);
         }
-        public List<t_appstatistics> queryappstatistics()
+        public List<t_appstatistics> queryappstatistics(t_appstatistics model)
         {
             var mo = from m in appstatistics select m;
+            Expression<Func<t_appstatistics, bool>> where = m => 1 == 1;
+            if (model.Value != 0)
+            {
+                where = where.And(m => m.Value == model.Value);
+                where = where.And(m => m.Key == "Month");
+            }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            mo = mo.Where(where);
             return mo.ToList();
         }
         public DbSet<T_memo> Bbmeno { get; set; }

@@ -51,7 +51,10 @@ namespace DAL
         }
         public bool SetModel<T>(string key, T model)
         {
-            return redisClient.Set<T>(key, model);
+            //设置10天过期
+            bool str = redisClient.Set<T>(key, model);
+            str = redisClient.Expire(key, 10*24*3600);
+            return str;
         }
         public T GetModel<T>(string key)
         {

@@ -39,14 +39,18 @@ namespace Model
      
 
     }
+    public class weilfanhui
+    {
+
+    }
     public class SysResult
     {
         public int Code { get; set; }
-
+        public weilfanhui numberData { get; set; }
         public string Message { get; set; }
         public SysResult()
         {
-           
+            numberData = new Model.weilfanhui();
         }
 
         public SysResult(int code, string message)

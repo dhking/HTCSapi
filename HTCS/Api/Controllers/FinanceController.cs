@@ -26,6 +26,8 @@ namespace Api.Controllers
     {
         FinanceService service = new FinanceService();
         //财务流水分页查询
+        
+        [JurisdictionAuthorize(name = new string[] { "liushui/" })]
         [Route("api/Finance/Querylist")]
         public SysResult<List<WrapFinanceModel>> Querylist(FinanceModel model)
         {

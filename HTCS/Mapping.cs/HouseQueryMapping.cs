@@ -33,8 +33,9 @@ namespace Mapping.cs
             Property(m => m.uuid).HasColumnName("UUID");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
             Property(m => m.ParentRoomid).HasColumnName("PARENTROOMID");
-         
-
+            Property(m => m.nowfloor).HasColumnName("NOWFLOOR");
+            Property(m => m.allfloor).HasColumnName("ALLFLOOR");
+            Property(m => m.measure).HasColumnName("MEASURE");
         }
     }
 

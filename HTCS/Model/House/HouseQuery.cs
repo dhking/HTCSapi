@@ -82,6 +82,11 @@ namespace Model.House
         public long ParentRoomid { get; set; }
         
         public string uuid { get; set; }
+
+        public int nowfloor { get; set; }
+        public int allfloor { get; set; }
+
+        public int measure { get; set; }
     }
     public class HouseLockQuery : BasicModel
     {

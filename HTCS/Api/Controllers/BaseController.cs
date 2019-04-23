@@ -44,6 +44,7 @@ namespace Api.Controllers
             sysresult = service.bankcardQuery();
             return sysresult;
         }
+        [JurisdictionAuthorize(name = new string[] { "muban" })]
         [Route("api/template/Query")]
         public SysResult<List<T_template>> templateQuery(T_template model)
         {
@@ -80,7 +81,7 @@ namespace Api.Controllers
             sysresult = service.morenQuery(model);
             return sysresult;
         }
-       
+        [JurisdictionAuthorize(name = new string[] { "addmuban" , "editmuban" })]
         [Route("api/template/add")]
         public SysResult templateadd(T_template model)
         {
@@ -217,6 +218,7 @@ namespace Api.Controllers
             }
             return sysresult;
         }
+        [JurisdictionAuthorize(name = new string[] { "addzidian", "editzidian" })]
         [Route("api/BaseData/SaveData")]
         public SysResult SaveHouse(T_Basics model)
         {
@@ -245,6 +247,8 @@ namespace Api.Controllers
             result = service.SaveTypeData(model);
             return result;
         }
+        
+        [JurisdictionAuthorize(name = new string[] { "zcontract-delete-btn"})]
         [Route("api/BaseData/delete")]
         [HttpPost]
         public SysResult delete(iids ids)
@@ -261,7 +265,7 @@ namespace Api.Controllers
             if (ids.spname != null && ids.spname != "")
             {
                 ProceService proservie = new ProceService();
-              return  proservie.CmdProce1(new Pure() { Id = ids.ids, Spname = ids.spname, Other = user.Id.ToStr() });
+                return  proservie.CmdProce1(new Pure() { Id = ids.ids, Spname = ids.spname, Other = user.Id.ToStr() });
             }
             foreach (var mo in model)
             {

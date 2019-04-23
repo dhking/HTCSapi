@@ -3,6 +3,7 @@ using DAL;
 using Microsoft.International.Converters.PinYinConverter;
 using Model;
 using Model.Base;
+using Model.Bill;
 using Model.Contrct;
 using Model.User;
 using System;
@@ -49,49 +50,94 @@ namespace Service
             ContrctDAL contdal = new ContrctDAL();
             //合同信息
             WrapContract wrap = contdal.QueryId(model);
-            T_template temp = dal.morenQuery();
+            if (wrap == null)
+            {
+                result.Code = 1;
+                result.Message = "合同不存在";
+                return result;
+            }
+            T_template temp = dal.morenQuery(new T_template() { isdefault = 1, CompanyId = model.CompanyId });
+            if (temp == null)
+            {
+                result.Code = 1;
+                result.Message = "请至少添加一条合同模板并设置为默认";
+                return result;
+            }
             temp.onlinesign = wrap.onlinesign;
-            temp.content = replace(wrap, temp.content);
+            temp.content = replace(wrap, temp.htmlcontent);
             result.numberData = temp;
             return result;
         }
         public string replace(WrapContract wrap,string str)
         {
             string oristr = str;
-            Dictionary<string, string> dicstring = new Dictionary<string, string>();
-            dicstring.Add("{甲方品牌}", "上海破浪信息有限公司");
-            dicstring.Add("{甲方名称}", "上海破浪信息有限公司");
-            dicstring.Add("{乙方名称}", wrap.Teant.Name);
-            dicstring.Add("{租客姓名}", wrap.Teant.Name);
-            dicstring.Add("{租客证件号}", wrap.Teant.Zidcard);
-            dicstring.Add("{租客电话}", wrap.Teant.Phone);
-            dicstring.Add("{城市}","吉林市");
-            dicstring.Add("{物理地址}", wrap.HouseName);
-            dicstring.Add("{楼层}", "");
-            dicstring.Add("{总层高}", "");
-            dicstring.Add("{房间面积}", "");
-            dicstring.Add("{合同起始日期}", wrap.BeginTime.ToStr());
-            dicstring.Add("{合同结束日期}", wrap.EndTime.ToStr());
-            dicstring.Add("{合同总周期}", (wrap.EndTime-wrap.BeginTime).Days.ToStr());
-            dicstring.Add("{交房日期}", wrap.BeginTime.ToStr());
-            dicstring.Add("{押金金额}", wrap.Deposit.ToStr());
-            dicstring.Add("{租金清单}", "");
-            dicstring.Add("{其他费用清单}", "");
-            dicstring.Add("{支付时间}", "每月15号");
-            dicstring.Add("{首付款金额}", "每月15号");
-            foreach(var mo in dicstring)
+            //查询公司信息
+            BaseDataDALL bdal = new BaseDataDALL();
+            T_account account = bdal.queryaccount(wrap.CompanyId);
+            //查询账单
+            BillDAL bildal = new BillDAL();
+            T_Bill bill= bildal.queryby(new Model.Bill.T_Bill() { ContractId = wrap.Id, stage = 1 });
+            if (account != null)
             {
-                oristr=oristr.Replace(mo.Key, mo.Value);
+                string zujinlist = "";
+                string otherlist = "";
+                string paystr = "";
+                string firtpay = "";
+                zujinlist = "月租金" + wrap.Recent +"元;"+ wrap.Pinlv + "月1付";
+                if (wrap.Otherfee != null)
+                {
+                    foreach (var mo in wrap.Otherfee)
+                    {
+                        otherlist += mo.Name+";";
+                    }
+                }
+                if (wrap.Recivetype == 1)
+                {
+                    paystr = "账单开始前"+wrap.BeforeDay+"天收租";
+                }
+                if (wrap.Recivetype == 2)
+                {
+                    paystr = "固定每月" + wrap.BeforeDay + "号收租";
+                }
+                if (bill != null)
+                {
+                    firtpay = bill.Amount.ToStr();
+                }
+                Dictionary<string, string> dicstring = new Dictionary<string, string>();
+                dicstring.Add("{甲方品牌}", account.brand);
+                dicstring.Add("{甲方名称}", account.name);
+                dicstring.Add("{乙方名称}", wrap.Teant.Name);
+                dicstring.Add("{租客姓名}", wrap.Teant.Name);
+                dicstring.Add("{租客证件号}", wrap.Teant.Document);
+                dicstring.Add("{租客电话}", wrap.Teant.Phone);
+                dicstring.Add("{城市}", wrap.CityName);
+                dicstring.Add("{物理地址}", wrap.HouseName);
+                dicstring.Add("{楼层}", wrap.floor.ToStr());
+                dicstring.Add("{总层高}", wrap.allfloor.ToStr());
+                dicstring.Add("{房间面积}", wrap.mesure.ToStr());
+                dicstring.Add("{合同起始日期}", wrap.BeginTime.ToStr());
+                dicstring.Add("{合同结束日期}", wrap.EndTime.ToStr());
+                dicstring.Add("{合同总周期}", (wrap.EndTime - wrap.BeginTime).Days.ToStr());
+                dicstring.Add("{交房日期}", wrap.BeginTime.ToStr());
+                dicstring.Add("{押金金额}", wrap.Deposit.ToStr());
+                dicstring.Add("{租金清单}", zujinlist);
+                dicstring.Add("{其他费用清单}", otherlist);
+                dicstring.Add("{支付时间}", paystr);
+                dicstring.Add("{首付款金额}", firtpay);
+                foreach (var mo in dicstring)
+                {
+                    oristr = oristr.Replace(mo.Key, mo.Value);
+                }
             }
             return oristr;
         }
         public SysResult templateadd(T_template model)
         {
             SysResult result = new SysResult();
-            model.NotUpdatefield = new string[] { "title","isdefault", "CompanyId" };
+            model.NotUpdatefield = new string[] { "title","isdefault", "CompanyId", "ispublic" };
             dal.templateadd(model);
             result.Code =0;
-            result.Message ="添加成功";
+            result.Message ="保存成功";
             return result;
         }
         public SysResult templateadd1(T_template model)

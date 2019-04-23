@@ -89,15 +89,26 @@ namespace Model
     //月度统计
     public class MonthPersent
     {
-
-        public long dataall { get; set; }
+        public long CompanyId { get; set; }
+    public long dataall { get; set; }
 
         public long dataself { get; set; }
 
         public int type { get; set; }
         public decimal percent { get; set; }
-
+        public string percentstr { get; set; }
         public DateTime month { get; set; }
+    }
+    //月度统计
+    public class MonthPersent1
+    {
+       public MonthPersent kz { get; set; }
+
+       public MonthPersent xz { get; set; }
+
+       public caiwu caiwu { get; set; }
+
+      
     }
     public class chushou
     {
@@ -221,12 +232,11 @@ namespace Model
     {
         public int Month { get; set; }
         public decimal realshouru { get; set; }
-
         public decimal realzhifu { get; set; }
-
+        public decimal realjieyu { get; set; }
         public decimal viralshou { get; set; }
-
         public decimal viralfu { get; set; }
+        public decimal viraljieyu { get; set; }
 
     }
 

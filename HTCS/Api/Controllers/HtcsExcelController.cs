@@ -102,6 +102,7 @@ namespace Api.Controllers
         [JurisdictionAuthorize(name = new string[] { "dexcel" })]
         //独栋导出
         [Route("api/HtcsExcel/hhouseexcel")]
+        [JurisdictionAuthorize(name = new string[] { "dexcel" })]
         public ActionResult dhouseexcel(Excel model)
         {
             HouseModel hmodel = JsonConvert.DeserializeObject<HouseModel>(model.search);

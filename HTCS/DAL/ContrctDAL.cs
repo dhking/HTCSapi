@@ -717,8 +717,15 @@ namespace DAL
                            payee = m.payee,
                            accounts =m.accounts,
                            bank = m.bank,
-                           onlinesign=m.onlinesign
-                         
+                           onlinesign=m.onlinesign,
+                           //房间信息
+                           CityName = x.CityName,
+                           floor = x == null ? 0 : x.nowfloor,
+                           allfloor = x == null ? 0 : x.allfloor,
+                           mesure = x == null ? 0 : x.measure,
+                           CompanyId= x == null ? 0 : x.CompanyId
+
+
                        };
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;
             if (model.Id != 0)
@@ -749,7 +756,7 @@ namespace DAL
                 {
                     m.strPinlv = DAL.Common.ConvertHelper.pinlv(m.Pinlv);
                 }
-                List<T_Otherfee> jajin = fee.Where(p => p.IsYajin == 1).ToList();
+                List<T_Otherfee> jajin = fee.Where(p => p.IsYajin == 1).DistinctBy(p=>p.Name).ToList();
                 contract.Otherfee = otherfee;
                 contract.Yajin = jajin;
             }
@@ -946,7 +953,7 @@ namespace DAL
         {
             return ModifiedModel1<T_Otherfee>(model, false,arr);
         }
-        public bool CmdBill(long ContractId,string opera,int type, out string  errmsg)
+        public bool CmdBill(long ContractId,string opera,int type,int issendmessage, out string  errmsg)
         {
             errmsg = "";
             var cmd = this.Database.Connection.CreateCommand();
@@ -958,12 +965,16 @@ namespace DAL
             paramShopId.Direction = ParameterDirection.Input;
             paramShopId.Value = opera;
             cmd.Parameters.Add(paramShopId);
-
+            //操作类型
             OracleParameter paratype = new OracleParameter("paratype", OracleDbType.Varchar2);
             paratype.Direction = ParameterDirection.Input;
             paratype.Value = type;
             cmd.Parameters.Add(paratype);
-
+            //是否发送短信
+            OracleParameter sendmessage = new OracleParameter("sendmessage", OracleDbType.Varchar2);
+            sendmessage.Direction = ParameterDirection.Input;
+            sendmessage.Value = issendmessage;
+            cmd.Parameters.Add(sendmessage);
             OracleParameter code = new OracleParameter("code", OracleDbType.Int16);
             code.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(code);
@@ -1121,6 +1132,7 @@ namespace DAL
                             Deposit = m.Deposit,
                             Recent = m.Recent,
                             Pinlv = m.PinLv,
+                            TeantId =t == null ? 0 : t.Id,
                             Phone = t == null ? "" : t.Phone,
                             CellName = x == null ? "" : x.CellName,
                             HouseName = x == null ? "" : x.Name,
@@ -1133,6 +1145,7 @@ namespace DAL
                             HouseId = x == null ? 0 : x.Id,
                             onlinesign=m.onlinesign,
                             issign=t.issign,
+                            CompanyId=t.CompanyId,
                             Document=t.Document
                         });
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;

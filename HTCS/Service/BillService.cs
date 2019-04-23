@@ -58,6 +58,11 @@ namespace Service
             SysResult result = new SysResult();
             try
             {
+                T_Bill querybill = dal.queryid(new T_Bill() { Id = bill.Id });
+                if (querybill.PayStatus ==1)
+                {
+                    return result = result.FailResult("账单已完成不能编辑");
+                }
                 if (bill.list !=null)
                 {
                     bill.Amount = bill.list.Sum(p => p.Amount);
@@ -69,7 +74,7 @@ namespace Service
                 if (bill.Id != 0)
                 {
                     RzService service = new RzService();
-                    service.addzdrz(bill.HouseId, userid, bill.CompanyId, 2);
+                    service.addzdrz(querybill,bill,userid);
                 }
                 if (dal.save(bill) >0)
                 {
@@ -87,6 +92,12 @@ namespace Service
             SysResult result = new SysResult();
             try
             {
+                //检查状态
+                T_Bill querybill = dal.queryid(new T_Bill() { Id = bill.Id });
+                if (querybill.PayStatus != 0)
+                {
+                  return  result = result.FailResult("账单状态错误不能收款");
+                }
                 bill.PayStatus = 1;
                 if (dal.savebill(bill) > 0)
                 {

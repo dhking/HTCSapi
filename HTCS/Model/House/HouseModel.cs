@@ -53,7 +53,7 @@ namespace Model
         public long storeid { get; set; }
    
         public string Adress { get; set; }
-        public long BuildingNumber { get; set; }
+        public string BuildingNumber { get; set; }
         public int Unit { get; set; }
         public int Province { get; set; }
         public int City { get; set; }

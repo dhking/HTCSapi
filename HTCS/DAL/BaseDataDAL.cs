@@ -48,17 +48,20 @@ namespace DAL
         //模板列表
         public List<T_template> templateQuery(T_template model)
         {
-            SysResult<List<T_template>> sysresult = new SysResult<List<T_template>>();
+            List<T_template> list1 = new List<T_template>();
+            //List<T_template> list2 = new List<T_template>();
             var data = from a in template select a;
+            //var data1 = from b in template where b.ispublic== 1 select b;
             Expression<Func<T_template, bool>> where = m => 1 == 1;
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
-                where = where.Or(m => m.ispublic == model.ispublic);
+               
             }
-         
             data = data.Where(where);
-            return data.ToList();
+            list1 = data.ToList();
+            //list2 = data1.ToList();
+            return list1.ToList();
         }
         public T_template xqQuery(T_template model)
         {
@@ -76,12 +79,29 @@ namespace DAL
             return data.FirstOrDefault();
         }
         //默认模板
-
-        public T_template morenQuery()
+        public T_template morenQuery(T_template model)
         {
-          
-            var data = from a in template where a.isdefault==1 select a;
-            return data.FirstOrDefault();
+            T_template temp = new T_template();
+            var data = from a in template  select a;
+            Expression<Func<T_template, bool>> where = m => m.ispublic == 0;
+            if (model.isdefault != 0)
+            {
+                where = where.And(m => m.isdefault == model.isdefault);
+            }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            if (data.Count() > 0)
+            {
+                temp= data.FirstOrDefault();
+            }
+            else
+            {
+                var data1 = from a in template where a.ispublic==1 select a;
+                temp = data1.FirstOrDefault();
+            }
+            return temp;
         }
         //添加模板
         public int templateadd(T_template model)
@@ -94,7 +114,7 @@ namespace DAL
             }
             else
             {
-                return ModifiedModel1<T_template>(model, false, model.NotUpdatefield);
+                return ModifiedModel<T_template>(model, false, model.NotUpdatefield);
             }
 
         }

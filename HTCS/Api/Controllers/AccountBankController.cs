@@ -20,18 +20,13 @@ namespace Api.Controllers
     public class AccountBankController : DataCenterController
     {
         AcountBankService service = new AcountBankService();
-         //收款账户
+        //收款账户
+        [JurisdictionAuthorize(name = new string[] { "set/base/receive" })]
         [Route("api/Account/list")]
         public SysResult<List<accountbank>> Accountlist(accountbank model)
         {
             SysResult<List<accountbank>> result = new SysResult<List<accountbank>>();
             T_SysUser user = GetCurrentUser(GetSysToken());
-            if (user == null)
-            {
-                result.Code = 1002;
-                result.Message = "请登录先";
-                return result;
-            }
             model.CompanyId = user.CompanyId;
             return service.Accountlist(model);
         }

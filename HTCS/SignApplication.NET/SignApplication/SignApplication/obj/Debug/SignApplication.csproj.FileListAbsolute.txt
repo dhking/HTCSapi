@@ -25,3 +25,17 @@ C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\
 C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.exe
 C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.pdb
 C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.csprojResolveAssemblyReference.cache
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.exe.config
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.exe
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.csprojResolveAssemblyReference.cache
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.configWin.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.createContract.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.download.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.Form1.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.selectType.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.user.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.Properties.Resources.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.csproj.GenerateResource.Cache
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.exe
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.pdb

@@ -111,9 +111,10 @@ namespace Service
             long housecount = 0;
             //查询公寓
             HouseModel house = dal.Queryhouse(model);
-            model.Id = house.Id;
+          
             if (house != null)
             {
+                model.Id = house.Id;
                 //楼层查询
                 List<T_Floor> floor = pentdal.follorlist(model, dtmo, orderpaging,out housecount);
                 //房间查询

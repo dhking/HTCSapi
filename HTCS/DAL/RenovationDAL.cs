@@ -30,11 +30,11 @@ namespace DAL
                      from t in temp.DefaultIfEmpty()
                      select new WrapRenovation() { Id=m.Id, HouseName = t.Name, budget =m.budget , createtime =m.createtime, createperson=m.createperson, CompanyId=t==null?0:t.CompanyId };
             Expression<Func<WrapRenovation, bool>> where = m => 1 == 1;
-            mo = mo.Where(where);
             if (model.CompanyId != model.CompanyId)
             {
                 where = where.And(p => p.CompanyId == model.CompanyId);
             }
+            mo = mo.Where(where);
             IOrderByExpression<WrapRenovation> order = new OrderByExpression<WrapRenovation, DateTime>(p => p.createtime, true);
             return this.QueryableForList<WrapRenovation>(mo, orderablePagination, order);
         }

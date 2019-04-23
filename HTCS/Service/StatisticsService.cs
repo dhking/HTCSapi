@@ -139,7 +139,7 @@ namespace Service
             house shouse = new house();
             house chouse = new house();
             guest guest = new guest();
-            List<t_appstatistics> appstatistics = dal.queryappstatistics();
+            List<t_appstatistics> appstatistics = dal.queryappstatistics(new t_appstatistics() { });
             foreach(var mo in appstatistics)
             {
                 if(mo.Key== "realshouru")
@@ -158,26 +158,12 @@ namespace Service
                 {
                     caiwu.viralfu = mo.Value;
                 }
-                if (mo.Key == "viralshou")
-                {
-                    caiwu.viralshou = mo.Value;
-                }
+               
                 if (mo.Key == "Month")
                 {
                     caiwu.Month = (int)mo.Value;
                 }
-                //if (mo.Key == "percent")
-                //{
-                //    kz.percent = mo.Value;
-                //}
-                //if (mo.Key == "all")
-                //{
-                //    kz.all = (int)mo.Value;
-                //}
-                //if (mo.Key == "kz")
-                //{
-                //    kz.kz = (int)mo.Value;
-                //}
+                
                 //查询空置率
                 Stock stock = hdal.querykz();
                 kz.kz =stock.Vacancy;
@@ -249,13 +235,60 @@ namespace Service
             return result;
         }
         //pc端数据统计2
-        public SysResult<WrappcStatic> PCHome1(MonthPersent model)
+        public SysResult<MonthPersent1> PCHome1(MonthPersent model)
         {
-            SysResult<WrappcStatic> result = new SysResult<WrappcStatic>();
-            WrappcStatic wrap = new WrappcStatic();
-            DataSet ds = dal.StatisticsPCQuery1(model.month);
+            SysResult<MonthPersent1> result = new SysResult<MonthPersent1>();
+            MonthPersent1 wrap = new MonthPersent1();
+            DataSet ds = dal.StatisticsPCQuery1(model.month,model.CompanyId);
             //空置率和续租率
-            wrap.Table4 = EntityHelper.GetEntityListByDT<MonthPersent>(ds.Tables[0], null);
+            List<MonthPersent> Table4 = EntityHelper.GetEntityListByDT<MonthPersent>(ds.Tables[0], null);
+            if (Table4 != null)
+            {
+                foreach (var mo in Table4)
+                {
+                    mo.percentstr = (mo.percent * 100).ToString();
+                    if (mo.type == 2)
+                    {
+                        wrap.xz = mo;
+                    }
+                    if (mo.type == 3)
+                    {
+                        wrap.kz = mo;
+                    }
+                }
+            }
+            //查询财务信息
+            caiwu caiwu = new caiwu();
+            List<t_appstatistics> appstatistics = dal.queryappstatistics(new t_appstatistics() { Value = model.month.Month });
+            if (appstatistics != null)
+            {
+                foreach (var mo in appstatistics)
+                {
+                    if (mo.Key == "realshouru")
+                    {
+                        caiwu.realshouru = mo.Value;
+                    }
+                    if (mo.Key == "realzhifu")
+                    {
+                        caiwu.realzhifu = mo.Value;
+                    }
+                    if (mo.Key == "viralshou")
+                    {
+                        caiwu.viralshou = mo.Value;
+                    }
+                    if (mo.Key == "viralfu")
+                    {
+                        caiwu.viralfu = mo.Value;
+                    }
+                    caiwu.realjieyu = caiwu.realshouru - caiwu.realzhifu;
+                    caiwu.viraljieyu = caiwu.viralshou - caiwu.viralfu;
+                    if (mo.Key == "Month")
+                    {
+                        caiwu.Month = (int)mo.Value;
+                    }
+                }
+            }
+            wrap.caiwu = caiwu;
             result.numberData = wrap;
             return result;
         }

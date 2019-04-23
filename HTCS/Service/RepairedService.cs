@@ -68,6 +68,16 @@ namespace Service
             return result;
 
         }
+        //后台报修详情
+        public SysResult<WrapRepaire> hQueryxq(Guest model)
+        {
+            WrapRepaire list = new WrapRepaire();
+            SysResult<WrapRepaire> result = new SysResult<WrapRepaire>();
+            list = dal.hQueryxq(model);
+            result.numberData = list;
+            return result;
+
+        }
         //接单
         public SysResult Receipt(RepairList model)
         {

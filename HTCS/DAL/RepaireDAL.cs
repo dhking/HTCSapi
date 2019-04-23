@@ -139,13 +139,36 @@ namespace DAL
                        where m.Id == model.Id
                        select new WrapRepaire(){ HouseId=m.HouseId, Id = m.Id, Phone =m.Phone,Adress=m.Adress, City=m.City,Area=m.Area, AppiontTime =m.AppiontTime,House=m.House,JournaList=m.JournaList};
             remodel = data.FirstOrDefault();
-            remodel.Ipimgadess = "http://106.14.96.37:82/";
             if (remodel != null)
             {
+                remodel.Ipimgadess = "http://106.14.96.37:82/";
                 var data1 = (from m in BbRepairelist
                              join n in BbUser on m.UserId equals n.Id into temp
                              from t in temp.DefaultIfEmpty()
                              where m.RepairId == remodel.Id select new WrapRepairList() {Id=m.Id,Project=m.Project,Status=m.Status,Urgent=m.Urgent,Image=m.Image,Imageweixiu=m.Imageweixiu,Content=m.Content,UserName=t.RealName,UserPhone=t.Mobile,Remark=m.Remark});
+                remodel.list = data1.OrderByDescending(a => a.Id).ToList();
+            }
+            return remodel;
+        }
+        //根据子表查主表
+        public WrapRepaire hQueryxq(Guest model)
+        {
+            WrapRepaire remodel = new WrapRepaire();
+            var data = from m in BbRepaire
+                       join n in BbRepairelist
+                       on m.Id equals n.RepairId into temp
+                       from t in temp.DefaultIfEmpty()
+                       where t.Id == model.Id
+                       select new WrapRepaire() { HouseId = m.HouseId, Id = m.Id, Phone = m.Phone, Adress = m.Adress, City = m.City, Area = m.Area, AppiontTime = m.AppiontTime, House = m.House, JournaList = m.JournaList };
+            remodel = data.FirstOrDefault();
+            if (remodel != null)
+            {
+                remodel.Ipimgadess = "http://106.14.96.37:82/";
+                var data1 = (from m in BbRepairelist
+                             join n in BbUser on m.UserId equals n.Id into temp
+                             from t in temp.DefaultIfEmpty()
+                             where m.RepairId == remodel.Id
+                             select new WrapRepairList() { Id = m.Id, Project = m.Project, Status = m.Status, Urgent = m.Urgent, Image = m.Image, Imageweixiu = m.Imageweixiu, Content = m.Content, UserName = t.RealName, UserPhone = t.Mobile, Remark = m.Remark });
                 remodel.list = data1.OrderByDescending(a => a.Id).ToList();
             }
             return remodel;

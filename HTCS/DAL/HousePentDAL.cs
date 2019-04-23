@@ -133,6 +133,7 @@ namespace DAL
                 HousePendent model = new HousePendent();
                 var housename = getzimu(i);
                 model.Name = housename;
+                model.RecentTime = DateTime.Now;
                 model.CompanyId=
                 model.Status = 1;
                 model.sign = 4;
