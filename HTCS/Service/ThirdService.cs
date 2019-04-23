@@ -122,7 +122,7 @@ namespace Service
             {
                 BaseDataDALL dal = new BaseDataDALL();
                 model.CompanyId = CompanyId;
-                dal.saveaccount(model, new string[] { "OnlinePay", "onlinesign" });
+                dal.saveaccount(model, new string[] { "rentmessage", "OnlinePay", "onlinesign" });
             }
             else
             {
