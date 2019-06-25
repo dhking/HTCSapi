@@ -196,7 +196,18 @@ namespace Api.Controllers
         [Route("api/Repaire/shaixuan")]
         public SysResult<WrapShaixuan> shaixuan(WrapCell model)
         {
-            return service.shaixuan(model);
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            SysResult<WrapShaixuan> sysresult = new SysResult<WrapShaixuan>();
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            string[] citys = getcity(user);
+            string[] cellname = getcity(user);
+            return service.shaixuan(model, citys, cellname,user);
         }
     }
 }

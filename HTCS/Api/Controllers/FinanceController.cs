@@ -89,46 +89,47 @@ namespace Api.Controllers
         public SysResult test(T_SysUser model)
         {
             SysResult result = new SysResult();
-            try
-            {
-                
-               
-                WebSocket socket = websocket.CONNECT_POOL[model.Id.ToStr()];
-                UserDAL1 dal = new UserDAL1();
-                RoleDAL roledal = new RoleDAL();
-                SysUserService service = new SysUserService();
-                List<T_SysUserRole> listrole = dal.listrole(model.Id);
-                T_SysUser user = new T_SysUser();
-                List<long> roleids = listrole.Select(p => p.SysRoleId).ToList();
-                user.roles = roledal.queryrole(roleids);
-                user.listpression = service.Querybasepressionbuuser(roleids).numberData;
-                string neft = JsonConvert.SerializeObject(user);
-                Socket resocket = new Socket();
-                resocket.UserId = model.Id.ToStr();
-                resocket.Type = "2";
-                resocket.Value = neft;
-                string neft2 = JsonConvert.SerializeObject(resocket);
-                if (websocket.CONNECT_POOL.ContainsKey(model.Id.ToStr()))//判断客户端是否在线
-                {
-                     ProcessWSChat(socket, neft2, model.Id.ToStr());
-                }
-                else
-                {
-                    Task.Run(() =>
-                    {
-                        if (!websocket.CONNECT_POOL.ContainsKey(model.Id.ToStr()))//将用户添加至离线消息池中
-                            websocket.LXCONNECT_POOL.Add(model.Id.ToStr(), new List<string>());
-                        websocket.LXCONNECT_POOL[model.Id.ToStr()].Add(neft2);//添加离线消息
-                    });
-                }
-                
-              
-            }
-            catch(Exception ex)
-            {
+      
+            //try
+            //{
 
-            }
-          
+
+            //    WebSocket socket = websocket.CONNECT_POOL[model.Id.ToStr()];
+            //    UserDAL1 dal = new UserDAL1();
+            //    RoleDAL roledal = new RoleDAL();
+            //    SysUserService service = new SysUserService();
+            //    List<T_SysUserRole> listrole = dal.listrole(model.Id);
+            //    T_SysUser user = new T_SysUser();
+            //    List<long> roleids = listrole.Select(p => p.SysRoleId).ToList();
+            //    user.roles = roledal.queryrole(roleids);
+            //    user.listpression = service.Querybasepressionbuuser(roleids).numberData;
+            //    string neft = JsonConvert.SerializeObject(user);
+            //    Socket resocket = new Socket();
+            //    resocket.UserId = model.Id.ToStr();
+            //    resocket.Type = "2";
+            //    resocket.Value = neft;
+            //    string neft2 = JsonConvert.SerializeObject(resocket);
+            //    if (websocket.CONNECT_POOL.ContainsKey(model.Id.ToStr()))//判断客户端是否在线
+            //    {
+            //         ProcessWSChat(socket, neft2, model.Id.ToStr());
+            //    }
+            //    else
+            //    {
+            //        Task.Run(() =>
+            //        {
+            //            if (!websocket.CONNECT_POOL.ContainsKey(model.Id.ToStr()))//将用户添加至离线消息池中
+            //                websocket.LXCONNECT_POOL.Add(model.Id.ToStr(), new List<string>());
+            //            websocket.LXCONNECT_POOL[model.Id.ToStr()].Add(neft2);//添加离线消息
+            //        });
+            //    }
+
+
+            //}
+            //catch(Exception ex)
+            //{
+
+            //}
+
             return result;
         }
         private async Task ProcessWSChat(WebSocket socket,string str,string userid)

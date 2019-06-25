@@ -88,7 +88,7 @@ namespace Api.Controllers
             string strdate = DateTime.Now.ToString("yyyyMMddhhmmss");//获取当前时间
             return File(bytes, "application/vnd.ms-excel", strdate + "Excel.xls");
         }
-        
+       
         //合租导出
         [JurisdictionAuthorize(name = new string[] { "hexcel" })]
         [Route("api/HtcsExcel/hhouseexcel")]
@@ -106,7 +106,7 @@ namespace Api.Controllers
         public ActionResult dhouseexcel(Excel model)
         {
             HouseModel hmodel = JsonConvert.DeserializeObject<HouseModel>(model.search);
-            byte[] bytes = sercice.dhouseexcel(hmodel);
+            byte[] bytes = sercice.dhouseexcel(hmodel,null,null);
             string strdate = DateTime.Now.ToString("yyyyMMddhhmmss");//获取当前时间
             return File(bytes, "application/vnd.ms-excel", strdate + "Excel.xls");
         }
@@ -190,6 +190,14 @@ namespace Api.Controllers
             stream.Close();
 
             return File(imgByte,"application/octet-stream", fileName);
+        }
+        //下载word文件
+        [Route("api/downcontract/word")]
+        public ActionResult downword(Excel model)
+        {
+            byte[] bytes = sercice.downword(model.Id);
+            string strdate = DateTime.Now.ToString("yyyyMMddhhmmss");//获取当前时间
+            return File(bytes, "application/vnd.ms-excel", strdate + "contract.docx");
         }
     }
 }

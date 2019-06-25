@@ -1,12 +1,14 @@
 ﻿using API.CommonControllers;
 using ControllerHelper;
 using DAL.Common;
+using DBHelp;
 using Microsoft.Owin;
 using Model;
 using Model.Base;
 using Model.Bill;
 using Model.Menu;
 using Model.User;
+using Newtonsoft.Json;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -57,8 +59,25 @@ namespace Api.Controllers
         public SysResult<T_SysUser> Login(T_SysUser model)
         {
             SysResult<T_SysUser> result = new SysResult<T_SysUser>();
+            //LogService log = new LogService();
+            //string jsonData = JsonConvert.SerializeObject(model);
+            //log.logInfo("登陆消息" + jsonData);
             result = service.Login(model);
           
+            return result;
+        }
+        [Route("api/Sysuser/isquit")]
+        public SysResult isquit(T_SysUser model)
+        {
+            SysResult result = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            result = service.isquit(model);
             return result;
         }
         [Route("api/Sysuser/Logout")]
@@ -264,8 +283,18 @@ namespace Api.Controllers
         public SysResult<List<T_SysRole>> Querylistrolenopage(T_SysRole model)
         {
             SysResult<List<T_SysRole>> sysresult = new SysResult<List<T_SysRole>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                SysResult<List<T_SysRole>> result = new SysResult<List<T_SysRole>>();
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            model.CompanyId = user.CompanyId;
             try
             {
+
                 sysresult = service.Querylistrolenopage(model);
             }
             catch (Exception ex)
@@ -430,6 +459,74 @@ namespace Api.Controllers
             }
             return sysresult;
         }
-   
+        //查询部门
+        [Route("api/Sysrole/Querydepartment")]
+        [HttpPost]
+        public SysResult<List<wrapdepartment>> Querydepartment(wrapdepartment model)
+        {
+            SysResult<List<wrapdepartment>> sysresult = new SysResult<List<wrapdepartment>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.companyid = user.CompanyId;
+            sysresult = service.Querydepartment(model);
+            return sysresult;
+        }
+
+        [Route("api/Sysrole/Querydepartlist")]
+        [HttpPost]
+        public SysResult<List<t_department>> Querypage(wrapdepartment model)
+        {
+            SysResult<List<t_department>> sysresult = new SysResult<List<t_department>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.companyid = user.CompanyId;
+            sysresult = service.Querypage(model);
+            return sysresult;
+        }
+        //新增部门
+        [Route("api/Sysrole/adddepartment")]
+        [HttpPost]
+        public SysResult adddepartment(t_department model)
+        {
+            SysResult sysresult = new SysResult();
+            string token = GetSysToken();
+            T_SysUser user = GetCurrentUser(token);
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.companyid = user.CompanyId;
+            sysresult = service.adddepartment(model,user, token);
+            return sysresult;
+        }
+        //查询部门详情
+        [Route("api/Sysrole/queryepartmentid")]
+        [HttpPost]
+        public SysResult<t_department> queryepartmentid(t_department model)
+        {
+            SysResult<t_department> sysresult = new SysResult<t_department>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.companyid = user.CompanyId;
+            sysresult = service.queryepartmentid(model);
+            return sysresult;
+        }
     }
 }

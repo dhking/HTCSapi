@@ -24,7 +24,15 @@ namespace Api.Controllers
         [HttpGet]
         public Model.SysResult<List<T_Menu>> Querylist([FromUri]T_SysUser user)
         {
-            return service.Querylist(user,1);
+            T_SysUser sysuser = GetCurrentUser(GetSysToken());
+            SysResult<List<T_Menu>> reslut = new SysResult<List<T_Menu>>();
+            if (sysuser == null)
+            {
+                reslut.Code = 1002;
+                reslut.Message = "请先登录";
+                return reslut;
+            }
+            return service.Querylist(sysuser);
         }
         [Route("api/Menu/hQuerylist")]
         [HttpPost]

@@ -28,10 +28,8 @@ namespace API.CommonControllers
         public T_SysUser getnewuer(T_SysUser user)
         {
             T_SysUser newuser = new T_SysUser();
-            newuser.storeids = getstore(user.storeid);
-            newuser.areas = getcityorarea(user.area);
-            newuser.citys = getcityorarea(user.city);
             newuser.Id = user.Id;
+            newuser.range = user.range;
             newuser.CompanyId = user.CompanyId;
             return newuser;
         }
@@ -49,17 +47,77 @@ namespace API.CommonControllers
             }
             return arrs;
         }
-        public string[] getcityorarea(string str)
+
+        public string[] getcity(T_SysUser user)
         {
-            long[] arrs = new long[] { };
             string[] strarrs = new string[] { };
-            if (str != null)
+            if (user.range == 2)
             {
-                strarrs = str.Split(",");
+                if (user.departs != null)
+                {
+                    foreach (var mo in user.departs)
+                    {
+                        if (mo != null && mo.city != null)
+                        {
+                            strarrs = strarrs.Concat(mo.city.Split(",")).ToArray();
+                        }
+                    }
+                }
+            }
+            if (user.city!=null)
+            {
+                strarrs = user.city.Split(",");
             }
             return strarrs;
         }
-        
+        public string[] getcellname(T_SysUser user)
+        {
+            string[] strarrs = new string[] { };
+            if (user.range == 2)
+            {
+                if (user.departs != null)
+                {
+                    foreach (var mo in user.departs)
+                    {
+                        if (mo.cellname != null&&mo != null  )
+                        {
+                            if (mo.cellname.Split(",") != null)
+                            {
+                                strarrs = strarrs.Concat(mo.cellname.Split(",")).ToArray();
+                            }
+                            if (user.cellname != null)
+                            {
+                                if (user.cellname.Split(",") != null)
+                                {
+                                    strarrs = strarrs.Concat(user.cellname.Split(",")).ToArray();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (user.cellname != null)
+            {
+                strarrs = user.cellname.Split(",");
+            }
+            return strarrs;
+        }
+        public long[] getuserids(List<t_department> list,long userid)
+        {
+            long[] arrs = new long[] { userid };
+            if (list != null)
+            {
+                foreach (var mo in list)
+                {
+                    if (mo != null && mo.userids != null)
+                    {
+                        arrs = arrs.Concat(Array.ConvertAll<string, long>(mo.userids.Split(","), long.Parse)).ToArray();
+                    }
+                }
+            }
+            return arrs;
+        }
+
         public string GetToken()
         {
             string alltoken;
@@ -104,7 +162,13 @@ namespace API.CommonControllers
             T_SysUser userDto = redis.GetModel<T_SysUser>(token);
             return userDto;
         }
-
+        //得到部门列表
+        public List<long> getdepart(string access_token)
+        {
+            RedisHtcs redis = new RedisHtcs();
+            List<long> depart = redis.GetModel<List<long>>(access_token);
+            return depart;
+        }
         protected ElecUser GetelecUser(String token)
         {
             RedisHtcs redis = new RedisHtcs();

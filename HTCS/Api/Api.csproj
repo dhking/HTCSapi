@@ -320,6 +320,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\webSocketController.cs" />
     <Compile Include="Controllers\WebSysUserController.cs" />
+    <Compile Include="Controllers\SetController.cs" />
     <Compile Include="Controllers\ZafeiController.cs" />
     <Compile Include="Controllers\ZerpController.cs" />
     <Compile Include="Controllers\ZK\HouseZKController.cs" />
@@ -474,6 +475,10 @@
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{EFBD342E-0942-45FE-A54A-368F048BBCF1}</Project>
       <Name>Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web\Web.csproj">
+      <Project>{372D33B5-499D-4DE9-9673-A386D2938AB7}</Project>
+      <Name>Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

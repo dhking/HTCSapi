@@ -17,9 +17,7 @@ namespace Api.CommonControllers
             public T_SysUser getnewuer(T_SysUser user)
             {
                 T_SysUser newuser = new T_SysUser();
-                newuser.storeids = getstore(user.storeid);
-                newuser.areas = getcityorarea(user.area);
-                newuser.citys = getcityorarea(user.city);
+              
                 newuser.Id = user.Id;
                 newuser.CompanyId = user.CompanyId;
                 return newuser;

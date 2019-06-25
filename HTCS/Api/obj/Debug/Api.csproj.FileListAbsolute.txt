@@ -168,6 +168,9 @@ F:\HTCS\HTCS\Api\bin\zh-Hans\Microsoft.Owin.Security.MicrosoftAccount.resources.
 F:\HTCS\HTCS\Api\bin\zh-Hans\System.Web.Http.Owin.resources.dll
 F:\HTCS\HTCS\Api\obj\Debug\Api.dll
 F:\HTCS\HTCS\Api\obj\Debug\Api.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.csprojResolveAssemblyReference.cache
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.Migrations.company.resources
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.csproj.GenerateResource.Cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ApplicationInsights.config
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\roslyn\csc.exe
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -244,8 +247,10 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Jiguang.JPush.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Redis.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\aliyun-net-sdk-core.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\aliyun-net-sdk-dysmsapi.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Aspose.Words.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\NPOI.OOXML.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Mapping.cs.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\CodeFirstStoreFunctions.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\log4net.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Castle.Windsor.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ChnCharInfo.dll
@@ -303,6 +308,7 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Microsoft.Owin.Security.Twitter.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\System.Web.Http.Owin.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Redis.xml
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Aspose.Words.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Mapping.cs.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\log4net.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Castle.Windsor.xml
@@ -333,10 +339,7 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\zh-Hans\Microsoft.Owin.Security.Google.re
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\zh-Hans\Microsoft.Owin.Security.Twitter.resources.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\zh-Hans\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\zh-Hans\System.Web.Http.Owin.resources.dll
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.csprojResolveAssemblyReference.cache
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.Migrations.company.resources
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.csproj.GenerateResource.Cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.pdb
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Aspose.Words.dll
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Aspose.Words.xml
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Web.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Web.pdb

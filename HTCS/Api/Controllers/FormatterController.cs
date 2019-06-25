@@ -1,9 +1,11 @@
 ﻿using API.CommonControllers;
+using DBHelp;
 using Model;
 using Model.Contrct;
 using Model.House;
 using Model.TENANT;
 using Model.User;
+using Newtonsoft.Json;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -37,6 +39,9 @@ namespace Api.Controllers
         [Route("api/Formatter/QueryCell")]
         public SysResult<List<WrapCell>> QueryCellname(WrapCell model)
         {
+            LogService log = new LogService();
+            string jsonData = JsonConvert.SerializeObject(model);
+            log.logInfo("筛选参数" + jsonData);
             SysResult<List<WrapCell>> sysresult = new SysResult<List<WrapCell>>();
             T_SysUser user = GetCurrentUser(GetSysToken());
             if (user == null)
@@ -46,10 +51,29 @@ namespace Api.Controllers
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            sysresult.numberData = service.Querycell(model);
+            string[] citys = getcity(user);
+            string[] cellname = getcellname(user);
+            sysresult.numberData = service.Querycell(model, citys, cellname, user);
             return sysresult;
         }
-
+        //app 独栋筛选条件
+        [Route("api/Formatter/building")]
+        public SysResult<List<WrapCellBuilding>> building(WrapCell model)
+        {
+            SysResult<List<WrapCellBuilding>> sysresult = new SysResult<List<WrapCellBuilding>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            string[] citys = getcity(user);
+            string[] cellname = getcity(user);
+            sysresult.numberData = service.Querycellbuilding(model, citys, cellname, user);
+            return sysresult;
+        }
         [Route("api/Formatter/QueryPCCell1")]
         public SysResult<List<WrapCell>> QueryCellname1(WrapCell model)
         {
@@ -62,7 +86,9 @@ namespace Api.Controllers
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            sysresult.numberData = service.Querycell1(model);
+            string[] citys = getcity(user);
+            string[] cellname = getcellname(user);
+            sysresult.numberData = service.Querycell1(model, citys, cellname, user);
             return sysresult;
         }
         [Route("api/Formatter/Querystore")]
@@ -78,7 +104,9 @@ namespace Api.Controllers
             }
             model.Type = 4;
             model.CompanyId = user.CompanyId;
-            sysresult.numberData = service.Querystore(model);
+            string[] citys = getcity(user);
+            string[] cellname = getcellname(user);
+            sysresult.numberData = service.Querystore(model, citys, cellname, user);
             return sysresult;
         }
       

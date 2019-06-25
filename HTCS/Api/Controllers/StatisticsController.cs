@@ -22,12 +22,31 @@ namespace Api.Controllers
         {
             DateTime date = Convert.ToDateTime(obj.date);
             int housetype= Convert.ToInt16(obj.housetype);
-            return service.querystatic(date,housetype);
+            SysResult<StatisticsModel> sysresult = new SysResult<StatisticsModel>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+           
+            return service.querystatic(date,housetype,user.CompanyId);
         }
         [Route("api/Bw/Query")]
         public SysResult<IList<T_memo>> Query(T_memo model)
         {
             SysResult<IList<T_memo>> sysresult = new SysResult<IList<T_memo>>();
+            
+           
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
             sysresult = service.Querybase(model, this.OrderablePagination);
             return sysresult;
@@ -36,6 +55,14 @@ namespace Api.Controllers
         public SysResult bwadd(T_memo model)
         {
             SysResult result = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            model.CompanyId = user.CompanyId;
             service.Savememo(model);
             return result;
         }
@@ -43,7 +70,15 @@ namespace Api.Controllers
         [Route("api/appFinance/todayQuery")]
         public SysResult<WrapStatistics> todayQuery()
         {
-            return service.todayQuery();
+            SysResult<WrapStatistics> result = new SysResult<WrapStatistics>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            return service.todayQuery(user.CompanyId);
         }
         //app运营分析
         [Route("api/appAnalysis/Query")]
@@ -55,14 +90,32 @@ namespace Api.Controllers
         [Route("api/appHome/Query")]
         public SysResult<WrapHome> appHome()
         {
-            return service.HomeQuery();
+            SysResult<WrapHome> result = new SysResult<WrapHome>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            return service.HomeQuery(user.CompanyId);
         }
         //运营统计
         [JurisdictionAuthorize(name = new string[] { "tongji/" })]
         [Route("api/PCHome/Query")]
         public SysResult<WrappcStatic> PCHome()
         {
-            return service.PCHome();
+            SysResult<WrappcStatic> result = new SysResult<WrappcStatic>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+          
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+          
+            return service.PCHome(user.CompanyId);
         }
         //月度统计
         [Route("api/PCHome/Query1")]

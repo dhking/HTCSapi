@@ -177,6 +177,14 @@ namespace Api.Controllers
             SysResult<List<T_SysUser>> sysresult = new SysResult<List<T_SysUser>>();
             try
             {
+                T_SysUser user = GetCurrentUser(GetSysToken());
+                if (user == null)
+                {
+                    sysresult.Code = 1002;
+                    sysresult.Message = "请先登录";
+                    return sysresult;
+                }
+                model.CompanyId = user.CompanyId;
                 sysresult = service.Queryfgy(model);
             }
             catch (Exception ex)

@@ -2,6 +2,7 @@
 using DAL.Common;
 using DBHelp;
 using Model;
+using Model.Bill;
 using Model.Contrct;
 using Model.TENANT;
 using Model.User;
@@ -26,7 +27,6 @@ namespace Api.Controllers
         {
             SysResult sysresult = new SysResult();
             CreateWord dal =  new CreateWord();
-            //dal.SaveAsWord(@"D:\Contract\contract_615.docx");
             dal.SaveAsWord(@"<h2 style='text-align:left;'>你好</ h2 >我是企业", @"D:\Contract\1.doc");
             return sysresult;
         }
@@ -46,7 +46,10 @@ namespace Api.Controllers
                 return result;
             }
             ElecUser elecuser = GetelecUser("elec" + user.CompanyId);
-            model.CreatePerson = user.RealName==null ? user.Mobile : user.RealName;
+            if (model.CreatePerson == 0)
+            {
+                model.CreatePerson = user.Id;
+            }
             model.userid = user.Id;
             model.CompanyId = user.CompanyId;
             T_SysUser newuser = getnewuer(user);
@@ -61,7 +64,6 @@ namespace Api.Controllers
             T_SysUser user = GetCurrentUser(GetSysToken());
             if (user == null)
             {
-            
                 result.Code = 1002;
                 result.Message = "请先登录";
                 return result;
@@ -84,9 +86,8 @@ namespace Api.Controllers
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            T_SysUser newuser = getnewuer(user);
-            model.arrCellNames = getcityorarea(model.CellNames);
-            sysresult = service.Querymenufy(model,this.OrderablePagination,newuser);
+            long[] userids = getuserids(user.departs,user.Id);
+            sysresult = service.Querymenufy(model,this.OrderablePagination, user, userids);
             return sysresult;
         }
         //待退租
@@ -96,7 +97,18 @@ namespace Api.Controllers
         {
             SysResult<List<WrapContract>> sysresult = new SysResult<List<WrapContract>>();
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            sysresult = service.Querytuizu(model, this.OrderablePagination);
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+          
+            model.Status = 6;
+            long[] userids = getuserids(user.departs,user.Id);
+            sysresult = service.Querymenufy(model, this.OrderablePagination,user, userids);
             return sysresult;
         }
         //带抄表查询
@@ -140,6 +152,7 @@ namespace Api.Controllers
         }
         //删除合同
         [Route("api/Contract/delete")]
+        [JurisdictionAuthorize(name = new string[] { "zcontract-delete-btn" })]
         [HttpPost]
         public SysResult delete(T_Contrct model)
         {
@@ -189,6 +202,7 @@ namespace Api.Controllers
             return service.Querytuikuan(model);
         }
         //确认退租
+        [JurisdictionAuthorize(name = new string[] { "zcontract-tuizu-btn" })]
         [Route("api/Contract/tuizu")]
         [HttpPost]
         public SysResult tuizu(TuizuZhu model)
@@ -205,6 +219,7 @@ namespace Api.Controllers
                 return result;
             }
             ElecUser elecuser = GetelecUser("elec" + user.CompanyId);
+            model.CompanyId = user.CompanyId;
             return service.tuikuan(model, elecuser, user);
         }
         //退租租客端
@@ -235,6 +250,7 @@ namespace Api.Controllers
         }
         //续租
         [Route("api/Contract/xuzu")]
+        [JurisdictionAuthorize(name = new string[] { "zcontract-xuzu-btn" })]
         [HttpPost]
         public SysResult xuzu(T_Contrct model)
         {
@@ -250,7 +266,7 @@ namespace Api.Controllers
         {
             string jsonData = JsonConvert.SerializeObject(model);
             LogService log = new LogService();
-            model.arrStatus =new int[] { 1,2, 4, 5, 6,9 };
+            model.arrStatus =new int[] { 2, 5 };
             SysResult<WrapContract> sysresult = new SysResult<WrapContract>();
             sysresult = service.QueryById(model);
             return sysresult;
@@ -263,11 +279,10 @@ namespace Api.Controllers
             SysResult<List<WrapContract>> sysresult = new SysResult<List<WrapContract>>();
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
             model.arrStatus = new int[] { 7 };
-            sysresult = service.Querymenufy(model,this.OrderablePagination,null);
+            sysresult = service.Querymenufy(model,this.OrderablePagination,null,null);
             return sysresult;
         }
         //修改手机号
-      
         [Route("api/Teant/UpdatePhone")]
         [HttpPost]
         public SysResult UpdatePhone(T_Teant model)
@@ -298,6 +313,13 @@ namespace Api.Controllers
         {
             return service.queryteant(model);
         }
-        
+        //预览租客合同账单
+        [Route("api/Contract/previewbill")]
+        [HttpPost]
+        public SysResult<List<T_Bill>> previewbill(paraCreate model)
+        {
+            CreateBillService preservice = new CreateBillService();
+            return preservice.getbill(model);
+        }
     }
 }

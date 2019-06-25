@@ -17,6 +17,7 @@ namespace Api.Controllers
     {
         OwerContractService service = new OwerContractService();
         [Route("api/OwerContract/SaveData")]
+        [JurisdictionAuthorize(name = new string[] { "ycontract-add-btn"})]
         public SysResult SaveHouse(T_OwernContrct model)
         {
             string jsonData = JsonConvert.SerializeObject(model);
@@ -31,7 +32,10 @@ namespace Api.Controllers
                 return result;
             }
             ElecUser elecuser = GetelecUser("elec" + user.CompanyId);
-            model.CreatePerson = user.RealName == null ? user.Mobile : user.RealName;
+            if (model.CreatePerson == 0)
+            {
+                model.CreatePerson = user.Id;
+            }
             model.CompanyId = user.CompanyId;
             return service.SaveContract(model,user.Id);
         }
@@ -51,8 +55,8 @@ namespace Api.Controllers
             }
             model.CompanyId = user.CompanyId;
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            T_SysUser newuser = getnewuer(user);
-            sysresult = service.Querymenufy(model, this.OrderablePagination, newuser);
+            long[] userids = getuserids(user.departs,user.Id);
+            sysresult = service.Querymenufy(model, this.OrderablePagination, userids,user);
             return sysresult;
         }
         //合同详情
@@ -78,26 +82,44 @@ namespace Api.Controllers
             return service.Querytuikuan(model);
         }
         //确认退租
+        [JurisdictionAuthorize(name = new string[] { "ycontract-tuizu-btn" })]
         [Route("api/OwerContract/tuizu")]
         [HttpPost]
         public SysResult tuizu(TuizuZhu model)
         {
             LogService log = new LogService();
-            string jsonData = JsonConvert.SerializeObject(model);
-            log.logInfo("确认退租参数" + jsonData);
-            return service.tuikuan(model);
+            SysResult sysresult = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.tuikuan(model,user.Id);
         }
         //删除合同
         [Route("api/OwerContract/delete")]
+        [JurisdictionAuthorize(name = new string[] { "ycontract-delete-btn" })]
         [HttpPost]
         public SysResult delete(T_OwernContrct model)
         {
             SysResult sysresult = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.userid = user.Id;
             sysresult = service.DeleteContract(model);
             return sysresult;
         }
         //续租
         [Route("api/OwerContract/xuzu")]
+        [JurisdictionAuthorize(name = new string[] { "ycontract-xuzu-btn" })]
         [HttpPost]
         public SysResult xuzu(T_OwernContrct model)
         {
@@ -112,6 +134,26 @@ namespace Api.Controllers
         public SysResult istuizu(TuizuZhu model)
         {
             return service.istuikuan(model);
+        }
+        //待退租
+        [Route("api/owerContract/tuizuQuery")]
+        [HttpPost]
+        public SysResult<List<WrapOwernContract>> tuizuQuery(WrapOwernContract model)
+        {
+            SysResult<List<WrapOwernContract>> sysresult = new SysResult<List<WrapOwernContract>>();
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            model.Status = 6;
+            long[] userids = getuserids(user.departs,user.Id);
+            sysresult = service.Querymenufy(model, this.OrderablePagination, userids, user);
+            return sysresult;
         }
     }
 }

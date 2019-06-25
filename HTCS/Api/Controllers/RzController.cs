@@ -43,6 +43,7 @@ namespace Api.Controllers
             }
             ElecUser elecuser = GetelecUser("elec" + user.CompanyId);
             model.createperson = user.Id;
+            model.companyid = user.CompanyId;
             return service.save1(model);
         }
     }

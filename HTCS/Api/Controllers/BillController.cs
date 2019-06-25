@@ -36,10 +36,34 @@ namespace Api.Controllers
                     return sysresult;
                 }
                 model.CompanyId = user.CompanyId;
-                T_SysUser newuser = getnewuer(user);
-                model.arrCellNames = getcityorarea(model.CellNames);
+                long[] userids = getuserids(user.departs,user.Id);
                 InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-                sysresult = service.Querybase(model, this.OrderablePagination, newuser);
+                sysresult = service.Querybase(model, this.OrderablePagination, userids,user);
+            }
+            catch (Exception ex)
+            {
+                sysresult.Code = -1;
+                sysresult.Message = ex.ToString();
+            }
+            return sysresult;
+        }
+     
+        [Route("api/Bill/ContractQuerylist")]
+        public SysResult<List<T_WrapBill>> ContractQuerylist(T_WrapBill model)
+        {
+            SysResult<List<T_WrapBill>> sysresult = new SysResult<List<T_WrapBill>>();
+            try
+            {
+                T_SysUser user = GetCurrentUser(GetSysToken());
+                if (user == null)
+                {
+                    sysresult.Code = 1002;
+                    sysresult.Message = "请先登录";
+                    return sysresult;
+                }
+                model.CompanyId = user.CompanyId;
+                long[] userids = getuserids(user.departs, user.Id);
+                sysresult = service.ContractQuerylist(model, userids, user);
             }
             catch (Exception ex)
             {
@@ -59,7 +83,7 @@ namespace Api.Controllers
             try
             {
                 InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-                sysresult = service.Querybase(model, this.OrderablePagination,null);
+                sysresult = service.Querybase(model, this.OrderablePagination,null,null);
             }
             catch (Exception ex)
             {
@@ -86,7 +110,7 @@ namespace Api.Controllers
         [Route("api/Bill/receive")]
         public SysResult receive(T_Bill bill)
         {
-            bill.NotUpdatefield = new string[] { "Object", "TeantId", "BeginTime", "EndTime", "HouseId", "HouseType", "CreatePerson", "ShouldReceive", "ContractId", "Amount", "Explain", "payee", "accounts", "bank", "type","sign", "BillType" };
+            bill.NotUpdatefield = new string[] { "Object", "TeantId", "BeginTime", "EndTime", "HouseId", "HouseType", "CreatePerson", "ShouldReceive", "ContractId", "Amount", "Explain", "payee", "CompanyId", "accounts", "bank", "type","sign", "BillType" };
             return service.savebill(bill);
         }
         [HttpPost]
@@ -113,6 +137,15 @@ namespace Api.Controllers
         
         public SysResult<T_WrapBill> Querybillbyid(T_WrapBill model)
         {
+            SysResult<T_WrapBill> sysresult = new SysResult<T_WrapBill>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
             return service.Querybase(model);
         }
         //账单手动收款
@@ -154,6 +187,14 @@ namespace Api.Controllers
         public SysResult delete(T_Bill model)
         {
             return service.receive(model);
+        }
+        [HttpPost]
+        [Route("api/zkBill/Querybillbyid")]
+        public SysResult<T_WrapBill> zkQuerybillbyid(T_WrapBill model)
+        {
+            SysResult<T_WrapBill> sysresult = new SysResult<T_WrapBill>();
+            
+            return service.Querybase(model);
         }
     }
 }

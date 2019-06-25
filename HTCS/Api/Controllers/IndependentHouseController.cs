@@ -54,7 +54,11 @@ namespace Api.Controllers
                 }
                 model.RecrntType = 3;
                 model.CompanyId = user.CompanyId;
-                result = service.saveHouse(model, user.Id);
+                if (model.HouseKeeper == 0)
+                {
+                    model.HouseKeeper = user.Id;
+                }
+                result = service.saveHouse(model, user);
             }
             catch (Exception ex)
             {
@@ -97,7 +101,20 @@ namespace Api.Controllers
             }
             model.CompanyId = user.CompanyId;
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            sysresult = service.QueryPChouse(model,this.OrderablePagination);
+            //获取部门和所属员工
+            SysUserService userservice = new SysUserService();
+            user.departs = userservice.getdepart(user.storeid, user.Id);
+            string[] citys = getcity(user);
+            long[] userids = getuserids(user.departs,user.Id);
+            sysresult = service.QueryPChouse(model,this.OrderablePagination,citys,user, userids);
+            return sysresult;
+        }
+        //户型列表
+        [Route("api/HouseFxing/list")]
+        public SysResult<List<Fxing>> HouseFxing(HouseModel model)
+        {
+            SysResult<List<Fxing>> sysresult = new SysResult<List<Fxing>>();
+            sysresult = service.HouseFxing(model);
             return sysresult;
         }
         //楼层筛选条件
@@ -106,6 +123,14 @@ namespace Api.Controllers
         {
             SysResult<List<WrapIndentHouse>> sysresult = new SysResult<List<WrapIndentHouse>>();
             sysresult = service.Queryshaixuan();
+            return sysresult;
+        }
+        //根据公寓名称查楼层
+        [Route("api/floor/list")]
+        public SysResult<List<T_Floor>> floorlist(HouseModel model)
+        {
+            SysResult<List<T_Floor>> sysresult = new SysResult<List<T_Floor>>();
+            sysresult = service.floorlist(model);
             return sysresult;
         }
         //楼层下面的单间列表
@@ -147,19 +172,38 @@ namespace Api.Controllers
         [Route("api/IndependHouse/savefloor")]
         public SysResult addfloor(T_Floor model)
         {
-           return  service.addfloor(model);
+            SysResult result = new SysResult(0, "保存成功");
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                    result.Code = 1002;
+                    result.Message = "请先登录";
+                    return result;
+            }
+            if (model.HouseKeeper == 0)
+            {
+                  model.HouseKeeper = user.Id;
+            }
+            return  service.addfloor(model);
         }
-        //楼层
-        [Route("api/IndependHouse/floorlist")]
-        public SysResult<List<T_Floor>> floorlist(HousePendent model)
-        {
-            return service.Queryfloorlist(model);
-        }
+        
         //快捷添加房间
         [Route("api/IndependHouse/addhouse")]
         public SysResult<HousePendent> addindenthouse(HousePendent model)
         {
             model.Status = 1;
+            SysResult<HousePendent> result = new SysResult<HousePendent>(0, "保存成功");
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            if (model.HouseKeeper == 0)
+            {
+                model.HouseKeeper = user.Id;
+            }
             return service.savehouse(model);
         }
         //删除楼层

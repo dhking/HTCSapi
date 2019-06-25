@@ -51,6 +51,15 @@ namespace Api.Controllers
         {
             return service.certification(model);
         }
+        //测试
+        [HttpPost]
+        [Route("api/test/test")]
+        public SysResult test(T_CertIfication model)
+        {
+            SysResult result = new SysResult();
+            initgwService service = new initgwService();
+            return service.query(1);
+        }
         //支付认证
         [Route("api/pay/Authentication")]
         public SysResult Authentication(T_account model)

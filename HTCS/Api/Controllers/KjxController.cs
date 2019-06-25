@@ -33,6 +33,9 @@ namespace Api.Controllers
             }
             return service.initialize(param, user);
         }
+
+        
+
         [Route("api/kjx/login")]
         //获取访问令牌
         public SysResult<T_kjx> login(T_kjx param)
@@ -60,7 +63,7 @@ namespace Api.Controllers
 
             return service.loginout(param);
         }
-        [JurisdictionAuthorize(name = new string[] { "mensuo" })]
+        //[JurisdictionAuthorize(name = new string[] { "mensuo" })]
         [Route("api/kjx/locallist")]
         //获取名下锁列表
         public SysResult<List<Wraplocklist>> list(local model)
@@ -333,12 +336,109 @@ namespace Api.Controllers
         public SysResult<jpkeylist> zkgetkeyboardPwd(parajpkey model)
         {
             SysResult<jpkeylist> result = new SysResult<jpkeylist>();
-            
+            string jsonData = JsonConvert.SerializeObject(model);
+            LogService log = new LogService();
+            log.logInfo("租客获取密码" + jsonData);
             result = service.zkgetkeyboardPwd(model);
             return result;
         }
 
-        
-        
+
+        //网关列表
+        [Route("api/gateway/list")]
+        public SysResult<List<gateway>> gatewaylist(local param)
+        {
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                SysResult<List<gateway>> result = new SysResult<List<gateway>>();
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            return service.gatewaylist(param, user);
+        }
+        //获取网关里的锁列表
+        [Route("api/kjx/gatewaylistLock")]
+        public SysResult<List<locklist>> gatewaylistLock(local param)
+        {
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                SysResult<List<locklist>> result = new SysResult<List<locklist>>();
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            return service.listLock(param, user);
+        }
+        //上传网关信息
+        [HttpPost]
+        [Route("api/kjx/gatewayuploadDetail")]
+        public SysResult gatewayuploadDetail(locklist model)
+        {
+            SysResult result = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            result = service.resetKeyboardPwd(model, user);
+            return result;
+        }
+        //删除网关
+        [HttpPost]
+        [Route("api/kjx/gatewaydelete")]
+        public SysResult gatewaydelete(gateway model)
+        {
+            SysResult result = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            result = service.gatewaydelete(model, user);
+            return result;
+        }
+        //查询某网关是否初始化成功
+        [HttpPost]
+        [Route("api/kjx/gatewayisInitSuccess")]
+        public SysResult gatewayisInitSuccess(gateway model)
+        {
+            SysResult result = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            result = service.gatewayisInitSuccess(model, user);
+            return result;
+        }
+
+        //查询某网关是否初始化成功
+        [HttpPost]
+        [Route("api/kjx/lockunlock")]
+        public SysResult lockunlock(gateway model)
+        {
+            SysResult result = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            result = service.lockunlock(model, user);
+            return result;
+        }
     }
 }

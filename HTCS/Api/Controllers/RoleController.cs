@@ -23,6 +23,15 @@ namespace Api.Controllers
         [Route("api/RoleButton/Querylist")]
         public SysResult<List<T_Button>> Querylist(T_SysUserRole model)
         {
+            SysResult<List<T_Button>> sysresult = new SysResult<List<T_Button>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
             return service.Querybutton(model);
         }
         //地址管理
@@ -104,6 +113,10 @@ namespace Api.Controllers
             {
                 sysresult.Code = 1002;
                 sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            if (bill == null)
+            {
                 return sysresult;
             }
             bill.CompanyId = user.CompanyId;

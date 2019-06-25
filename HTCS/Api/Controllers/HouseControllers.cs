@@ -35,33 +35,17 @@ namespace API
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            T_SysUser newuser = getnewuer(user);
-           
+            long[] userids = getuserids(user.departs,user.Id);
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            sysresult = service.Queryhouse(model, this.OrderablePagination, newuser);
+            sysresult = service.Queryhouse(model, this.OrderablePagination,user, userids);
             return sysresult;
         }
         //房源搜索提示
         [Route("api/House/Querybyname")]
         public SysResult<List<HouseTip>> Querybuxiaoqu(ParaTip model)
         {
+            SysResult<List<HouseTip>> sysresult = new SysResult<List<HouseTip>>();
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            return service.Querytip(model,this.OrderablePagination);
-        }
-        //搜索房源
-        [Route("api/House/Query")]
-        public SysResult<List<houresources>> HouseQuery(houresources model)
-        {
-            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            return service.HouseQuery(model, this.OrderablePagination);
-        }
-        //整租房源列表
-        [JurisdictionAuthorize(name = new string[] { "z-house" })]
-        [Route("api/zHouse/Query")]
-        public SysResult<List<HouseModel>> zHouseQuery(HouseModel model)
-        {
-            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            SysResult<List<HouseModel>> sysresult = new SysResult<List<HouseModel>>();
             T_SysUser user = GetCurrentUser(GetSysToken());
             if (user == null)
             {
@@ -70,7 +54,59 @@ namespace API
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            return service.zzHouseQuery(model, this.OrderablePagination);
+            return service.Querytip(model,this.OrderablePagination);
+        }
+        //搜索房源
+        [Route("api/House/Query")]
+        public SysResult<List<houresources>> HouseQuery(houresources model)
+        {
+            SysResult<List<houresources>> sysresult = new SysResult<List<houresources>>();
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.HouseQuery(model, this.OrderablePagination);
+        }
+        //整租房源列表
+        [JurisdictionAuthorize(name = new string[] { "z-house" })]
+        [Route("api/zHouse/Query")]
+        public SysResult<List<WrapHouseModel1>> zHouseQuery(HouseModel model)
+        {
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            SysResult<List<WrapHouseModel1>> sysresult = new SysResult<List<WrapHouseModel1>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            string[] citys = getcity(user);
+            return service.zzHouseQuery(model, this.OrderablePagination, citys, user);
+        }
+        //新分组整租房源列表
+        [JurisdictionAuthorize(name = new string[] { "z-house" })]
+        [Route("api/newzHouse/Query")]
+        public SysResult<List<WrapCellName>> newzHouseQuery(HouseModel model)
+        {
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            SysResult<List<WrapCellName>> sysresult = new SysResult<List<WrapCellName>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            string[] citys = getcity(user);
+            return service.zzHouseQuerygroupby(model, this.OrderablePagination, citys, user);
         }
         [Route("api/Housedepend/Query")]
         public SysResult<List<HousePendent>> Housedepend(HousePendent model)
@@ -88,6 +124,7 @@ namespace API
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
             return service.Querytip1(model, this.OrderablePagination);
         }
+        
         //智能门锁搜索提示
         [Route("api/House/Querylockbyname")]
         public SysResult<List<HouseTip>> Querylockbyname(ParaTip model)
@@ -132,8 +169,8 @@ namespace API
                 model.RecrntType = 2;
                 model.CompanyId = user.CompanyId;
                 model.CreatePerson = user.RealName;
-                T_SysUser newuser = getnewuer(user);
-                result = service.saveHouse(model, user.Id);
+               
+                result = service.saveHouse(model, user.Id,user);
                 
             }
             catch (Exception ex)
@@ -177,9 +214,8 @@ namespace API
                 }
                 model.RecrntType = 1;
                 model.CompanyId = user.CompanyId;
-                T_SysUser newuser = getnewuer(user);
                 
-                result = service.saveHouse(model,user.Id);
+                result = service.saveHouse(model,user.Id, user);
 
             }
             catch (Exception ex)
@@ -220,17 +256,25 @@ namespace API
                 result.Message = "请先登录";
                 return result;
             }
-           
-            model.CompanyId = user.Id;
+            model.CompanyId = user.CompanyId;
             return service.saveeditHouse(model, user.Id);
         }
         //删除房间
-        [JurisdictionAuthorize(name = new string[] { "hhousedelete", "zhousedelete" })]
+        [JurisdictionAuthorize(name = new string[] { "hhousedelete"})]
         [Route("api/House/deletedepentHouse")]
         [HttpPost]
         public SysResult deletedepentHouse(HouseModel model)
         {
            
+            return service.deleteData(model);
+        }
+        //整租删除房间
+        [JurisdictionAuthorize(name = new string[] {  "zhousedelete" })]
+        [Route("api/zHouse/deletedepentHouse")]
+        [HttpPost]
+        public SysResult zdeletedepentHouse(HouseModel model)
+        {
+
             return service.deleteData(model);
         }
         //删除整套房间
@@ -275,12 +319,7 @@ namespace API
                 errmsg += "小区名称不能为空";
                 return result;
             }
-            if (model.BuildingNumber==null)
-            {
-                result = false;
-                errmsg += "楼号不能为空";
-                return result;
-            }
+            
             if (model.CityName ==null)
             {
                 result = false;
@@ -304,6 +343,52 @@ namespace API
         {
             return service.queryfgy(model);
         }
-        
+        //查询所有房源
+        [Route("api/House/Queryhouse")]
+        public SysResult<List<distributionHouseQuery>> Queryhouse(HouseModel model)
+        {
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            SysResult<List<distributionHouseQuery>> sysresult = new SysResult<List<distributionHouseQuery>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.Queryhouse(model, this.OrderablePagination);
+        }
+        //查询所有部门房源
+        [Route("api/House/Queryhousedepart")]
+        public SysResult<List<distributionHouseQuery>> Queryhousedepart(HouseModel model)
+        {
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            SysResult<List<distributionHouseQuery>> sysresult = new SysResult<List<distributionHouseQuery>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.Queryhousedepart(model, this.OrderablePagination);
+        }
+        //查询选中的房源
+        [Route("api/House/checkQueryhousedepart")]
+        public SysResult<List<long>> checkQueryhousedepart(HouseModel model)
+        {
+            SysResult<List<long>> sysresult = new SysResult<List<long>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.Queryhousedepartcheck(model);
+        }
     }
 }
