@@ -21,6 +21,7 @@ namespace Model
         public List<CEnum> zafeipinlv { get; set; }
         public List<CEnum> work { get; set; }
         public List<CEnum> Hobby { get; set; }
+        public List<CEnum> yaji { get; set; }
         public List<T_ZafeiList> zafei { get; set; }
       
     }

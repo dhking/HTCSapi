@@ -39,12 +39,16 @@ namespace Model.Base
 
         public string phone { get; set; }
 
-       
+        [NotMapped]
+
+        public int isshangjia { get; set; }
 
         public long CompanyId { get; set; }
       
 
         public decimal Amount { get; set; }
+
+        public decimal charge { get; set; }
 
         public decimal orderamount { get; set; }
         

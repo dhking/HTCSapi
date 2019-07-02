@@ -12,7 +12,7 @@ namespace Model
         public string Ids { get; set; }
         public string  Spname { get; set; }
         public string roperator{ get; set; }
-    public string Other1 { get; set; }
+        public string Other1 { get; set; }
         public int Other2 { get; set; }
         public string Other { get; set; }
     }

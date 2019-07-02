@@ -3,11 +3,13 @@ using DAL;
 using DBHelp;
 using Model;
 using Model.House;
+using Model.User;
 using Newtonsoft.Json;
 using Service;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,7 +22,7 @@ namespace Service
         HouseDAL dal = new HouseDAL();
         HousePentDAL pentdal = new HousePentDAL();
         HousePendent dentmodel = new HousePendent();
-        public SysResult saveHouse(HouseModel model,long userid)
+        public SysResult saveHouse(HouseModel model,T_SysUser user)
         {
             SysResult result = new SysResult();
             model.PublicPeibei = getPeibei(model.listpeibei);
@@ -29,12 +31,16 @@ namespace Service
                 long parentid = dal.SaveHouse(model);
                 dal.SaveOthers(model.listpeibei, null, 2);
                 pentdal.autoFloor(parentid, model.floor);
-                int pentresult = pentdal.autoIndentSavePent(parentid,model.floor, model.ShiNumber,model.CompanyId);
+                int pentresult = pentdal.autoIndentSavePent(parentid, model.storeid, model.HouseKeeper,model.floor, model.ShiNumber,model.CompanyId);
                 //添加日志
                 RzService rzservice = new RzService();
-                rzservice.addrz(model,parentid, userid, model.CompanyId);
+                rzservice.addrz(model,parentid, user.Id, model.CompanyId);
                 if (pentresult > 0)
                 {
+                    ProceService proce = new Service.ProceService();
+                    proce.CmdProce3(new Pure() { Ids = model.HouseKeeper.ToStr(), Spname = "sp_departaddhouse", Other1 = model.CityName, Other = model.CellName, roperator = model.AreamName }, null, null);
+                    //缓存操作
+                    eidtredis(user, model);
                     tran.Commit();
                     result.Code = 0;
                     result.Message = "保存成功";
@@ -49,6 +55,39 @@ namespace Service
             Thread t2 = new Thread(new ParameterizedThreadStart(AddCellName));
             t2.IsBackground = true;//设置为后台线程
             t2.Start(model);
+            return result;
+        }
+        public SysResult eidtredis(T_SysUser user,HouseModel model)
+        {
+            SysResult result = new SysResult();
+            if (string.IsNullOrEmpty(user.city))
+            {
+                user.city = user.city + model.CityName;
+            }
+            else
+            {
+                user.city = user.city + "," + model.CityName;
+            }
+            if (string.IsNullOrEmpty(user.area))
+            {
+                user.area = user.area + model.AreamName;
+            }
+            else
+            {
+                user.area = user.area + "," + model.AreamName;
+            }
+            if (string.IsNullOrEmpty(user.cellname))
+            {
+                user.cellname = user.cellname + model.CellName;
+            }
+            else
+            {
+                user.cellname = user.cellname + "," + model.CellName;
+            }
+            string access_token = DAL.Common.ConvertHelper.GetMd5HashStr(user.Id.ToStr());
+            RedisHtcs rds = new RedisHtcs();
+            string key = "sysuser_key" + access_token;
+            rds.SetModel<T_SysUser>(key, user);
             return result;
         }
         //添加小区列表
@@ -86,7 +125,7 @@ namespace Service
         {
             SysResult<List<WrapIndentHouse>> result = new SysResult<List<WrapIndentHouse>>();
             long count = 0;
-           DataSet ds=dal.IndentHouseQuery(model.PageSize, model.PageIndex,model.CellName,model.Group,out count);
+           DataSet ds=dal.IndentHouseQuery(model.PageSize, model.PageIndex,model.CellName,model.Group,model.CompanyId,out count);
             List<WrapIndentHouse> list= EntityHelper.GetEntityListByDT<WrapIndentHouse>(ds.Tables[0],null);
             List<T_Floor> listfloor= EntityHelper.GetEntityListByDT<T_Floor>(ds.Tables[1], null);
             if (list != null)
@@ -102,7 +141,7 @@ namespace Service
             return result;
         }
         //查询楼层和所属房间
-        public SysResult<Wrapdudong> QueryPChouse(HouseModel model, OrderablePagination orderpaging)
+        public SysResult<Wrapdudong> QueryPChouse(HouseModel model, OrderablePagination orderpaging, string[] citys, T_SysUser user,long[] userids)
         {
             Wrapdudong wrap = new Wrapdudong();
             HoseService hservice = new Service.HoseService();
@@ -110,23 +149,33 @@ namespace Service
             SysResult<Wrapdudong> result = new SysResult<Wrapdudong>();
             long housecount = 0;
             //查询公寓
-            HouseModel house = dal.Queryhouse(model);
-          
+            HouseModel house = dal.Queryhouse(model, citys, user);
             if (house != null)
             {
                 model.Id = house.Id;
                 //楼层查询
-                List<T_Floor> floor = pentdal.follorlist(model, dtmo, orderpaging,out housecount);
+                List<T_Floor> floor = pentdal.follorlist(model, dtmo, orderpaging, citys, user,userids, out housecount);
                 //房间查询
-                List<HousePendent> listpent = pentdal.Querylistpc(floor.Select(p=>p.Id).ToList());
+                List<WrapHousePendent> listpent = pentdal.Querylistpc(floor.Select(p=>p.Id).ToList(),model, dtmo, citys,user,userids);
                 foreach (var mo in floor)
                 {
-                    mo.list = listpent.Where(p => p.FloorId == mo.Id).ToList();
-                }
-                //计算空置时间
-                foreach(var mo1 in listpent)
-                {
-                    mo1.Idletime = (DateTime.Now - mo1.RecentTime).Days;
+                    if (listpent != null)
+                    {
+                        mo.list = listpent.Where(p => p.FloorId == mo.Id).ToList();
+                        if (mo.list != null)
+                        {
+                            mo.housecount = mo.list.Count;
+                        }
+                        //计算空置时间
+                        long res = 0;
+                        foreach (var mo1 in mo.list)
+                        {
+                            mo1.Idletime = (DateTime.Now - mo1.RecentTime).Days;
+                            long.TryParse(mo1.Name, out res);
+                            mo1.sort = res;
+                        }
+                        mo.list = mo.list.OrderBy(p => p.sort).ToList();
+                    }
                 }
                 wrap.Name = house.CellName;
                 wrap.Id = house.Id;
@@ -149,13 +198,13 @@ namespace Service
         /// <param name="model"></param>
         /// <param name="orderpaging"></param>
         /// <returns></returns>
-        public List<HousePendent> excelQueryPChouse(HouseModel model)
+        public List<HousePendent> excelQueryPChouse(HouseModel model,string [] citys,T_SysUser users)
         {
             HoseService hservice = new Service.HoseService();
             dtmode dtmo = hservice.gettuizutime(model.Idletime);
             List<HousePendent> result = new List<HousePendent>();
             //查询公寓
-            HouseModel house = dal.Queryhouse(model);
+            HouseModel house = dal.Queryhouse(model,citys,users);
             model.Id = house.Id;
             if (house != null)
             {
@@ -184,12 +233,26 @@ namespace Service
             result.numberData = list;
             return result;
         }
+        //房型列表查询
+        public SysResult<List<Fxing>> HouseFxing(HouseModel model)
+        {
+            SysResult<List<Fxing>> result = new SysResult<List<Fxing>>();
+            HouseModel remo = new HouseModel();
+            remo = dal.Queryhouse(model,null,null);
+            List<Fxing> list = new List<Fxing>();
+            if (remo != null)
+            {
+               list = pentdal.HouseFxing(model);
+            }
+            result.numberData = list;
+            return result;
+        }
         //查询公寓详情
         public SysResult<HouseModel> Queryhousebyid(HouseModel model)
         {
             SysResult<HouseModel> result = new SysResult<HouseModel>();
             HouseModel remo = new HouseModel();
-            remo = dal.Queryhouse(model);
+            remo = dal.Queryhouse(model,null,null);
             remo.floorcount = pentdal.queryfloorcount(model.Id);
             remo.housecount = pentdal.queryhousecount(model.Id);
             result.numberData= remo;
@@ -226,7 +289,7 @@ namespace Service
                 {
                     List<T_Floor> list = new List<T_Floor>();
                     list.Add(model);
-                    pentdal.autoIndentSavePent(model.ParentId, list, model.housecount,0);
+                    pentdal.autoIndentSavePent(model.ParentId, 0, model.HouseKeeper, list, model.housecount,0);
                     result = result.SuccessResult("楼层添加成功");
                 }
                 else
@@ -257,6 +320,21 @@ namespace Service
             result.numberData = floor;
             return result;
         }
+        //根据公寓查询楼层
+        public SysResult<List<T_Floor>> floorlist(HouseModel model)
+        {
+            SysResult<List<T_Floor>> result = new SysResult<List<T_Floor>>();
+            HouseModel remo = new HouseModel();
+            remo = dal.Queryhouse(model,null,null);
+            List<T_Floor> list = new List<T_Floor>();
+            if (remo != null)
+            {
+                list = pentdal.queryfloorlist(new HousePendent() { ParentRoomid = remo.Id });
+            }
+          
+            result.numberData = list;
+            return result;
+        }
         //添加房间
         public SysResult<HousePendent> savehouse(HousePendent model)
         {
@@ -266,7 +344,7 @@ namespace Service
             SysResult<HousePendent> result = new SysResult<HousePendent>();
             IndentHouseDAL dal = new IndentHouseDAL();
             HousePendent re = new HousePendent();
-            if (dal.addhouse(model.ParentRoomid, model.FloorId, "", out errmsg,out roomid, out name))
+            if (dal.addhouse(model.ParentRoomid, model.FloorId, "",model.HouseKeeper, out errmsg,out roomid, out name))
             {
                 re.ID = roomid;
                 re.Name = name;

@@ -54,6 +54,8 @@ namespace Model.Bill
         public  List<T_BillList> deletebilllist { get; set; }
 
         public long CompanyId { get; set; }
+
+        public string name { get; set; }
     }
     public class MessageReq
     {
@@ -70,6 +72,7 @@ namespace Model.Bill
         public string Phone { get; set; }
         public string Temp { get; set; }
         public string SignName { get; set; }
+        public string name { get; set; }
         public string TemplateCode { get; set; }
         public int Type { get; set; }
 

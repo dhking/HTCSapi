@@ -258,9 +258,95 @@ namespace DAL
 
             return result;
         }
+        public SysResult Cmdproce11(Pure modle,out string cityname,out string areaname,out string cellname)
+        {
+            SysResult result = new SysResult();
+            cityname = "";
+            areaname = "";
+            cellname = "";
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["EntityDB"].ConnectionString;
+                using (OracleConnection cnn = new OracleConnection(connectionString))
+                {
+                    cnn.Open();
+                    OracleCommand cmd = new OracleCommand(modle.Spname, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    OracleParameter restParameter = new OracleParameter("RestParameter", modle.Ids);
+                    OracleParameter OperatorParameter = new OracleParameter("operator", modle.roperator);
+                    OracleParameter user = new OracleParameter("Other", modle.Other);
+                    OracleParameter user1 = new OracleParameter("Other1", modle.Other1);
+                    OracleParameter CodeParameter = new OracleParameter("Code", OracleDbType.Int32);
+                    CodeParameter.Direction = ParameterDirection.Output;
+                    OracleParameter MsgParameter = new OracleParameter("Msg", OracleDbType.NVarchar2, 2000);
+                    MsgParameter.Direction = ParameterDirection.Output;
+                    OracleParameter cityParameter = new OracleParameter("city", OracleDbType.NVarchar2, 2000);
+                    cityParameter.Direction = ParameterDirection.Output;
+                    OracleParameter areaParameter = new OracleParameter("area", OracleDbType.NVarchar2, 2000);
+                    areaParameter.Direction = ParameterDirection.Output;
+                    OracleParameter cellnameParameter = new OracleParameter("cellname", OracleDbType.NVarchar2, 2000);
+                    cellnameParameter.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(restParameter);
+                    cmd.Parameters.Add(OperatorParameter);
+                    cmd.Parameters.Add(user);
+                    cmd.Parameters.Add(user1);
+                    cmd.Parameters.Add(cityParameter);
+                    cmd.Parameters.Add(areaParameter);
+                    cmd.Parameters.Add(cellnameParameter);
+                    cmd.Parameters.Add(CodeParameter);
+                    cmd.Parameters.Add(MsgParameter);
+                    cmd.ExecuteNonQuery();
+                    result.Code = int.Parse(CodeParameter.Value.ToString());
+                    cityname = cityParameter.Value.ToString();
+                    areaname = areaParameter.Value.ToString();
+                    cellname = cellnameParameter.Value.ToString();
+                    result.Message = MsgParameter.Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                result = result.ExceptionResult("执行存储过程异常", ex);
+            }
+
+            return result;
+        }
         //执行存储过程
 
         public SysResult Cmdproce8(Pure modle)
+        {
+            SysResult result = new SysResult();
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["EntityDB"].ConnectionString;
+                using (OracleConnection cnn = new OracleConnection(connectionString))
+                {
+                    cnn.Open();
+                    OracleCommand cmd = new OracleCommand(modle.Spname, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    OracleParameter restParameter = new OracleParameter("RestParameter", modle.Id);
+                    OracleParameter OperatorParameter = new OracleParameter("operator", modle.Other);
+                    OracleParameter CodeParameter = new OracleParameter("Code", OracleDbType.Int32);
+                    CodeParameter.Direction = ParameterDirection.Output;
+                    OracleParameter MsgParameter = new OracleParameter("Msg", OracleDbType.NVarchar2, 2000);
+                    MsgParameter.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(restParameter);
+                    cmd.Parameters.Add(OperatorParameter);
+                    cmd.Parameters.Add(CodeParameter);
+                    cmd.Parameters.Add(MsgParameter);
+                    cmd.ExecuteNonQuery();
+                    result.Code = int.Parse(CodeParameter.Value.ToString());
+                    result.Message = MsgParameter.Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                result = result.ExceptionResult("执行存储过程异常", ex);
+            }
+
+            return result;
+        }
+
+        public SysResult Cmdproce11(Pure modle)
         {
             SysResult result = new SysResult();
             try

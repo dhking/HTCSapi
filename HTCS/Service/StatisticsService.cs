@@ -24,49 +24,49 @@ namespace Service
             result.numberCount = count;
             return result;
         }
-        public SysResult<StatisticsModel> querystatic(DateTime date,int housetype)
+        public SysResult<StatisticsModel> querystatic(DateTime date,int housetype,long companyid)
         {
             SysResult<StatisticsModel> result = new SysResult<StatisticsModel>();
             BillDAL bill = new BillDAL();
             ContrctDAL contract = new ContrctDAL();
             StatisticsModel remodel = new StatisticsModel();
             WrapStatistics wrap = new WrapStatistics();
-            DataSet ds = dal.indexStatisticsQuery();
+            DataSet ds = dal.indexStatisticsQuery(companyid);
             DataTable dt = ds.Tables[0];
-            remodel.Receivable = decimal.Parse(dt.Rows[0]["V_RECEIVABLE"].ToStr());
-            remodel.Receivableed = decimal.Parse(dt.Rows[0]["V_NOTPAY"].ToStr());
+            remodel.todreveive = decimal.Parse(dt.Rows[0]["V_TODREVEIVE"].ToStr());
+            remodel.todpay = decimal.Parse(dt.Rows[0]["V_TODPAY"].ToStr());
+            remodel.overreveive = decimal.Parse(dt.Rows[0]["V_OVERREVEIVE"].ToStr());
+            remodel.overduepay = decimal.Parse(dt.Rows[0]["V_OVERDUEPAY"].ToStr());
             remodel.Repair = long.Parse(dt.Rows[0]["V_DAIXIU"].ToStr());
-            remodel.CopeWith = decimal.Parse(dt.Rows[0]["V_SHOULDPAY"].ToStr());
-            remodel.Paid = decimal.Parse(dt.Rows[0]["V_PAYED"].ToStr());
-            remodel.Appointment = 0;
+            remodel.Appointment = long.Parse(dt.Rows[0]["V_APPOINTMENT"].ToStr());
             remodel.Book = 0;
             if (housetype == 1)
             {
                 HouseDAL dal = new HouseDAL();
                 remodel.Stock = new Stock();
-                remodel.Stock =dal.Query(housetype);
+                remodel.Stock =dal.Query(housetype,companyid);
             }
             if (housetype == 2)
             {
                 HousePentDAL dal = new HousePentDAL();
                 remodel.Stock = new Stock();
-                remodel.Stock = dal.StockQuery(housetype);
+                remodel.Stock = dal.StockQuery(housetype, companyid);
             }
             if (housetype == 3)
             {
                 HousePentDAL dal = new HousePentDAL();
                 remodel.Stock = new Stock();
-                remodel.Stock = dal.StockQuery(housetype);
+                remodel.Stock = dal.StockQuery(housetype, companyid);
             }
             result.numberData = remodel;
             return result;
         }
         //APP财务分析
-        public SysResult<WrapStatistics> todayQuery()
+        public SysResult<WrapStatistics> todayQuery(long companyid)
         {
             SysResult<WrapStatistics> result = new SysResult<WrapStatistics>();
             WrapStatistics wrap = new WrapStatistics();
-            DataSet ds = dal.caiwuStatisticsQuery();
+            DataSet ds = dal.caiwuStatisticsQuery(companyid);
             DataTable dt = ds.Tables[0];
             DataTable dt1 = ds.Tables[1];
             List<SevenFinance> listseven = new List<SevenFinance>();
@@ -118,7 +118,7 @@ namespace Service
             return result;
         }
         //首页的数据统计
-        public SysResult<WrapHome> HomeQuery()
+        public SysResult<WrapHome> HomeQuery(long companydid)
         {
             SysResult<WrapHome> result = new SysResult<WrapHome>();
             HouseDAL hdal = new HouseDAL();
@@ -126,20 +126,22 @@ namespace Service
             
             HomeNumber homenumber = new HomeNumber();
            
-            DataSet ds = dal.Statisticsmessage(0);
+            DataSet ds = dal.Statisticsmessage(companydid);
             DataTable dt = ds.Tables[0];
             homenumber.daishou = long.Parse(dt.Rows[0]["daishou"].ToStr());
             homenumber.daifu = long.Parse(dt.Rows[0]["daifu"].ToStr());
             homenumber.daichao = long.Parse(dt.Rows[0]["daichao"].ToStr());
             homenumber.daitui = long.Parse(dt.Rows[0]["daitui"].ToStr());
             homenumber.daiweixiu = long.Parse(dt.Rows[0]["daiweixiu"].ToStr());
+            homenumber.daishouamount = 10;
+            homenumber.daifuamount = 10;
             //查询统计数据
             caiwu caiwu = new caiwu();
             kongzhi kz = new kongzhi();
             house shouse = new house();
             house chouse = new house();
             guest guest = new guest();
-            List<t_appstatistics> appstatistics = dal.queryappstatistics(new t_appstatistics() { });
+            List<t_appstatistics> appstatistics = dal.queryappstatistics(new t_appstatistics() {CompanyId= companydid });
             foreach(var mo in appstatistics)
             {
                 if(mo.Key== "realshouru")
@@ -165,14 +167,16 @@ namespace Service
                 }
                 
                 //查询空置率
-                Stock stock = hdal.querykz();
+                Stock stock = hdal.querykz(companydid);
                 kz.kz =stock.Vacancy;
                 kz.all = stock.ALL;
                 kz.percent = stock.RentPert;
-                if (mo.Key == "today")
-                {
-                    shouse.today = (int)mo.Value;
-                }
+                //查询今日新签租客合同和新签业主合同
+                ContrctDAL cdal = new ContrctDAL();
+                chouse.today = cdal.Querycount(new Model.Contrct.T_Contrct() { CreateTime = DateTime.Now.Date });
+                OwerContractDAL owerdal = new OwerContractDAL();
+                shouse.today = owerdal.Querycount(new Model.Contrct.T_OwernContrct() { CreateTime = DateTime.Now.Date });
+
                 if (mo.Key == "Thisweek")
                 {
                     shouse.Thisweek = (int)mo.Value;
@@ -182,10 +186,7 @@ namespace Service
                     shouse.ThisMonth = (int)mo.Value;
                 }
 
-                if (mo.Key == "ctoday")
-                {
-                    chouse.today = (int)mo.Value;
-                }
+                
                 if (mo.Key == "cThisweek")
                 {
                     chouse.Thisweek = (int)mo.Value;
@@ -221,11 +222,11 @@ namespace Service
             return result;
         }
         //pc端数据统计
-        public SysResult<WrappcStatic> PCHome()
+        public SysResult<WrappcStatic> PCHome(long companyid)
         {
             SysResult<WrappcStatic> result = new SysResult<WrappcStatic>();
             WrappcStatic wrap = new WrappcStatic();
-            DataSet ds = dal.StatisticsPCQuery();
+            DataSet ds = dal.StatisticsPCQuery(companyid);
             //拿房删房数
             wrap.Table = EntityHelper.GetEntityListByDT<StaticHouse>(ds.Tables[0],null);
             wrap.Table1 = EntityHelper.GetEntityListByDT<Vacant>(ds.Tables[1], null);

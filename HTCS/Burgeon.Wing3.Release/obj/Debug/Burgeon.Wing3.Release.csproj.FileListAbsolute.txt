@@ -23,3 +23,11 @@ F:\HTCS\HTCS\Burgeon.Wing3.Release\bin\Debug\EntityFramework.dll
 F:\HTCS\HTCS\Burgeon.Wing3.Release\obj\Debug\Burgeon.Wing3.Release.csprojResolveAssemblyReference.cache
 F:\HTCS\HTCS\Burgeon.Wing3.Release\obj\Debug\Burgeon.Wing3.Release.dll
 F:\HTCS\HTCS\Burgeon.Wing3.Release\obj\Debug\Burgeon.Wing3.Release.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\bin\Debug\Tools\WinRAR.exe
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\bin\Debug\x64\SQLite.Interop.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\bin\Debug\x86\SQLite.Interop.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\bin\Debug\Burgeon.Wing3.Release.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\bin\Debug\Burgeon.Wing3.Release.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\obj\Debug\Burgeon.Wing3.Release.csprojResolveAssemblyReference.cache
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\obj\Debug\Burgeon.Wing3.Release.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Burgeon.Wing3.Release\obj\Debug\Burgeon.Wing3.Release.pdb

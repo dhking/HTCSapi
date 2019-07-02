@@ -73,6 +73,7 @@
     <Compile Include="HouseRzMapping.cs" />
     <Compile Include="HouseTeantMapping.cs" />
     <Compile Include="HouseZkMapping.cs" />
+    <Compile Include="indepentMapping.cs" />
     <Compile Include="kjxMapping.cs" />
     <Compile Include="Menu\MenuMapping.cs" />
     <Compile Include="MessageQueueMapping.cs" />

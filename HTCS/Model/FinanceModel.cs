@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace Model
         public long Id { get; set; }
 
         public long HouseId { get; set; }
+
+        public int  HouseType { get; set; }
 
         public string Trader { get; set; }
 
@@ -34,6 +37,19 @@ namespace Model
         public  string PayMentNumber { get; set; }
 
         public long CompanyId { get; set; }
+
+        [NotMapped]
+        public string CityName { get; set; }
+
+        [NotMapped]
+        public string AreaName { get; set; }
+
+        [NotMapped]
+        public string CellName { get; set; }
+        [NotMapped]
+        public string CellNames { get; set; }
+        [NotMapped]
+        public string[] arrCellNames { get; set; }
     }
     public  class FinanceModel : BasicModel
     {
@@ -49,6 +65,8 @@ namespace Model
 
         public string CostName { get; set; }
 
+
+
         public decimal Amount { get; set; }
 
         public string PayType { get; set; }
@@ -57,6 +75,31 @@ namespace Model
 
         public string Remark { get; set; }
 
+        [NotMapped]
+        public string Content { get; set; }
+        [NotMapped]
+        public int HouseType { get; set; }
+
+        [NotMapped]
+        public string CityName { get; set; }
+
+        [NotMapped]
+        public string AreaName { get; set; }
+
+        [NotMapped]
+        public DateTime BeginTime { get; set; }
+
+
+        [NotMapped]
+        public DateTime EndTime { get; set; }
+
+        [NotMapped]
+        public string CellName { get; set; }
+
+        [NotMapped]
+        public string CellNames { get; set; }
+        [NotMapped]
+        public string[] arrCellNames { get; set; }
 
         public long TrandId { get; set; }
         public string PayMentNumber { get; set; }

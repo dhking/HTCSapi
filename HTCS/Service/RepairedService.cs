@@ -3,6 +3,7 @@ using DAL;
 using Model;
 using Model.Base;
 using Model.House;
+using Model.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,12 +48,13 @@ namespace Service
             return result;
         }
         //筛选数据
-        public SysResult<WrapShaixuan> shaixuan(WrapCell model)
+        public SysResult<WrapShaixuan> shaixuan(WrapCell model,string [] citys, string[] cellname, T_SysUser user)
         {
             WrapShaixuan shaixuan = new WrapShaixuan();
             FormatterService formatter = new Service.FormatterService();
+
             shaixuan.subject = subject().numberData;
-            shaixuan.cell = formatter.Querycell(model);
+            shaixuan.cell = formatter.Querycell(model, citys, cellname,user);
             SysResult<WrapShaixuan> result = new SysResult<WrapShaixuan>();
             result.numberData = shaixuan;
             return result;

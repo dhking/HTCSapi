@@ -31,7 +31,7 @@ namespace DAL
             return model.Id;
         }
         //添加房间
-        public bool addhouse(long restparameter,long floor, string opera, out string errmsg,out long RoomId, out string name)
+        public bool addhouse(long restparameter,long floor, string opera,long househeeper, out string errmsg,out long RoomId, out string name)
         {
             errmsg = "";
             name = "";
@@ -54,6 +54,10 @@ namespace DAL
                 paramopera.Direction = ParameterDirection.Input;
                 paramopera.Value = opera;
                 cmd.Parameters.Add(paramopera);
+                OracleParameter parahousekeeper = new OracleParameter("vHouseKeeper", OracleDbType.Varchar2);
+                parahousekeeper.Direction = ParameterDirection.Input;
+                parahousekeeper.Value = househeeper.ToStr();
+                cmd.Parameters.Add(parahousekeeper);
                 OracleParameter code = new OracleParameter("code", OracleDbType.Int16);
                 code.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(code);

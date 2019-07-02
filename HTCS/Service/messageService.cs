@@ -36,7 +36,7 @@ namespace Service
             foreach (var mo in listmessage)
             {
                 yzRequest req = new yzRequest();
-                req = service.GetRequest(gettype(mo.type), mo.phone);
+                req = service.GetRequest(gettype(mo.type), mo.phone,mo.name);
                 req.CompanyId = mo.companyid;
                 if (mo.type == 2)
                 {

@@ -50,6 +50,13 @@ namespace Service
                     content += "市场价变动:从" + dic["Price"] + "元到" + dic["yPrice"]+";";
                 }
             }
+            if (dic.ContainsKey("costprice") && dic.ContainsKey("yPrice"))
+            {
+                if (dic["costprice"] != dic["ycostprice"])
+                {
+                    content += "成本价变动:从" + dic["costprice"] + "元到" + dic["ycostprice"] + ";";
+                }
+            }
             if (dic.ContainsKey("HouseKeeper") && dic.ContainsKey("yHouseKeeper"))
             {
                 if (dic["HouseKeeper"] != dic["yHouseKeeper"])
@@ -125,7 +132,7 @@ namespace Service
             {
                 typestr = "业主账单";
             }
-            content = "账单编辑操作-"+oribill.stage+"期;操作前金额" + oribill.Amount + ";操作后金额" + nowbill.Amount;
+            content = "账单编辑操作-"+oribill.stage+"期;操作前金额" + oribill.Amount + ";操作后金额" +nowbill.Amount;
             save(userid, oribill.HouseId, typestr, content, oribill.CompanyId);
             return sysresult;
         }

@@ -8,6 +8,36 @@ using System.Threading.Tasks;
 
 namespace Mapping.cs.Contrct
 {
+    public class RentFreeMapping : BaseEntityTypeMap<T_RentFree>
+    {
+        protected override void IniMaps()
+        {
+            HasKey(m => m.Id);
+            Property(m => m.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            ToTable("T_RENTFREE");
+            Property(m => m.Id).HasColumnName("ID");
+            Property(m => m.End).HasColumnName("END");
+            Property(m => m.Begin).HasColumnName("BEGIN");
+            Property(m => m.Amount).HasColumnName("AMOUNT");
+            Property(m => m.ContractId).HasColumnName("CONTRACTID");
+        }
+    }
+    public class GradingMapping : BaseEntityTypeMap<T_Grading>
+    {
+        protected override void IniMaps()
+        {
+            HasKey(m => m.Id);
+            Property(m => m.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            ToTable("T_GRADING");
+            Property(m => m.Id).HasColumnName("ID");
+            Property(m => m.Year).HasColumnName("YEAR");
+            Property(m => m.Amount).HasColumnName("AMOUNT");
+            Property(m => m.ContractId).HasColumnName("CONTRACTID");
+        }
+    }
+
     public   class OwerContractMapping : BaseEntityTypeMap<T_OwernContrct>
     {
         protected override void IniMaps()
@@ -50,6 +80,7 @@ namespace Mapping.cs.Contrct
             Property(m => m.payee).HasColumnName("PAYEE");
             Property(m => m.accounts).HasColumnName("ACCOUNTS");
             Property(m => m.bank).HasColumnName("BANK");
+            Property(m => m.subbranch).HasColumnName("SUBBRANCH");
         }
     }
 }

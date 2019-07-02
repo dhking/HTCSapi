@@ -200,9 +200,8 @@ namespace Service
                 model.paratype = "puclictese";
                 wrap.tese = dal.Querylist1(model);
             }
-           
-            wrap.user = userdal.QuerylistUser(new T_SysUser() { });
-            wrap.city = citydal.Querycity(null);
+            //wrap.user = userdal.QuerylistUser(new T_SysUser() { });
+            //wrap.city = citydal.Querycity(null);
             result.numberData =wrap;
             return result;
         }

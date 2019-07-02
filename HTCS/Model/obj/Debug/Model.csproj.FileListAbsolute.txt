@@ -29,6 +29,6 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Model\bin\Debug\Model.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Model\bin\Debug\Model.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Model\bin\Debug\Newtonsoft.Json.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Model\bin\Debug\Newtonsoft.Json.xml
-D:\HTCS\HTCSapi.git\trunk\HTCS\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\Model\obj\Debug\Model.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Model\obj\Debug\Model.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

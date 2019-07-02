@@ -51,20 +51,22 @@ namespace Service
             }
             return dtmo;
         }
-        public SysResult<IList<WrapHouseModel>> Queryhouse(HouseModel model, OrderablePagination orderablePagination,T_SysUser user)
+        public SysResult<IList<WrapHouseModel>> Queryhouse(HouseModel model, OrderablePagination orderablePagination,T_SysUser user, long[] userids)
         {
             SysResult<IList<WrapHouseModel>> result = new SysResult<IList<WrapHouseModel>>();
             IList<WrapHouseModel> listwrap = new List<WrapHouseModel>();
-            IList<HousePendent> listpent = new List<HousePendent>();
-            IList<HouseModel> listhouse = new List<HouseModel>();
+            List<WrapHousePendent> listpent = new List<WrapHousePendent>();
+            IList<WrapHouseModel1> listhouse = new List<WrapHouseModel1>();
             long housecount = 0;
+            //计算空置时间
             dtmode dtmo = gettuizutime(model.Idletime);
-            listhouse = dal.Querylist(model, dtmo, orderablePagination,out housecount);
-            listpent = pentdal.Querybyparentids(listhouse.Select(p=>p.Id).ToList(), model.Status);
+            listhouse = dal.Querylist(model, dtmo,user.departs, user.roles,userids, orderablePagination, out housecount);
+            listpent = pentdal.Querybyparentids(listhouse.Select(p=>p.Id).ToList(), model, dtmo);
             if (listhouse.Count > 0)
             {
                 foreach (var mo in listhouse)
                 {
+                    mo.Title = mo.CellName + (mo.BuildingNumber==null?"": mo.BuildingNumber+"号") + (mo.RoomId == null ? "" : mo.RoomId + "室");
                     WrapHouseModel wrap = new WrapHouseModel();
                     wrap.house = mo;
                     wrap.house.Idletime = (DateTime.Now-mo.Renttime).Days;
@@ -73,8 +75,12 @@ namespace Service
                     {
                         foreach(var m in wrap.housependent)
                         {
+                            //排序
+                            m.sort = pentdal.getindex(m.Name);
                             m.Idletime = (DateTime.Now - mo.Renttime).Days;
                         }
+                        //排序
+                        wrap.housependent = wrap.housependent.OrderBy(p => p.sort).ToList();
                     }
                     listwrap.Add(wrap);
                 }
@@ -87,14 +93,14 @@ namespace Service
             return result;
         }
         //查询导出合租数据
-        public SysResult<List<HousePendent>> excelQueryhouse(HouseModel model, T_SysUser user)
+        public SysResult<List<WrapHousePendent>> excelQueryhouse(HouseModel model, T_SysUser user)
         {
-            SysResult<List<HousePendent>> result = new SysResult<List<HousePendent>>();
-            List<HousePendent> listpent = new List<HousePendent>();
+            SysResult<List<WrapHousePendent>> result = new SysResult<List<WrapHousePendent>>();
+            List<WrapHousePendent> listpent = new List<WrapHousePendent>();
             IList<HouseModel> listhouse = new List<HouseModel>();
             dtmode dtmo = gettuizutime(model.Idletime);
             listhouse = dal.excelQuerylist(model, dtmo);
-            listpent = pentdal.Querybyparentids(listhouse.Select(p => p.Id).ToList(), 0);
+            listpent = pentdal.Querybyparentids(listhouse.Select(p => p.Id).ToList(), model, dtmo);
             if (listpent.Count > 0)
             {
                 foreach (var mo in listpent)
@@ -145,10 +151,20 @@ namespace Service
             HouseModel para = new HouseModel();
             List<HouseTip> listtip = new List<HouseTip>();
             para.CellName = model.Name;
+            para.CompanyId = model.CompanyId;
             listtip = dal.Query(para, orderablePagination);
             foreach (var mo in listtip)
             {
-                mo.Name = mo.Name + "("+ getstatusstr(mo.Status)+")";
+                if (model.Type == 2)
+                {
+                    mo.Name = getname(mo.Name, mo.isyccontract);
+                }
+                
+                else
+                {
+                    mo.Name = mo.Name + "(" + getstatusstr(mo.Status) + ")";
+                }
+              
             }
             result.numberData = listtip;
             result.numberCount = orderablePagination.TotalCount;
@@ -164,15 +180,41 @@ namespace Service
             return result;
         }
         //整租房源
-        public SysResult<List<HouseModel>> zzHouseQuery(HouseModel model, OrderablePagination orderablePagination)
+        public SysResult<List<WrapHouseModel1>> zzHouseQuery(HouseModel model, OrderablePagination orderablePagination,string [] citys,T_SysUser user)
         {
-            SysResult<List<HouseModel>> result = new SysResult<List<HouseModel>>();
+            SysResult<List<WrapHouseModel1>> result = new SysResult<List<WrapHouseModel1>>();
             model.RecrntType = 1;
             dtmode dtmo = gettuizutime(model.Idletime);
-            List<HouseModel> hlist = dal.Querylist2(model, dtmo, orderablePagination);
+            List<WrapHouseModel1> hlist = dal.Querylist2(model, dtmo, orderablePagination,citys,user);
             foreach(var mo in hlist)
             {
+                mo.Title = mo.CellName + (mo.BuildingNumber == null ? "" : mo.BuildingNumber + "号") + (mo.RoomId == null ? "" : mo.RoomId + "室");
                 mo.Idletime = (DateTime.Now - mo.Renttime).Days;
+            }
+            result.numberData = hlist;
+            result.numberCount = orderablePagination.TotalCount;
+            return result;
+        }
+        //整租房源分组
+        public SysResult<List<WrapCellName>> zzHouseQuerygroupby(HouseModel model, OrderablePagination orderablePagination, string[] citys, T_SysUser user)
+        {
+            SysResult<List<WrapCellName>> result = new SysResult<List<WrapCellName>>();
+            model.RecrntType = 1;
+            dtmode dtmo = gettuizutime(model.Idletime);
+            List<WrapCellName> hlist = dal.housegroup(model, dtmo, orderablePagination, citys, user);
+            //房间查询
+            List<WrapHouseModel1> listpent = dal.Querylist2group(model, dtmo, hlist, citys, user);
+            foreach (var mo in hlist)
+            {
+                if (listpent != null)
+                {
+                    mo.listhouse = listpent.Where(p => p.CellName == mo.CellName).ToList();
+                    foreach (var mo1 in mo.listhouse)
+                    {
+                        mo1.Title = (mo1.BuildingNumber == null ? "" : mo1.BuildingNumber + "号") + (mo1.RoomId == null ? "" : mo1.RoomId + "室");
+                        mo1.Idletime = (DateTime.Now - mo1.Renttime).Days;
+                    }
+                }
             }
             result.numberData = hlist;
             result.numberCount = orderablePagination.TotalCount;
@@ -203,14 +245,14 @@ namespace Service
                 return result;
             }
            
-            HouseModel remodel = dal.Queryhouse(new HouseModel() { Electricid=model.Electricid});
+            HouseModel remodel = dal.Queryhouse(new HouseModel() { Electricid=model.Electricid},null,null);
             if (remodel == null)
             {
                HousePendent  pent = pentdal.Querybyid(model);
                
                if (pent != null)
                {
-                    HouseModel housemode = dal.Queryhouse(new HouseModel() { Id = pent.ParentRoomid });
+                    HouseModel housemode = dal.Queryhouse(new HouseModel() { Id = pent.ParentRoomid },null,null);
                     if (housemode.RecrntType == 3)
                     {
                         List<HousePendent> list = new List<HousePendent>();
@@ -257,7 +299,15 @@ namespace Service
             }
             return "未知";
         }
-        
+
+        public string getname(string name,int isycontract)
+        {
+            if (isycontract == 1)
+            {
+                return name + "(已录入业主合同)";
+            }
+            return name;
+        }
         //房源提示信息升级版
         public SysResult<List<HouseTip>> Querytip1(ParaTip model, OrderablePagination orderablePagination)
         {
@@ -271,13 +321,21 @@ namespace Service
             List<T_Teant> listteant= contractdal.Queryteant(arr);
             foreach (var mo in listtip)
             {
-                mo.Name = mo.Name + "(" + getstatusstr(mo.Status) + ")";
-                T_Teant temo = listteant.Where(p => p.Id == mo.TeantId).FirstOrDefault();
-                if (temo != null)
+                if (model.Type == 1)
                 {
-                    mo.UserName = temo.Name;
-                    mo.UserPhone = temo.Phone.ToStr();
+                    mo.Name = getname(mo.Name, mo.isyccontract);
                 }
+                else
+                {
+                    mo.Name = mo.Name + "(" + getstatusstr(mo.Status) + ")";
+                    T_Teant temo = listteant.Where(p => p.Id == mo.TeantId).FirstOrDefault();
+                    if (temo != null)
+                    {
+                        mo.UserName = temo.Name;
+                        mo.UserPhone = temo.Phone.ToStr();
+                    }
+                }
+                
             }
             result.numberData = listtip;
             result.numberCount = orderablePagination.TotalCount;
@@ -304,11 +362,11 @@ namespace Service
                 result.Code = 1;
                 result.Message = "请选择城市";
             }
-            if (model.AreamName == null)
-            {
-                result.Code = 1;
-                result.Message = "请选择区";
-            }
+            //if (model.AreamName == null)
+            //{
+            //    result.Code = 1;
+            //    result.Message = "请选择区";
+            //}
             if (model.CellName == null&&model.RecrntType==3)
             {
                 result.Code = 1;
@@ -329,23 +387,9 @@ namespace Service
             }
             UserDAL1 dal = new UserDAL1();
             T_SysUser user = dal.QueryUerbyid(new T_SysUser() {Id=userid });
-            if (user != null)
-            {
-                if (user.storeids != null && user.storeids.Length > 0)
-                {
-                    return user.storeids[0];
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
+            return user.storeid;
         }
-        public SysResult<List<HousePendent>> saveHouse(HouseModel model,long userid)
+        public SysResult<List<HousePendent>> saveHouse(HouseModel model,long userid,T_SysUser user)
         {
             SysResult<List<HousePendent>> result = new SysResult<List<HousePendent>>();
             result.numberData= new List<HousePendent>();
@@ -354,8 +398,17 @@ namespace Service
             {
                 model.storeid = fgystore(model.HouseKeeper);
             }
+            if(!string.IsNullOrEmpty(model.location))
+            {
+                string [] arr = model.location.Split(',');
+                if (arr != null && arr.Length > 1)
+                {
+                    model.longitude = double.Parse(arr[0]);
+                    model.latitude = double.Parse(arr[1]);
+                }
+               
+            }
             long type = model.Id;
-            
             if (voliteresult.Code != 0)
             {
                 result.Code = 1;
@@ -390,6 +443,41 @@ namespace Service
             }
             List<HousePendent> pent = pentdal.Querybyparentid(parentid);
             result.numberData = pent;
+            //用户部门添加管理城市
+            if (model.HouseKeeper != 0)
+            {
+                ProceService proce = new Service.ProceService();
+                proce.CmdProce3(new Pure() { Ids = model.HouseKeeper.ToStr(), Spname = "sp_departaddhouse",Other1=model.CityName, Other = model.CellName, roperator = model.AreamName }, null, null);
+                if (string.IsNullOrEmpty(user.city))
+                {
+                    user.city = user.city  + model.CityName;
+                }
+                else
+                {
+                    user.city = user.city + "," + model.CityName;
+                }
+                if (string.IsNullOrEmpty(user.area))
+                {
+                    user.area = user.area + model.AreamName;
+                }
+                else
+                {
+                    user.area = user.area + "," + model.AreamName;
+                }
+                if (string.IsNullOrEmpty(user.cellname))
+                {
+                    user.cellname = user.cellname + model.CellName;
+                }
+                else
+                {
+                    user.cellname = user.cellname + "," + model.CellName;
+                }
+                string access_token = DAL.Common.ConvertHelper.GetMd5HashStr(user.Id.ToStr());
+                RedisHtcs rds = new RedisHtcs();
+                string key = "sysuser_key" + access_token;
+                //rds.Delete(key);
+                rds.SetModel<T_SysUser>(key, user);
+            }
             //添加操作日志
             RzService reservice = new RzService();
             reservice.addrz(model, type, userid, parentid);
@@ -408,7 +496,7 @@ namespace Service
             List<peipei> listpeibei = new List<peipei>();
 
             List<T_Tese> listtese = new List<T_Tese>();
-            HouseModel remo = dal.Queryhouse(model);
+            HouseModel remo = dal.Queryhouse(model,null,null);
             string[] arr = new string[] { };
             string[] arr1 = new string[] { };
            
@@ -456,14 +544,18 @@ namespace Service
                 }
             }
             //查询门店信息
-            if (remo.storeid != 0)
+            if (remo.storeid != 0&& remo.storeid != -1)
             {
-                RoleDAL dal = new RoleDAL();
-                T_CellName cell = dal.storeQueryid(new T_CellName() { Id = remo.storeid });
-                if (cell != null)
+                MenuDAL menudal = new MenuDAL();
+                t_department depart = menudal.queryid(new t_department() { Id= remo.storeid});
+                if (depart != null)
                 {
-                    remo.store = cell.Name;
+                    remo.store = depart.name;
                 }
+            }
+            if (remo.storeid == -1)
+            {
+                remo.store = "总部";
             }
             result.numberData = remo;
             return result;
@@ -512,6 +604,8 @@ namespace Service
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("Price", model.Price.ToStr());
             dic.Add("yPrice", pent.Price.ToStr());
+            dic.Add("costprice", model.costprice.ToStr());
+            dic.Add("ycostprice", pent.costprice.ToStr());
             dic.Add("HouseKeeper", model.HouseKeeper.ToStr());
             dic.Add("yHouseKeeper", pent.HouseKeeper.ToStr());
             dic.Add("yAdress", pent.Adress.ToStr());
@@ -520,7 +614,7 @@ namespace Service
             if (pentdal.saveeditPent(model)>0)
             {
                 RzService reservice = new RzService();
-                reservice.addrz(new HouseModel() { CompanyId = model.CompanyId, Price = model.Price }, 2, userid, model.ID);
+                reservice.addrz(new HouseModel() {RecrntType=1, CompanyId = model.CompanyId, Price = model.Price }, 2, userid, model.ID, dic);
                 result.Code = 0;
                 result.Message = "保存成功";
             }
@@ -590,7 +684,7 @@ namespace Service
             BaseDataService basedal = new BaseDataService();
             SysResult<HousePendent> resut = new SysResult<HousePendent>();
             HousePendent pent = pentdal.Querybyid(ids);
-            HouseModel model = dal.Queryhouse(new HouseModel() { Id= pent.ParentRoomid } );
+            HouseModel model = dal.Queryhouse(new HouseModel() { Id= pent.ParentRoomid },null,null );
             List<peipei> listpeibei = new List<peipei>();
             List<T_Tese> listtese = new List<T_Tese>();
             WrapBasic wrap = basedal.Query(new Queryparam() { teseorpeibei = 0, type = 2 }).numberData;
@@ -650,6 +744,20 @@ namespace Service
                     pent.housekeeperphone = user.Mobile;
                 }
             }
+            //查询门店信息
+            if (pent.storeid != 0 && pent.storeid != -1)
+            {
+                MenuDAL menudal = new MenuDAL();
+                t_department depart = menudal.queryid(new t_department() { Id = pent.storeid });
+                if (depart != null)
+                {
+                    pent.store = depart.name;
+                }
+            }
+            if (pent.storeid == -1)
+            {
+                pent.store = "总部";
+            }
             resut.numberData = pent;
             return resut;
         }
@@ -668,6 +776,41 @@ namespace Service
             SysResult<List<HouseQueryfgy>> resut = new SysResult<List<HouseQueryfgy>>();
             resut.numberData = dal.queryhouse(model);
             return resut;
+        }
+        //查询所有房源
+        public SysResult<List<distributionHouseQuery>> Queryhouse(HouseModel model, OrderablePagination orderablePagination)
+        {
+            SysResult<List<distributionHouseQuery>> result = new SysResult<List<distributionHouseQuery>>();
+            if (model.CellNames != null)
+            {
+                model.arrCellNames = model.CellNames.Split(',');
+            }
+            List<distributionHouseQuery> hlist = dal.Queryhousepage(model, orderablePagination);
+            result.numberData = hlist;
+            result.numberCount = orderablePagination.TotalCount;
+            return result;
+        }
+        //查询所有部门房源
+        public SysResult<List<distributionHouseQuery>> Queryhousedepart(HouseModel model, OrderablePagination orderablePagination)
+        {
+            SysResult<List<distributionHouseQuery>> result = new SysResult<List<distributionHouseQuery>>();
+            if (model.CellNames != null)
+            {
+                model.arrCellNames = model.CellNames.Split(',');
+            }
+            List<distributionHouseQuery> hlist = dal.Queryhousedepart(model, orderablePagination);
+            result.numberData = hlist;
+            result.numberCount = orderablePagination.TotalCount;
+            return result;
+        }
+
+        //查询选中数据
+        public SysResult<List<long>> Queryhousedepartcheck(HouseModel model)
+        {
+            SysResult<List<long>> result = new SysResult<List<long>>();
+            List<long> hlist = dal.Queryhousedepartcheck(model);
+            result.numberData = hlist;
+            return result;
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Mapping.cs
             Property(m => m.nowfloor).HasColumnName("NOWFLOOR");
             Property(m => m.allfloor).HasColumnName("ALLFLOOR");
             Property(m => m.measure).HasColumnName("MEASURE");
+            Property(m => m.isyccontract).HasColumnName("ISYCCONTRACT");
         }
     }
 
@@ -53,7 +54,8 @@ namespace Mapping.cs
             Property(m => m.RecentType).HasColumnName("RENTTYPE");
             Property(m => m.AreaName).HasColumnName("AREANAME");
             Property(m => m.City).HasColumnName("CITY");
-            Property(m => m.Area).HasColumnName("AREA");
+            Property(m => m.Area).HasColumnName("AREA"); 
+         
             Property(m => m.CellName).HasColumnName("CELLNAME");
             Property(m => m.Adress).HasColumnName("ADRESS");
             Property(m => m.CityName).HasColumnName("CITYNAME");
@@ -81,6 +83,14 @@ namespace Mapping.cs
             Property(m => m.AreaCode).HasColumnName("AREA");
             Property(m => m.CellName).HasColumnName("CELLNAME");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
+            Property(m => m.storeid).HasColumnName("STOREID");
+
+
+           
+            Property(m => m.CityName).HasColumnName("CITYNAME");
+            Property(m => m.AreaName).HasColumnName("AREANAME");
+            Property(m => m.HouseKeeper).HasColumnName("HOUSEKEEPER");
+            Property(m => m.Adress).HasColumnName("ADRESS");
         }
     }
     public class HouseQueryLockMapping : BaseEntityTypeMap<HouseLockQuery>

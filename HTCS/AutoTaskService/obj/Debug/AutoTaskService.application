@@ -7,14 +7,14 @@
     <framework targetVersion="4.5.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="AutoTaskService.exe.manifest" size="39445">
+    <dependentAssembly dependencyType="install" codebase="AutoTaskService.exe.manifest" size="32869">
       <assemblyIdentity name="AutoTaskService.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>0UZyPojHK2O265yhJDngnDrW0HwbmWbjRSouil+ow8g=</dsig:DigestValue>
+        <dsig:DigestValue>i15MRYCi31zFO8K+WyBnNT7uWrov3HuPHQO4Q8Y8xPs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

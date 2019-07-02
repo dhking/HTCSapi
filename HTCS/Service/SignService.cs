@@ -48,7 +48,7 @@ namespace Service
             ProceDAL pdal = new ProceDAL();
             //查询公司编号
             ContrctDAL dal = new ContrctDAL();
-            T_Contrct contract = dal.querycontract(long.Parse(model.no));
+            T_Contrct contract = dal.querycontract(new T_Contrct() { Id =long.Parse( model.no) });
             SysResult sysresult= pdal.Cmdproce10(new Pure() { Spname = "sp_reducenumber", Ids = contract.CompanyId.ToStr(), Other = "2",Other1= model.no });
             return sysresult;
         }

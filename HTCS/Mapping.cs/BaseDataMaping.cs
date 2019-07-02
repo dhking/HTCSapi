@@ -95,6 +95,8 @@ namespace Mapping.cs
             Property(m => m.contractnumber).HasColumnName("CONTRACTNUMBER");
             Property(m => m.smsnumber).HasColumnName("SMSNUMBER");
             Property(m => m.brand).HasColumnName("BRAND");
+
+            Property(m => m.charge).HasColumnName("CHARGE");
         }
     }
     public class tuoguanMaping : BaseEntityTypeMap<t_tuoguan>

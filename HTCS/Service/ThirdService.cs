@@ -117,17 +117,11 @@ namespace Service
         public SysResult function(T_account model, long CompanyId, long userid)
         {
             SysResult result = new SysResult();
+            result.Message = "设置成功";
             SysUserService userservice = new SysUserService();
-            if (userservice.Viltyzm(model.yzm, model.phone, 6))
-            {
-                BaseDataDALL dal = new BaseDataDALL();
-                model.CompanyId = CompanyId;
-                dal.saveaccount(model, new string[] { "rentmessage", "OnlinePay", "onlinesign" });
-            }
-            else
-            {
-                result = result.FailResult("验证码错误");
-            }
+            BaseDataDALL dal = new BaseDataDALL();
+            model.CompanyId = CompanyId;
+            dal.saveaccount(model, new string[] { "rentmessage", "charge", "onlinesign" });
             return result;
         }
         public SysResult setpassword(T_account model, long CompanyId)
@@ -155,7 +149,10 @@ namespace Service
             SysResult<T_account> result = new SysResult<T_account>();
             SysUserService userservice = new SysUserService();
             BaseDataDALL dal = new BaseDataDALL();
-            result.numberData= dal.queryaccount(CompanyId);
+            T_account account = new T_account();
+            account.isshangjia = 0;
+            account = dal.queryaccount(CompanyId);
+            result.numberData= account;
             return result;
         }
         //支付认证模拟支付宝转账
@@ -231,7 +228,7 @@ namespace Service
             SysResult<T_account> result = new SysResult<T_account>();
             ContrctDAL cdal = new ContrctDAL();
             BaseDataDALL dal = new BaseDataDALL();
-            T_Contrct contract= cdal.querycontract(model.Id);
+            T_Contrct contract= cdal.querycontract(new T_Contrct() {Id= model.Id });
             T_account account = dal.queryaccount(contract.CompanyId);
             result.numberData = account;
             return result;

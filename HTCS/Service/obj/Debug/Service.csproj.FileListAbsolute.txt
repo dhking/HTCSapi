@@ -110,8 +110,6 @@ F:\HTCS\HTCS\Service\bin\Debug\zh-Hans\Microsoft.Owin.Security.resources.dll
 F:\HTCS\HTCS\Service\bin\Debug\zh-Hans\Microsoft.AspNet.Identity.EntityFramework.resources.dll
 F:\HTCS\HTCS\Service\bin\Debug\zh-Hans\Microsoft.Owin.Host.SystemWeb.resources.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
-D:\HTCS\HTCSapi.git\trunk\HTCS\Service\obj\Debug\Service.dll
-D:\HTCS\HTCSapi.git\trunk\HTCS\Service\obj\Debug\Service.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\ApplicationInsights.config
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\roslyn\csc.exe
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -146,8 +144,10 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Jiguang.JPush.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\ServiceStack.Redis.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\aliyun-net-sdk-core.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\aliyun-net-sdk-dysmsapi.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Aspose.Words.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\NPOI.OOXML.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Mapping.cs.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\CodeFirstStoreFunctions.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\log4net.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Castle.Windsor.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\System.Net.Http.Formatting.dll
@@ -184,6 +184,7 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Quartz.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Quartz.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\System.Web.Http.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\ServiceStack.Redis.xml
+D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Aspose.Words.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Mapping.cs.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\log4net.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Castle.Windsor.xml
@@ -215,5 +216,5 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\zh-Hans\System.Web.Razor.resour
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\zh-Hans\System.Web.WebPages.resources.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\zh-Hans\System.Web.WebPages.Deployment.resources.dll
-D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Aspose.Words.dll
-D:\HTCS\HTCSapi.git\trunk\HTCS\Service\bin\Debug\Aspose.Words.xml
+D:\HTCS\HTCSapi.git\trunk\HTCS\Service\obj\Debug\Service.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Service\obj\Debug\Service.pdb

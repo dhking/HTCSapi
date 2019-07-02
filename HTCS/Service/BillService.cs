@@ -1,7 +1,9 @@
 ﻿using ControllerHelper;
 using DAL;
 using Model;
+using Model.Base;
 using Model.Bill;
+using Model.Contrct;
 using Model.User;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,18 @@ namespace Service
     public  class BillService
     {
         BillDAL dal = new BillDAL();
-        public SysResult<List<T_WrapBill>> Querybase(T_WrapBill model, OrderablePagination orderablePagination,T_SysUser user)
+        public SysResult<List<T_WrapBill>> Querybase(T_WrapBill model, OrderablePagination orderablePagination,long[] userids,T_SysUser user)
         {
             SysResult<List<T_WrapBill>> result = new SysResult<List<T_WrapBill>>();
-         
-            List<T_WrapBill> list = dal.Querylist(model, orderablePagination, user);
+            List<T_WrapBill> list = dal.Querylist(model, orderablePagination,  userids,user);
             result.numberCount = orderablePagination.TotalCount;
+            result.numberData = list;
+            return result;
+        }
+        public SysResult<List<T_WrapBill>> ContractQuerylist(T_WrapBill model,long[] userids, T_SysUser user)
+        {
+            SysResult<List<T_WrapBill>> result = new SysResult<List<T_WrapBill>>();
+            List<T_WrapBill> list = dal.ContractQuerylist(model, userids, user);
             result.numberData = list;
             return result;
         }
@@ -57,24 +65,40 @@ namespace Service
         {
             SysResult result = new SysResult();
             try
-            {
-                T_Bill querybill = dal.queryid(new T_Bill() { Id = bill.Id });
-                if (querybill.PayStatus ==1)
+            {   
+                 //验证
+                if (bill.list == null)
                 {
-                    return result = result.FailResult("账单已完成不能编辑");
+                    return result = result.FailResult("费用项不能为空");
                 }
-                if (bill.list !=null)
-                {
-                    bill.Amount = bill.list.Sum(p => p.Amount);
-                }
+                bill.Amount = bill.list.Sum(p => p.Amount);
                 if (bill.Amount == 0)
                 {
-                  return   result = result.FailResult("总金额不能为0");
+                    return result = result.FailResult("总金额不能为0");
+                }
+                if (bill.Id == 0)
+                {
+                    ContrctDAL cdal = new ContrctDAL();
+                    T_Contrct cont = cdal.querycontract(new T_Contrct() { Id = bill.ContractId, CompanyId = bill.CompanyId });
+                    if (cont == null)
+                    {
+                        return result = result.FailResult("合同不存在");
+                    }
+                    bill.HouseId = cont.HouseId;
+                    bill.HouseType = cont.HouseType;
+                    bill.TeantId = cont.TeantId;
+                    bill.BillType = 0;
+                    bill.Object = 0;
                 }
                 if (bill.Id != 0)
                 {
+                    T_Bill querybill = dal.queryid(new T_Bill() { Id = bill.Id });
+                    if (querybill.PayStatus == 1)
+                    {
+                        return result = result.FailResult("账单已完成不能编辑");
+                    }
                     RzService service = new RzService();
-                    service.addzdrz(querybill,bill,userid);
+                    service.addzdrz(querybill, bill, userid);
                 }
                 if (dal.save(bill) >0)
                 {
@@ -223,8 +247,26 @@ namespace Service
             {
                 mo.Status = 3;
             }
+            if (model.CompanyId == 0)
+            {
+                ContrctDAL contractdal = new ContrctDAL();
+                T_Contrct cont = contractdal.querycontract(new T_Contrct() {Id= mo.ContractId });
+                if (cont != null)
+                {
+                    model.CompanyId = cont.CompanyId;
+                }
+            }
+            //查询是否租客承担
+            BaseDataDALL bdal = new BaseDataDALL();
+            T_account account = bdal.queryaccount(model.CompanyId);
+            if (account != null&&account.charge == 1)
+            {
+                mo.zfbshouxu = mo.Amount * decimal.Parse(0.006.ToStr());
+                mo.wxshouxu = mo.Amount * decimal.Parse(0.006.ToStr());
+            }
             result.numberData =mo;
             return result;
         }
+        
     }
 }

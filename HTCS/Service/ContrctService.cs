@@ -35,12 +35,10 @@ namespace Service
             }
             //判断是新增还是修改
             int type = 0;
+            model.Status = 5;
             if (model.Id != 0)
             {
                 type = 1;
-            }else
-            {
-                model.Status = 5;
             }
             using (var context = new ContrctDAL())
             {
@@ -87,6 +85,14 @@ namespace Service
                             {
                                 dbContextTransaction.Rollback();
                                 return result = result.FailResult("保存失败" + errmsg);
+                            }
+                        }
+                        if (model.DepositType == 99&& model.Yajin!=null)
+                        {
+                            T_Otherfee fee = model.Yajin.Where(p => p.Name == "常规押金").FirstOrDefault();
+                            if (fee != null)
+                            {
+                                model.Deposit = decimal.Parse(fee.Amount.ToStr());
                             }
                         }
                         long ContractId = context.SaveContrct(model);
@@ -137,7 +143,7 @@ namespace Service
             //入住电表
             HouseDAL hdal = new HouseDAL();
             ContrctDAL cdal = new ContrctDAL();
-            T_Contrct model = cdal.querycontract(contractid);
+            T_Contrct model = cdal.querycontract(new T_Contrct() { Id = contractid });
             HouseQuery house = hdal.Query2(new HouseModel() { Id = model.HouseId });
             if (house.uuid != null)
             {
@@ -180,27 +186,30 @@ namespace Service
             }
             T_Teant teant = dal.queryteant(model.Teant);
             string password = "";
-            if (teant != null && teant.Pt_UserName == null)
+            HouseDAL hdal = new HouseDAL();
+            HouseQuery house = hdal.Query2(new HouseModel() { Id = model.HouseId });
+            if (house.LocalId != null)
             {
-                if (!string.IsNullOrEmpty(teant.Pt_PassWord))
+                if (teant != null && teant.Pt_UserName == null)
                 {
-                    password = teant.Pt_PassWord;
-                }
-                else
-                {
-                    password = ConvertHelper.getsecond();
-                }
-                SysResult<T_kjx> remodel = kjx.register(new T_kjx() { username = teant.Phone, password = password });
-                if (remodel.Code == 0)
-                {
-                    teant.Pt_PassWord = password;
-                    teant.Pt_UserName = remodel.numberData.username;
-                    dal.updatetrant(teant);
+                    if (!string.IsNullOrEmpty(teant.Pt_PassWord))
+                    {
+                        password = teant.Pt_PassWord;
+                    }
+                    else
+                    {
+                        password = ConvertHelper.getsecond();
+                    }
+                    SysResult<T_kjx> remodel = kjx.register(new T_kjx() { username = teant.Phone, password = password });
+                    if (remodel.Code == 0)
+                    {
+                        teant.Pt_PassWord = password;
+                        teant.Pt_UserName = remodel.numberData.username;
+                        dal.updatetrant(teant);
+                    }
                 }
             }
             //入住电表
-            HouseDAL hdal = new HouseDAL();
-            HouseQuery house = hdal.Query2(new HouseModel() { Id = model.HouseId });
             if (house.uuid != null)
             {
                 ElectricService elecsercice = new ElectricService();
@@ -218,6 +227,10 @@ namespace Service
         public SysResult addbill(chaobiao model)
         {
             SysResult result = new SysResult();
+            if (model.price==0)
+            {
+                return result = result.FailResult("单价不能为0");
+            }
             if (model.dushu <= model.lastdushu)
             {
                 return result = result.FailResult("必须大于上次读数");
@@ -238,8 +251,8 @@ namespace Service
                         therfee.Reading = model.dushu;
                         therfee.ChaobiaoTime = model.time;
                         therfee.Price = model.price;
-                        int update= context.updateOtherFee(therfee, new string[] { "Reading", "ChaobiaoTime" });
-                        bool re = context.CmdotherfeeBill(model.Id,model.lasttime,model.lastdushu,model.receivetime,model.remark, "system", out errmsg);
+                        int update= context.updateOtherFee(therfee, new string[] { "Price", "Reading", "ChaobiaoTime" });
+                        bool re = context.CmdotherfeeBill(model, "system", out errmsg);
                         if (update > 0&& re == true)
                         {
                             dbContextTransaction.Commit();
@@ -417,7 +430,8 @@ namespace Service
             SysResult result = new SysResult();
             start = 0;
             end = 0;
-            WrapContract contract = dal.QueryId(new WrapContract() { LockId = lockid,Status=5 });
+            int[] arr = new int[] { 2,5};
+            WrapContract contract = dal.QueryId(new WrapContract() { LockId = lockid,arrStatus= arr });
             if (contract == null)
             {
                 return result=result.FailResult("没有获取到在租合同");
@@ -485,6 +499,23 @@ namespace Service
             zafeipinlv.Add(new CEnum() { key = 24, Value = "两年一付" });
             zafeipinlv.Add(new CEnum() { key = 999, Value = "一次付清" });
             warp.zafeipinlv = zafeipinlv;
+            //押几
+            List<CEnum> yaji = new List<CEnum>();
+            yaji.Add(new CEnum() { key = 999, Value = "自定义押金" });
+            yaji.Add(new CEnum() { key = 0, Value = "无押金" });
+            yaji.Add(new CEnum() { key = 1, Value = "押一" });
+            yaji.Add(new CEnum() { key = 2, Value ="押二" });
+            yaji.Add(new CEnum() { key = 3, Value ="押三" });
+            yaji.Add(new CEnum() { key = 4, Value ="押四" });
+            yaji.Add(new CEnum() { key = 5,Value ="押五" });
+            yaji.Add(new CEnum() { key = 6,Value ="押六" });
+            yaji.Add(new CEnum() { key = 7,Value ="押七" });
+            yaji.Add(new CEnum() { key = 8, Value = "押八" });
+            yaji.Add(new CEnum() { key = 9, Value = "押九" });
+            yaji.Add(new CEnum() { key = 10, Value = "押十" });
+            yaji.Add(new CEnum() { key = 11, Value = "押十一" });
+            yaji.Add(new CEnum() { key = 12, Value = "押十二" });
+            warp.yaji = yaji;
             List<CEnum> work = new List<CEnum>();
             work.Add(new CEnum() { key = 1, Value = "程序员" });
             work.Add(new CEnum() { key = 2, Value = "业务员" });
@@ -500,40 +531,48 @@ namespace Service
             result.numberData = warp; 
             return result;
         }
-        public SysResult<List<WrapContract>> Querymenufy(WrapContract model, OrderablePagination orderablePagination,T_SysUser user)
+        public SysResult<List<WrapContract>> Querymenufy(WrapContract model, OrderablePagination orderablePagination,T_SysUser user,long[] userids)
         {
-            DateTime dt = DateTime.Now.AddDays(-5);
+            
             SysResult<List<WrapContract>> sysresult = new SysResult<List<WrapContract>>();
-            List<WrapContract> list = dal.Query(model, orderablePagination, user);
+            List<WrapContract> list = dal.Query(model, orderablePagination, user,userids);
             foreach(var  mo in list)
             {
-                if (mo.Status ==2)
+                mo.Status = getstatus(mo.Status, mo.BeginTime, mo.EndTime);
+                if (mo.Status ==6)
                 {
-                    if (mo.BeginTime > DateTime.Now)
-                    {
-                        mo.Status = 4;
-                    }
-                    if(mo.BeginTime <= DateTime.Now&& mo.EndTime >= DateTime.Now)
-                    {
-                        mo.Status = 5;
-                    }
-                    if (mo.EndTime <= dt)
-                    {
-                        mo.Status =6;
-                    }
-                    if (mo.EndTime < DateTime.Now)
-                    {
-                        mo.Status = 10;
-                    }
-                }
-                if (mo.Status == 3)
-                {
-                    mo.Status = 7;
+                    TimeSpan t3 = DateTime.Today - mo.EndTime;
+                    mo.Day = t3.Days;
                 }
             }
             sysresult.numberData = list;
             sysresult.numberCount = orderablePagination.TotalCount;
             return sysresult;
+        }
+        public int getstatus(int Status,DateTime BeginTime,DateTime EndTime)
+        {
+            int resultStatus = Status;
+            DateTime dt = DateTime.Now.AddDays(45).Date;
+            if (Status == 2 || Status == 5)
+            {
+                if (BeginTime > DateTime.Now.Date)
+                {
+                    resultStatus = 4;
+                }
+                if (BeginTime <= DateTime.Now && EndTime >= DateTime.Now)
+                {
+                    resultStatus = 5;
+                }
+                if (EndTime <= dt)
+                {
+                    resultStatus = 6;
+                }
+            }
+            if (Status == 3)
+            {
+                resultStatus = 7;
+            }
+            return resultStatus;
         }
         //合同导出
         public SysResult<List<WrapContract>> excelQuerymenufy(WrapContract model, T_SysUser user)
@@ -543,28 +582,11 @@ namespace Service
             List<WrapContract> list = dal.excelQuery(model, user);
             foreach (var mo in list)
             {
-                if (mo.Status == 2)
+                mo.Status = getstatus(mo.Status, mo.BeginTime, mo.EndTime);
+                if (mo.Status == 6)
                 {
-                    if (mo.BeginTime > DateTime.Now)
-                    {
-                        mo.Status = 4;
-                    }
-                    if (mo.BeginTime <= DateTime.Now && mo.EndTime >= DateTime.Now)
-                    {
-                        mo.Status = 5;
-                    }
-                    if (mo.EndTime <= dt)
-                    {
-                        mo.Status = 6;
-                    }
-                    if (mo.EndTime < DateTime.Now)
-                    {
-                        mo.Status = 10;
-                    }
-                }
-                if (mo.Status == 3)
-                {
-                    mo.Status = 7;
+                    TimeSpan t3 = DateTime.Today - mo.EndTime;
+                    mo.Day = t3.Days;
                 }
             }
             sysresult.numberData = list;
@@ -574,6 +596,7 @@ namespace Service
         public SysResult<List<WrapContract>> Querytuizu(WrapContract model, OrderablePagination orderablePagination)
         {
             SysResult<List<WrapContract>> sysresult = new SysResult<List<WrapContract>>();
+            model.Status = 6;
             List<WrapContract> list = dal.Querytuizu(model, orderablePagination);
            
             foreach (var mo in list)
@@ -629,26 +652,12 @@ namespace Service
         {
             SysResult<WrapContract> sysresult = new SysResult<WrapContract>();
             WrapContract list = dal.QueryId(model);
-            if (list.Status == 2)
+            list.Status = getstatus(list.Status, list.BeginTime, list.EndTime);
+            if (list.Status == 6)
             {
-                if (list.BeginTime > DateTime.Now)
-                {
-                    list.Status = 4;
-                }
-                if (list.BeginTime <= DateTime.Now && list.EndTime >= DateTime.Now)
-                {
-                    list.Status = 5;
-                }
-                if (list.EndTime < DateTime.Now)
-                {
-                    list.Status = 6;
-                }
+                TimeSpan t3 = DateTime.Today - list.EndTime;
+                list.Day = t3.Days;
             }
-            if (list.Status == 3)
-            {
-                list.Status = 7;
-            }
-            
             sysresult.numberData = list;
             return sysresult;
         }
@@ -701,7 +710,7 @@ namespace Service
         public SysResult<List<Inittuizu>> Querytuikuan(tuzuReq model)
         {
             SysResult<List<Inittuizu>> result = new SysResult<List<Inittuizu>>();
-            T_Contrct contract = dal.querycontract(model.contractid);
+            T_Contrct contract = dal.querycontract(new T_Contrct() {Id= model.contractid });
             if (model.tuizutime ==DateTime.MinValue)
             {
                 model.tuizutime = DateTime.Now.AddDays(1);
@@ -813,15 +822,22 @@ namespace Service
                     {
                         string errmsg = "";
                         long zhuid = 1;
+
                         if (model != null)
                         {
+                            //删除之前数据
+                            TuizuZhu tuizu=context.QueryTuizu1(model);
+                            if (tuizu != null)
+                            {
+                                context.deletetuizuzhu(tuizu);
+                            }
                             zhuid = context.Savetuizuzhu(model);
                         }
                         if (model.list != null)
                         {
                             context.Savetuizu(model.list, zhuid);
                         }
-                        bool re = context.Cmdtuizu(zhuid, "system","sp_tuizu", out errmsg);
+                        bool re = context.Cmdtuizu(zhuid, sysuser.Id.ToStr(), "sp_tuizu", out errmsg);
                         if (zhuid > 0&&re == true)
                         {
                             dbContextTransaction.Commit();
@@ -1024,7 +1040,7 @@ namespace Service
             SysResult<List<WrapContract>> sysresult = new SysResult<List<WrapContract>>();
             //model.EndTime = DateTime.Now.AddDays(30);
 
-            List<WrapContract> list = dal.Query(model, orderablePagination,null);
+            List<WrapContract> list = dal.Query(model, orderablePagination,null,null);
             sysresult.numberData = list;
             sysresult.numberCount = list.Count;
             return sysresult;

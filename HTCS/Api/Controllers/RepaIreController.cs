@@ -64,6 +64,14 @@ namespace Api.Controllers
             sysresult = service.Queryxq(model);
             return sysresult;
         }
+        //报修详情
+        [Route("api/newRepaire/Queryxq")]
+        public SysResult<WrapRepaire> newQueryxq(Guest model)
+        {
+            SysResult<WrapRepaire> sysresult = new SysResult<WrapRepaire>();
+            sysresult = service.hQueryxq(model);
+            return sysresult;
+        }
         //报修项目列表
         [Route("api/Repaire/RepairList")]
         public SysResult<List<RepairList>> RepairList(RepairList model)
@@ -78,6 +86,14 @@ namespace Api.Controllers
         public SysResult<List<RepairList>> hRepairList(RepairList model)
         {
             SysResult<List<RepairList>> sysresult = new SysResult<List<RepairList>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
             sysresult = service.Queryhrepairlist(model);
             return sysresult;
         }

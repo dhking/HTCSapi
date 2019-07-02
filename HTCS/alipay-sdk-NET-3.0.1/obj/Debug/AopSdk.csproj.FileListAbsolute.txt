@@ -9,6 +9,5 @@ F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.dll
 F:\HTCS\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\alipay-sdk-NET-3.0.1\bin\Debug\AopSdk.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\alipay-sdk-NET-3.0.1\bin\Debug\AopSdk.pdb
-D:\HTCS\HTCSapi.git\trunk\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.csprojResolveAssemblyReference.cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\alipay-sdk-NET-3.0.1\obj\Debug\AopSdk.pdb

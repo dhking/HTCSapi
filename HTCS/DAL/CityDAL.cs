@@ -53,7 +53,15 @@ namespace DAL
             list = list.OrderByDescending(c => c.IsRemen).ToList();
             return list;
         }
-
+        //永昌
+        //public List<City> Querycity1(City model)
+        //{
+        //    ZmHelp zm = new Common.ZmHelp();
+        //    List<City> list = new List<City>();
+        //    list.Add(new City() { RegionName = "南京市" });
+        //    list.Add(new City() { RegionName = "北京市" });
+        //    return list;
+        //}
 
         public DbSet<City> Bbcity { get; set; }
     protected override void CreateModelMap(DbModelBuilder modelBuilder)

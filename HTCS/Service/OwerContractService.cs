@@ -58,6 +58,7 @@ namespace Service
                             }
                             model.TeantId = tract;
                         }
+                      
                         if (model.Id != 0)
                         {
                             if (context.deleteotherfee(model.Id, out errmsg) == false)
@@ -65,18 +66,27 @@ namespace Service
                                 dbContextTransaction.Rollback();
                                 return result = result.FailResult("保存失败" + errmsg);
                             }
+                           
                         }
                         long ContractId = context.SaveContrct(model);
                         if (model.Otherfee != null)
                         {
                             other = context.SaveOtherFee(model.Otherfee, ContractId);
                         }
+                        if (model.tRentFree != null)
+                        {
+                            other = context.SaveRecent(model.tRentFree, ContractId);
+                        }
+                        if (model.Grading != null)
+                        {
+                            other = context.SaveGrading(model.Grading, ContractId);
+                        }
                         if (model.Yajin != null)
                         {
                             model.Yajin.ForEach(p => p.IsYajin = 1);
                             other = context.SaveOtherFee(model.Yajin, ContractId);
                         }
-                        bool re = context.CmdBill(ContractId, "system", out errmsg);
+                        bool re = context.CmdBill(ContractId, userid.ToStr(), out errmsg);
                         //添加日志
                         RzService rzservice = new Service.RzService();
                         rzservice.ocontractaddrz(model.HouseId, userid, model.CompanyId, type);
@@ -100,30 +110,43 @@ namespace Service
             }
 
         }
-        public SysResult<List<WrapOwernContract>> Querymenufy(WrapOwernContract model, OrderablePagination orderablePagination,T_SysUser user)
+        public int getstatus(int Status, DateTime BeginTime, DateTime EndTime)
+        {
+            int resultStatus = Status;
+            DateTime dt = DateTime.Now.AddDays(45).Date;
+            if (Status == 2 || Status == 5)
+            {
+                if (BeginTime > DateTime.Now.Date)
+                {
+                    resultStatus = 4;
+                }
+                if (BeginTime <= DateTime.Now && EndTime >= DateTime.Now)
+                {
+                    resultStatus = 5;
+                }
+                if (EndTime <= dt)
+                {
+                    resultStatus = 6;
+                }
+            }
+            if (Status == 3)
+            {
+                resultStatus = 7;
+            }
+            return resultStatus;
+        }
+        public SysResult<List<WrapOwernContract>> Querymenufy(WrapOwernContract model, OrderablePagination orderablePagination, long[] userids, T_SysUser user)
         {
             SysResult<List<WrapOwernContract>> sysresult = new SysResult<List<WrapOwernContract>>();
-            List<WrapOwernContract> list = dal.Query(model, orderablePagination,user);
+            List<WrapOwernContract> list = dal.Query(model, orderablePagination,userids, user);
+            DateTime dt = DateTime.Now.AddDays(7).Date;
             foreach (var mo in list)
             {
-                if (mo.Status == 2)
+                mo.Status = getstatus(mo.Status, mo.BeginTime, mo.EndTime);
+                if (mo.Status == 6)
                 {
-                    if (mo.BeginTime > DateTime.Now)
-                    {
-                        mo.Status = 4;
-                    }
-                    if (mo.BeginTime <= DateTime.Now && mo.EndTime >= DateTime.Now)
-                    {
-                        mo.Status = 5;
-                    }
-                    if (mo.EndTime < DateTime.Now)
-                    {
-                        mo.Status = 6;
-                    }
-                }
-                if (mo.Status == 3)
-                {
-                    mo.Status = 7;
+                    TimeSpan t3 = DateTime.Today - mo.EndTime;
+                    mo.Day = t3.Days;
                 }
             }
             sysresult.numberData = list;
@@ -137,52 +160,25 @@ namespace Service
             List<WrapOwernContract> list = dal.excelQuery(model, user);
             foreach (var mo in list)
             {
-                if (mo.Status == 2)
-                {
-                    if (mo.BeginTime > DateTime.Now)
+                    mo.Status = getstatus(mo.Status, mo.BeginTime, mo.EndTime);
+                    if (mo.Status == 6)
                     {
-                        mo.Status = 4;
+                        TimeSpan t3 = DateTime.Today - mo.EndTime;
+                        mo.Day = t3.Days;
                     }
-                    if (mo.BeginTime <= DateTime.Now && mo.EndTime >= DateTime.Now)
-                    {
-                        mo.Status = 5;
-                    }
-                    if (mo.EndTime < DateTime.Now)
-                    {
-                        mo.Status = 6;
-                    }
-                }
-                if (mo.Status == 3)
-                {
-                    mo.Status = 7;
-                }
             }
             sysresult.numberData = list;
-      
             return sysresult;
         }
         public SysResult<WrapOwernContract> QueryById(WrapOwernContract model)
         {
             SysResult<WrapOwernContract> sysresult = new SysResult<WrapOwernContract>();
             WrapOwernContract list = dal.QueryId(model);
-            if (list.Status == 2)
+            list.Status = getstatus(list.Status, list.BeginTime, list.EndTime);
+            if (list.Status == 6)
             {
-                if (list.BeginTime > DateTime.Now)
-                {
-                    list.Status = 4;
-                }
-                if (list.BeginTime <= DateTime.Now && list.EndTime >= DateTime.Now)
-                {
-                    list.Status = 5;
-                }
-                if (list.EndTime < DateTime.Now)
-                {
-                    list.Status = 6;
-                }
-            }
-            if (list.Status == 3)
-            {
-                list.Status = 7;
+                TimeSpan t3 = DateTime.Today - list.EndTime;
+                list.Day = t3.Days;
             }
             sysresult.numberData = list;
             return sysresult;
@@ -304,7 +300,7 @@ namespace Service
             try
             {
                 string errmsg = "";
-                bool re = context.CmdDelete(model.Id, "system", "sp_deleteowercontract", out errmsg);
+                bool re = context.CmdDelete(model.Id, model.userid.ToStr(), "sp_deleteowercontract", out errmsg);
                 if (re == true)
                 {
                     result = result.SuccessResult("删除成功");
@@ -321,7 +317,7 @@ namespace Service
             }
         }
         //退款
-        public SysResult tuikuan(TuizuZhu model)
+        public SysResult tuikuan(TuizuZhu model,long userid)
         {
             SysResult result = new SysResult();
             using (var context = new TuizuDAL())
@@ -340,7 +336,7 @@ namespace Service
                         {
                             context.Savetuizu(model.list, zhuid);
                         }
-                        bool re = context.Cmdtuizu(zhuid, "system","sp_owerntuizu", out errmsg);
+                        bool re = context.Cmdtuizu(zhuid, userid.ToStr(), "sp_owerntuizu", out errmsg);
                         if (zhuid > 0 && re == true)
                         {
                             dbContextTransaction.Commit();

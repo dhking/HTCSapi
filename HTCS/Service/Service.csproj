@@ -54,6 +54,7 @@
     <Reference Include="System.Activities" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -75,6 +76,7 @@
     <Compile Include="BillService.cs" />
     <Compile Include="caiwuService.cs" />
     <Compile Include="ContrctService.cs" />
+    <Compile Include="CreateBillService.cs" />
     <Compile Include="ElectricService.cs" />
     <Compile Include="FinanceService.cs" />
     <Compile Include="FormatterService.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="HoseService.cs" />
     <Compile Include="HtcsExcelService.cs" />
     <Compile Include="IndentHouseService.cs" />
+    <Compile Include="initgwService.cs" />
     <Compile Include="Jurisdiction.cs" />
     <Compile Include="KjxService.cs" />
     <Compile Include="MapService.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="RepairedService.cs" />
     <Compile Include="RoleService.cs" />
     <Compile Include="RzService.cs" />
+    <Compile Include="SetService.cs" />
     <Compile Include="SignService.cs" />
     <Compile Include="StatisticsService.cs" />
     <Compile Include="SysUserService.cs" />

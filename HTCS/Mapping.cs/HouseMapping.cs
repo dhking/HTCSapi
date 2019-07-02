@@ -73,6 +73,24 @@ namespace Mapping.cs
             Property(m => m.term).HasColumnName("TERM");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
             Property(m => m.storeid).HasColumnName("STOREID");
+
+            Property(m => m.isyccontract).HasColumnName("ISYCCONTRACT");
+
+            Property(m => m.latitude).HasColumnName("LATITUDE");
+
+            Property(m => m.longitude).HasColumnName("LONGITUDE");
+
+            //永昌
+            //Property(m => m.yeara).HasColumnName("YEARA");
+
+            //Property(m => m.yearb).HasColumnName("YEARB");
+
+            //Property(m => m.yearc).HasColumnName("YEARC");
+
+            //Property(m => m.yeard).HasColumnName("YEARD");
+
+            //Property(m => m.yeare).HasColumnName("YEARE");
+
         }
     }
    

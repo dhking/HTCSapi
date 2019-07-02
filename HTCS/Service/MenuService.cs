@@ -21,8 +21,13 @@ namespace Service
             sysresult.numberData =dal.Query();
             return sysresult;
         }
-        public SysResult<List<T_Menu>> Querylist(T_SysUser model,int sign)
+        public SysResult<List<T_Menu>> Querylist(T_SysUser model)
         {
+            int[] sign =new int[] {1 };
+            if (model.CompanyId == 1)
+            {
+                sign= new int[] { 1,3 };
+            }
             SysResult<List<T_Menu>> sysresult = new SysResult<List<T_Menu>>();
             sysresult.Code = 0;
             sysresult.Message = "查询成功";

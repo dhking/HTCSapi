@@ -28,6 +28,7 @@ namespace DAL
                        select new WrapFinanceModel() { Id=o.Id,
                         
         HouseId = o.HouseId ,
+
         Trader= o.Trader ,
         Type= o.Type ,
         CostName= o.CostName,
@@ -39,7 +40,11 @@ namespace DAL
         HouseName= t.Name,
         PayMentNumber=o.PayMentNumber,
         Transaoctor=o.Transaoctor,
-        CompanyId=o.CompanyId
+        CompanyId=o.CompanyId,
+        HouseType = t==null?0: t.RecentType,
+        CityName=t.CityName,
+        AreaName=t.AreaName,
+        CellName=t.CellName
                        };
             Expression<Func<WrapFinanceModel, bool>> where = m => 1 == 1;
             data = data.Where(where);
@@ -47,6 +52,47 @@ namespace DAL
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            if (model.HouseType != 0)
+            {
+                where = where.And(m => m.HouseType == model.HouseType);
+            }
+            if (model.Type != 0)
+            {
+                where = where.And(m => m.Type == model.Type);
+            }
+           
+            if (model.HouseType != 0)
+            {
+                where = where.And(m => m.HouseType == model.HouseType);
+            }
+            if (!string.IsNullOrEmpty(model.PayType))
+            {
+                where = where.And(m => m.PayType == model.PayType);
+            }
+            if (!string.IsNullOrEmpty(model.Content))
+            {
+                where = where.And(m => m.HouseName.Contains(model.Content) || m.Trader.Contains(model.Content));
+            }
+            if (!string.IsNullOrEmpty(model.CostName))
+            {
+                where = where.And(m => m.CostName == model.CostName);
+            }
+            if (!string.IsNullOrEmpty(model.CityName))
+            {
+                where = where.And(m => m.CityName == model.CityName);
+            }
+            if (!string.IsNullOrEmpty(model.AreaName))
+            {
+                where = where.And(m => m.AreaName == model.AreaName);
+            }
+            if (model.arrCellNames!=null)
+            {
+                where = where.And(m => model.arrCellNames.Contains(m.CellName));
+            }
+            if (model.BeginTime!=DateTime.MinValue)
+            {
+                where = where.And(m => m.TradingDate>= model.BeginTime&& m.TradingDate <= model.EndTime);
             }
             data = data.Where(where);
             List<WrapFinanceModel> list = QueryableForList(data, orderablePagination, order1);

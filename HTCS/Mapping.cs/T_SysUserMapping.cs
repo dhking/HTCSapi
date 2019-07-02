@@ -62,7 +62,7 @@ namespace Mapping.cs
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
         }
     }
-    public class T_SysUserMapping: BaseEntityTypeMap<T_SysUser>
+    public class T_SysUserMapping : BaseEntityTypeMap<T_SysUser>
     {
         protected override void IniMaps()
         {
@@ -88,7 +88,7 @@ namespace Mapping.cs
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
             Property(m => m.Zfbzh).HasColumnName("ZFBZH");
             Property(m => m.Wxzh).HasColumnName("WXZH");
-
+            Property(m => m.isquit).HasColumnName("ISQUIT");
             Property(m => m.userimg).HasColumnName("USERIMG");
             Property(m => m.nickname).HasColumnName("NICKNAME");
             Property(m => m.pinpai).HasColumnName("PINPAI");
@@ -99,6 +99,31 @@ namespace Mapping.cs
             Property(m => m.registrationId).HasColumnName("REGISTRATIONID");
             Property(m => m.range).HasColumnName("RANGE");
             Property(m => m.pt_username).HasColumnName("PT_USERNAME");
+            Property(m => m.roleid).HasColumnName("ROLEID");
+            Property(m => m.cellname).HasColumnName("CELLNAME");
+        }
+    }
+    public class departmentMapping : BaseEntityTypeMap<t_department>
+    {
+        protected override void IniMaps()
+        {
+            HasKey(m => m.Id);
+
+            Property(m => m.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            ToTable("T_DEPARTMENT");
+            Property(m => m.Id).HasColumnName("ID");
+            Property(m => m.name).HasColumnName("NAME");
+            Property(m => m.city).HasColumnName("CITY");
+            Property(m => m.area).HasColumnName("AREA");
+            Property(m => m.parentid).HasColumnName("PARENTID");
+            Property(m => m.companyid).HasColumnName("COMPANYID");
+
+            Property(m => m.phone).HasColumnName("PHONE");
+            Property(m => m.adress).HasColumnName("ADRESS");
+            Property(m => m.stroe).HasColumnName("STROE");
+            Property(m => m.userids).HasColumnName("USERIDS");
+            Property(m => m.cellname).HasColumnName("CELLNAME");
         }
     }
     //电表账号
@@ -191,6 +216,8 @@ namespace Mapping.cs
             Property(m => m.PasswordExpiration).HasColumnName("PASSWORDEXPIRATION");
             Property(m => m.IsActive).HasColumnName("ISACTIVE");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
+            Property(m => m.range).HasColumnName("RANGE");
+            Property(m => m.ishouse).HasColumnName("ISHOUSE");
         }
     }
 

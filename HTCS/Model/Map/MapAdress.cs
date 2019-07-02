@@ -32,6 +32,7 @@ namespace Model.Map
         public int adcode { get; set; }
         public string pname { get; set; }
         public string cityname { get; set; }
+        public string location { get; set; }
         public string adname { get; set; }
         public object business_area { get; set; }
         public object address { get; set; }

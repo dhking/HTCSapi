@@ -87,7 +87,8 @@ namespace DAL.Common
             {
                 oDoc.Save(strFileName, SaveFormat.Doc);
             }
-           
+            
+
         }
         public void WriteText(string filename, string content)
         {
@@ -104,6 +105,21 @@ namespace DAL.Common
             string html = "<html>" + content + "</html>";
             oWordApplic.InsertHtml(html);
             SaveAs(path, oDoc);
+        }
+        public byte[] downword(string html)
+        {
+          
+            Aspose.Words.Document oDoc = new Aspose.Words.Document();
+            oWordApplic = new DocumentBuilder(oDoc);
+            oWordApplic.Font.Size = 14;
+            oWordApplic.PageSetup.PaperSize = PaperSize.A4;
+            string afterhtml = "<html>" + html + "</html>";
+            oWordApplic.InsertHtml(afterhtml);
+            MemoryStream outStream = new MemoryStream();
+            oDoc.Save(outStream, SaveFormat.Docx);
+            byte[] docBytes = outStream.ToArray();
+            outStream.Close();
+            return docBytes;
         }
         private Run SplitRun(Run run, int position)
         {

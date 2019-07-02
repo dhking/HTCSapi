@@ -31,6 +31,16 @@ namespace Model.House
         public string provinceName { get; set; }
         public List<City>  mallCityList{get;set;}
     }
+    public class WrapCellBuilding
+    {
+        public long CompanyId { get; set; }
+        public long Id { get; set; }
+        public int Type { get; set; }
+        public int regtype { get; set; }
+        public long provinceCode { get; set; }
+        public string provinceName { get; set; }
+        public List<Area> mallAreaList { get; set; }
+    }
     public class WrapCity
     {
         public long cityCode { get; set; }

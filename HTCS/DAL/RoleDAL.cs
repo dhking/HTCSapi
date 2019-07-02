@@ -24,11 +24,11 @@ namespace DAL
     {
         public List<T_Button> Query(T_SysUserRole model)
         {
-            var mo = from m in RoleMenu
-                     join n in BbUserRole on m.RoleId equals n.SysRoleId
-                     join t in BbButton on m.MenuId equals t.MenuId
-                     where n.SysUserId == model.SysUserId
-                     select t;
+            var mo = from m in BbButton
+                     join n in RoleMenu on m.Id equals n.ButtonId
+                     join t in BbUserRole on n.RoleId equals t.SysRoleId
+                     where t.SysUserId == model.SysUserId
+                     select m;
             Expression<Func<T_Button, bool>> where = m => 1 == 1;
             if (model.Id != 0)
             {
@@ -90,7 +90,7 @@ namespace DAL
             return data.FirstOrDefault();
         }
 
-        public List<T_CellName> storelistquery(long [] parentids)
+        public List<T_CellName> storelistquery(List<long> parentids)
         {
             var data = from m in Bbstore where parentids.Contains(m.parentid)
                        select m;
@@ -100,7 +100,7 @@ namespace DAL
             IOrderByExpression<T_CellName> order = new OrderByExpression<T_CellName, long>(p => p.Id, true);
             return data.ToList();
         }
-        public List<T_CellName> storelistquery1(long[] parentids)
+        public List<T_CellName> storelistquery1(List<long> parentids)
         {
             var data = from m in Bbstore
                        where parentids.Contains(m.Id)
@@ -151,16 +151,11 @@ namespace DAL
 
         }
         //根据id查询角色名称
-        public string queryrole(List<long> rolesid)
+        public T_SysRole queryrole(List<long> rolesid)
         {
-            string result = "";
-            var data = from m in BbRole where rolesid.Contains(m.Id) select m.RoleName;
-            data.ToList().ForEach(p => result=result +p.ToStr() + ",");
-            if (result != "")
-            {
-                result = result.Substring(0, result.Length - 1);
-            }
-            return result;
+            var data = from m in BbRole where rolesid.Contains(m.Id) select m;
+            
+            return data.FirstOrDefault();
         }
         //删除通用
         public void delete(iids model)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace Model.Bill
         public string sign { get; set; }
         public DateTime? PayTime { get; set; }
         public string  PayType { get; set; }
-        public string CreatePerson { get; set; }
+        public long CreatePerson { get; set; }
         public string TranSactor { get; set; }
         public DateTime CreateTime { get; set; }
         public string Remark { get; set; }
@@ -43,6 +44,8 @@ namespace Model.Bill
         public int BillType { get; set; }
         public string Liushui { get; set; }
         public long ContractId { get; set; }
+        [JsonProperty("Contractid")]
+        public long Contracid { get; set; }
         public int stage { get; set; }
         public long HouseId { get; set; }
         //0正序排序1反序排序
@@ -78,7 +81,15 @@ namespace Model.Bill
         public string bank { get; set; }
 
         public string subbranch { get; set; }
+        [NotMapped]
+        public decimal zfbshouxu { get; set; }
 
-      
+        [NotMapped]
+        public decimal wxshouxu { get; set; }
+
+        [NotMapped]
+        public int yuqitype { get; set; }
+
+        public string name { get; set; }
     }
 }

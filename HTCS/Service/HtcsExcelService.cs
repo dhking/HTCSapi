@@ -1,6 +1,8 @@
 ﻿using ControllerHelper;
 using DAL;
+using DAL.Common;
 using Model;
+using Model.Base;
 using Model.Contrct;
 using Model.House;
 using Model.User;
@@ -27,15 +29,16 @@ namespace Service
         //合租导出
         public byte[] hhouseexcel(HouseModel model)
         {
-            List<HousePendent> housemodel = hservice.excelQueryhouse(model,null).numberData;
+            
+            List<WrapHousePendent> housemodel = hservice.excelQueryhouse(model,null).numberData;
             return dal.hexcel(housemodel);
         }
         //独栋导出
-        public byte[] dhouseexcel(HouseModel model)
+        public byte[] dhouseexcel(HouseModel model,string [] citys,T_SysUser user)
         {
             IndentHouseService dentservice = new Service.IndentHouseService();
-            List<HousePendent> housemodel = dentservice.excelQueryPChouse(model);
-            return dal.hexcel(housemodel);
+            List<HousePendent> housemodel = dentservice.excelQueryPChouse(model, citys, user);
+            return dal.hexce3(housemodel);
         }
         //合同导出 
         public byte[] contractexcel(WrapContract model,T_SysUser user)
@@ -51,7 +54,14 @@ namespace Service
             List<WrapOwernContract> housemodel = cservice.excelQuerymenufy(model, user).numberData;
             return dal.ycontractexcel(housemodel);
         }
-        //下载
+        //下载合同word
+        public byte[] downword(long id)
+        {
+            CreateWord word = new DAL.Common.CreateWord();
+            BaseDataService baseservice = new BaseDataService();
+            T_template temp = baseservice.morenQuery(new WrapContract() { Id = id }).numberData;
+            return word.downword(temp.content);
+        }
 
         protected OrderablePagination InitPage(int limit, int start)
         {

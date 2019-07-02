@@ -61,7 +61,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
@@ -112,6 +112,7 @@
     <Compile Include="DB\ISysParaService.cs" />
     <Compile Include="DB\SysParaService.cs" />
     <Compile Include="JobImpl\CreateQueueJob.cs" />
+    <Compile Include="JobImpl\InitGwJob.cs" />
     <Compile Include="JobImpl\messageJob.cs" />
     <Compile Include="JobImpl\StoredProcedureJob.cs" />
     <Compile Include="JobImpl\TestJob.cs" />

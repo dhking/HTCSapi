@@ -10,6 +10,30 @@ using System.Threading.Tasks;
 namespace Model.Contrct
 {
 
+    public class T_RentFree : BasicModel
+    {
+        public long Id { get; set; }
+
+        public DateTime End { get; set; }
+
+        public DateTime Begin { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public long ContractId { get; set; }
+    }
+
+    public class T_Grading : BasicModel
+    {
+        public long Id { get; set; }
+
+        public int Year { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public long ContractId { get; set; }
+    }
+
     public class T_OwernContrct : BasicModel
     {
         public long Id { get; set; }
@@ -18,6 +42,8 @@ namespace Model.Contrct
         public DateTime EndTime { get; set; }
         public long CompanyId { get; set; }
 
+        [NotMapped]
+        public long userid { get; set; }
 
         public int PinLv { get; set; }
 
@@ -36,7 +62,7 @@ namespace Model.Contrct
        
         public string Enclosure { get; set; }
         public DateTime CreateTime { get; set; }
-        public string CreatePerson { get; set; }
+        public long CreatePerson { get; set; }
         public int Status { get; set; }
         public long HouseId { get; set; }
         public int HouseType { get; set; }
@@ -61,6 +87,8 @@ namespace Model.Contrct
         public string accounts { get; set; }
 
         public string bank { get; set; }
+
+        public string subbranch { get; set; }
         
         [NotMapped]
         public List<T_Otherfee> Otherfee { get; set; }
@@ -68,16 +96,27 @@ namespace Model.Contrct
         public List<T_Otherfee> Yajin { get; set; }
         [NotMapped]
         public T_Teant Teant { get; set; }
+        [NotMapped]
+        public List<T_RentFree> tRentFree { get; set; }
+        //租金分段
+        [NotMapped]
+        public List<T_Grading> Grading { get; set; }
     }
 
 
     public class WrapOwernContract : BasicModel
     {
         public long Id { get; set; }
+        public long HouseKeeper { get; set; }
+        public long Day { get; set; }
         public long storeid { get; set; }
         public long CompanyId { get; set; }
         public DateTime BeginTime { get; set; }
         public DateTime EndTime { get; set; }
+        [NotMapped]
+        public DateTime qBeginTime { get; set; }
+        [NotMapped]
+        public DateTime qEndTime { get; set; }
         public string Name { get; set; }
         public int Sex { get; set; }
         public int Status { get; set; }
@@ -100,8 +139,9 @@ namespace Model.Contrct
         public int Recivetype { get; set; }
         public string Enclosure { get; set; }
 
-        public string CreatePerson { get; set; }
-
+        public long CreatePerson { get; set; }
+        [NotMapped]
+        public string CreatePersonstr { get; set; }
         public int BeforeDay { get; set; }
 
         public string RecivedType { get; set; }
@@ -109,7 +149,7 @@ namespace Model.Contrct
         public decimal RecivedAmount { get; set; }
 
         public string RecivedAccount { get; set; }
-
+        public string subbranch { get; set; }
         public int iskaimen { get; set; }
         [NotMapped]
         public DateTime tBeginTime { get; set; }
@@ -143,5 +183,12 @@ namespace Model.Contrct
         public T_Teant Teant { get; set; }
         [NotMapped]
         public List<HouseLockQuery> HouseLock { get; set; }
+
+        [NotMapped]
+        public List<T_RentFree> tRentFree { get; set; }
+
+        //租金分段
+        [NotMapped]
+        public List<T_Grading> Grading { get; set; }
     }
 }

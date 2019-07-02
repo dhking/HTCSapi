@@ -48,14 +48,14 @@ namespace DAL
             return SqlHelper.ExecuteDataSet("sp_statistics", cmd, "EntityDB", null);
         }
         //财务统计数据
-        public DataSet caiwuStatisticsQuery()
+        public DataSet caiwuStatisticsQuery(long companyid)
         {
 
             OracleCommand cmd = new OracleCommand();
 
-            OracleParameter paramwmscode = new OracleParameter("Id", OracleDbType.Varchar2);
+            OracleParameter paramwmscode = new OracleParameter("rId", OracleDbType.Varchar2);
             paramwmscode.Direction = ParameterDirection.Input;
-            paramwmscode.Value = 1;
+            paramwmscode.Value = companyid;
             cmd.Parameters.Add(paramwmscode);
             OracleParameter paramCode = new OracleParameter("Code", OracleDbType.Int16);
             paramCode.Direction = ParameterDirection.Output;
@@ -73,12 +73,12 @@ namespace DAL
             return SqlHelper.ExecuteDataSet("sp_caiwustatistics", cmd, "EntityDB", null);
         }
         //首页统计数据
-        public DataSet indexStatisticsQuery()
+        public DataSet indexStatisticsQuery(long companyid)
         {
             OracleCommand cmd = new OracleCommand();
-            OracleParameter paramwmscode = new OracleParameter("Id", OracleDbType.Varchar2);
+            OracleParameter paramwmscode = new OracleParameter("rId", OracleDbType.Varchar2);
             paramwmscode.Direction = ParameterDirection.Input;
-            paramwmscode.Value = 1;
+            paramwmscode.Value = companyid;
             cmd.Parameters.Add(paramwmscode);
             OracleParameter paramCode = new OracleParameter("Code", OracleDbType.Int16);
             paramCode.Direction = ParameterDirection.Output;
@@ -95,13 +95,13 @@ namespace DAL
         }
         //pc端运营数据
 
-        public DataSet StatisticsPCQuery()
+        public DataSet StatisticsPCQuery(long companyid)
         {
 
             OracleCommand cmd = new OracleCommand();
-            OracleParameter paramwmscode = new OracleParameter("Id", OracleDbType.Varchar2);
+            OracleParameter paramwmscode = new OracleParameter("rId", OracleDbType.Int64);
             paramwmscode.Direction = ParameterDirection.Input;
-            paramwmscode.Value = 1;
+            paramwmscode.Value = companyid;
             cmd.Parameters.Add(paramwmscode);
             OracleParameter paramCode = new OracleParameter("Code", OracleDbType.Int16);
             paramCode.Direction = ParameterDirection.Output;
@@ -161,7 +161,7 @@ namespace DAL
         {
 
             OracleCommand cmd = new OracleCommand();
-            OracleParameter paramwmscode = new OracleParameter("id", OracleDbType.Int64);
+            OracleParameter paramwmscode = new OracleParameter("rid", OracleDbType.Int64);
             paramwmscode.Direction = ParameterDirection.Input;
             paramwmscode.Value = userid;
             cmd.Parameters.Add(paramwmscode);
@@ -199,6 +199,10 @@ namespace DAL
             if (model.Id != 0)
             {
                 where = where.And(m => m.Id == model.Id);
+            }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
             }
             data = data.Where(where);
             data.Count();

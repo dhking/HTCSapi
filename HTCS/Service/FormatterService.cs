@@ -22,26 +22,35 @@ namespace Service
         {
             return dal.Queryxq<T>(model);
         }
-        public List<WrapCell>  Querycell(WrapCell model)
+        public List<WrapCell>  Querycell(WrapCell model, string[] arr,string[] cellname, T_SysUser user)
         {
             List<WrapCell> wraplist = new List<WrapCell>();
             model.regtype = 3;
-            wraplist =dal.QueryOne(model);
+            wraplist =dal.QueryOne(model, arr, cellname, user);
             return wraplist;
         }
+        public List<WrapCellBuilding> Querycellbuilding(WrapCell model, string[] arr, string[] cellname,T_SysUser user)
+        {
+            List<WrapCellBuilding> wraplist = new List<WrapCellBuilding>();
+            model.regtype = 3;
+            model.Type = 3;
+            wraplist = dal.QueryOnebuilding(model, arr, cellname, user);
+            return wraplist;
+        }
+        
 
-        public List<WrapCell> Querycell1(WrapCell model)
+        public List<WrapCell> Querycell1(WrapCell model, string[] arr, string[] cellname, T_SysUser user)
         {
             List<WrapCell> wraplist = new List<WrapCell>();
             model.regtype = 3;
-            wraplist = dal.QueryOne1(model);
+            wraplist = dal.QueryOne1(model, arr, cellname, user);
             return wraplist;
         }
-        public List<WrapCell> Querystore(WrapCell model)
+        public List<WrapCell> Querystore(WrapCell model, string[] arr,string[] cellname, T_SysUser user)
         {
             List<WrapCell> wraplist = new List<WrapCell>();
             model.regtype = 4;
-            wraplist = dal.QueryOne3(model);
+            wraplist = dal.QueryOne3(model, arr, cellname, user);
             return wraplist;
         }
     

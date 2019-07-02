@@ -17,8 +17,12 @@ namespace Service
         public SysResult<List<WrapFinanceModel>> Query(FinanceModel model, OrderablePagination orderablePagination)
         {
             List<WrapFinanceModel> list = new List<WrapFinanceModel>();
+            if (model.CellNames != null)
+            {
+                model.arrCellNames = model.CellNames.Split(',');
+            }
             list = dal.Querylist(model, orderablePagination);
-          
+            
             SysResult<List<WrapFinanceModel>> result = new SysResult<List<WrapFinanceModel>>();
             result.numberData = list;
             result.numberCount = orderablePagination.TotalCount;

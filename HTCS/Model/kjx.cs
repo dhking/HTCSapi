@@ -37,7 +37,7 @@ namespace Model
         public List<locklist> list { get; set; }
         public string  UserName { get; set; }
         public string lockData { get; set; }
-
+        public string gatewayId { get; set; }
         public string lockAlias { get; set; }
         public long UserId { get; set; }
         public long HouseId { get; set; }
@@ -67,6 +67,9 @@ namespace Model
         public string lockName { get; set; }
         public string lockAlias { get; set; }
         public string lockMac { get; set; }
+        public int rssi { get; set; }
+        public long updateDate { get; set; }
+        
         public int electricQuantity { get; set; }
         public int keyboardPwdVersion { get; set; }
         public int specialValue { get; set; }
@@ -116,6 +119,32 @@ namespace Model
         public long openid { get; set; }
         public long lastUpdateDate { get; set; }
     }
+
+    public class gateway
+    {
+        public string gatewayId { get; set; }
+        //网关mac地址
+        public string gatewayMac { get; set; }
+        //网关版本号：1-G1，2-G2
+        public string gatewayVersion { get; set; }
+        //网关连接的网络名称
+        public string networkName { get; set; }
+        //数量
+        public string lockNum { get; set; }
+        //是否在线：0-否，1-是
+        public string isOnline { get; set; }
+
+
+        public string modelNum { get; set; }
+        
+        public string hardwareRevision { get; set; }
+
+
+        public string firmwareRevision { get; set; }
+       
+        public string gatewayNetMac { get; set; }
+    }
+   
     public class syspara:BasicModel
     {
         public string UserName { get; set; }
@@ -243,7 +272,7 @@ namespace Model
         public string UserName { get; set; }
         public int id { get; set; }
         public Nullable<int> keyboardPwdId { get; set; }
-        public Nullable<int> lockId { get; set; }
+        public string lockId { get; set; }
         public string keyboardPwd { get; set; }
         public Nullable<int> keyboardPwdVersion { get; set; }
         public Nullable<int> keyboardPwdType { get; set; }

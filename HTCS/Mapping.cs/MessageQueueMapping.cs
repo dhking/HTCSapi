@@ -29,6 +29,7 @@ namespace Mapping.cs
             Property(m => m.type).HasColumnName("TYPE");
             Property(m => m.contractid).HasColumnName("CONTRACTID");
             Property(m => m.companyid).HasColumnName("COMPANYID");
+            Property(m => m.name).HasColumnName("NAME");
         }
     }
    

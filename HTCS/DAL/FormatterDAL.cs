@@ -31,16 +31,17 @@ namespace DAL
             T list = SqlQuery<T>(sql).FirstOrDefault();
             return list;
         }
-        public List<WrapCell> QueryOne(WrapCell model)
+        public List<WrapCell> QueryOne(WrapCell model, string[] citys,string [] cellname, T_SysUser user)
         {
-            List<T_CellName> listcity = getcity(model);
+            List<T_CellName> listcity = getcity(model,citys, cellname,user);
             List<WrapCell> delete = new List<WrapCell>();
             List<City> deletearea = new List<City>();
             List<WrapCell> listwrap = (from m in listcity where m.regtype == 1 select new WrapCell() { provinceCode = m.City, provinceName = m.Name, Id = m.Id }).ToList();
+           
             foreach (var mo in listwrap)
             {
                 mo.mallCityList = (from j in listcity where j.parentid == mo.Id select new City() { cityCode = j.Area, cityName = j.Name, Id = j.Id }).ToList();
-                mo.mallCityList.Insert(0, new Model.House.City() { cityName = "全部", cityCode = 0 });
+              
                 if (mo.mallCityList.Count == 0)
                 {
                     delete.Add(mo);
@@ -58,18 +59,64 @@ namespace DAL
                         {
                             m.mallAreaList.Insert(0, new Model.House.Area() { areaName = "全部", areaCode = 0 });
                         }
+                       
                     }
                 }
-
+                mo.mallCityList.Insert(0, new Model.House.City() { cityName = "全部", cityCode = 0 });
             }
             WrapCell model1 = new WrapCell();
             model1.provinceName = "全部";
             listwrap.Insert(0, model1);
+            WrapCell model2 = new WrapCell();
+            model2.provinceName = "附近";
+            List<City> licity = new List<City>();
+            City m1 = new City() { cityName = "不限", cityCode = 0 };
+            City m2 = new City() { cityName = "1千米", cityCode = 1000 };
+            City m3 = new City() { cityName = "2千米", cityCode = 2000 };
+            City m4 = new City() { cityName = "3千米", cityCode = 3000 };
+            licity.Add(m1);
+            licity.Add(m2);
+            licity.Add(m3);
+            licity.Add(m4);
+            model2.mallCityList = licity;
+            listwrap.Insert(1, model2);
             listwrap = distinctby(listwrap, delete, deletearea);
             return listwrap;
         }
-        public List<T_CellName> getcity(WrapCell model)
+        //独栋的数据
+        public List<WrapCellBuilding> QueryOnebuilding(WrapCell model, string[] citys,string[] cellname, T_SysUser user)
         {
+            List<T_CellName> listcity = getcity(model, citys, cellname, user);
+            List<WrapCellBuilding> delete = new List<WrapCellBuilding>();
+            List<WrapCellBuilding> listwrap = (from m in listcity where m.regtype == 1 select new WrapCellBuilding() { provinceCode = m.City, provinceName = m.Name, Id = m.Id }).ToList();
+            foreach (var mo in listwrap)
+            {
+                List<City> listcitys= (from j in listcity where j.parentid == mo.Id select new City() { cityCode = j.Area, cityName = j.Name, Id = j.Id }).ToList();
+                List<Area> listarea = new List<Area>();
+                foreach (var m in listcitys)
+                {
+                    m.mallAreaList = (from j in listcity where j.parentid == m.Id && j.regtype == model.regtype select new Area() { areaCode = j.Id, areaName = j.Name }).ToList();
+                    foreach(var m1 in m.mallAreaList)
+                    {
+                        listarea.Add(m1);
+                    }
+                }
+                mo.mallAreaList = listarea;
+            }
+            //去重
+            foreach (var mo in listwrap)
+            {
+                if (mo.mallAreaList == null|| mo.mallAreaList.Count()==0)
+                {
+                    delete.Add(mo);
+                }
+            }
+            listwrap = listwrap.Except(delete).ToList();
+            return listwrap;
+        }
+        public List<T_CellName> getcity(WrapCell model,string [] citys,string[] cellname,T_SysUser user)
+        {
+           
             var data = from m in Cell select m;
             Expression<Func<T_CellName, bool>> where = m =>1 == 1;
             //查询门店或者小区数据
@@ -83,6 +130,7 @@ namespace DAL
                 int[] arr= new int[] { 1, 2, 3 };
                 where = where.And(p => arr.Contains(p.Type));
             }
+
             if (model.CompanyId != 0)
             {
                 where = where.And(p => p.CompanyId == model.CompanyId);
@@ -97,7 +145,15 @@ namespace DAL
             var data1 = from m in Cell where arrs.Contains(m.regtype) select m;
             data = data.Union(data1);
             List<T_CellName> listcell = data.ToList();
-            return listcell;
+            List<T_CellName> list1=listcell.Where(p => p.regtype ==1).ToList();
+            List<T_CellName> list3 = listcell.Where(p => p.regtype == 3).ToList();
+            List <T_CellName>list2= listcell.Where(p => p.regtype == 2).ToList();
+            if ((user.range == 2 || user.range == 3))
+            {
+                list1=list1.Where(p => citys.Contains(p.Name)).ToList();
+                list3=list3.Where(p => cellname.Contains(p.Name)).ToList();
+            }
+            return list1.Concat(list2).Concat(list3).ToList();
         }
         //获取所有市数据
         public List<T_CellName> getarea(WrapCell model)
@@ -133,7 +189,7 @@ namespace DAL
                     continue;
                 }
                 mo.mallCityList = mo.mallCityList.Except(deletearea).ToList();
-                if (mo.mallCityList==null|| mo.mallCityList.Count == 0)
+                if (mo.mallCityList==null|| mo.mallCityList.Where(p=>p.cityName!="全部").Count() == 0)
                 {
                     twodelete.Add(mo);
                 }
@@ -142,9 +198,9 @@ namespace DAL
             list = list.Except(twodelete).ToList();
             return list;
         }
-        public List<WrapCell> QueryOne1(WrapCell model)
+        public List<WrapCell> QueryOne1(WrapCell model,string[] citys,string[] cellname,T_SysUser user)
         {
-            List<T_CellName> listcity = getcity(model);
+            List<T_CellName> listcity = getcity(model,citys, cellname, user);
             List<WrapCell> delete = new List<WrapCell>();
             List<City> deletearea = new List<City>();
             List<WrapCell> listwrap = (from m in listcity where m.regtype==1 select new WrapCell() { provinceCode = m.City, provinceName = m.Name, Id = m.Id }).ToList();
@@ -172,9 +228,9 @@ namespace DAL
             return listwrap;
         }
 
-        public List<WrapCell> QueryOne3(WrapCell model)
+        public List<WrapCell> QueryOne3(WrapCell model,string [] citys,string[] cellname, T_SysUser user)
         {
-            List<T_CellName> listcity = getcity(model);
+            List<T_CellName> listcity = getcity(model, citys, cellname,user);
             List<WrapCell> delete = new List<WrapCell>();
             List<City> deletearea = new List<City>();
             List<WrapCell> listwrap = (from m in listcity where m.regtype == 1 select new WrapCell() { provinceCode = m.City, provinceName = m.Name, Id = m.Id }).ToList();

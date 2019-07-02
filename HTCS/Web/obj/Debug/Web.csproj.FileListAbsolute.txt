@@ -211,8 +211,10 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Quartz.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\aliyun-net-sdk-core.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\aliyun-net-sdk-dysmsapi.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\AopSdk.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Aspose.Words.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\NPOI.OOXML.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Mapping.cs.dll
+D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\CodeFirstStoreFunctions.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\System.Net.Http.Formatting.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\System.Web.Http.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\log4net.dll
@@ -262,6 +264,7 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\ServiceStack.Redis.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Quartz.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Quartz.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\AopSdk.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Aspose.Words.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Mapping.cs.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\log4net.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Castle.Windsor.xml
@@ -294,5 +297,3 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\zh-Hans\Microsoft.Owin.Security.Microsoft
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\obj\Debug\Web.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Web\obj\Debug\Web.pdb
-D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Aspose.Words.dll
-D:\HTCS\HTCSapi.git\trunk\HTCS\Web\bin\Aspose.Words.xml

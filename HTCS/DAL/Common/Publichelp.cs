@@ -11,7 +11,16 @@ namespace DAL
 {
     public static class PuclicDataHelp
     {
-
+        //数组变字符串
+        public static string getstr(List<string> arr)
+        {
+            string result = "";
+            if (arr != null)
+            {
+                return  string.Join(";;", arr);
+            }
+            return  result;
+        }
         ///编码
         public static string EncodeBase64(string code_type, string code)
         {

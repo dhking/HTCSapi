@@ -16,6 +16,10 @@ namespace Model
 
     public  class SysResult<T>
     {
+        /// <summary>
+        /// 距离（km）
+        /// </summary>
+        public double distance { get; set; }
         public long numberCount { get; set; }
 
         public T numberData { get; set; }

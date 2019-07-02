@@ -59,6 +59,9 @@ namespace Mapping.cs.Contrct
 
             Property(m => m.userid).HasColumnName("USERID");
             Property(m => m.eleccontract).HasColumnName("ELECCONTRACT");
+
+            Property(m => m.isxuzu).HasColumnName("ISXUZU");
+            Property(m => m.contracttype).HasColumnName("CONTRACTTYPE");
         }
     }
 }

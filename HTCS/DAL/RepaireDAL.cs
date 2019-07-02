@@ -10,6 +10,7 @@ using Model.TENANT;
 using Model.User;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -110,7 +111,10 @@ namespace DAL
             {
                 where = where.And(m => m.Urgent == model.Urgent);
             }
-            
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
             data = data.Where(where);
             return data.ToList();
         }
@@ -141,7 +145,7 @@ namespace DAL
             remodel = data.FirstOrDefault();
             if (remodel != null)
             {
-                remodel.Ipimgadess = "http://106.14.96.37:82/";
+                remodel.Ipimgadess = ConfigurationManager.AppSettings["imgurl"];
                 var data1 = (from m in BbRepairelist
                              join n in BbUser on m.UserId equals n.Id into temp
                              from t in temp.DefaultIfEmpty()
@@ -154,16 +158,17 @@ namespace DAL
         public WrapRepaire hQueryxq(Guest model)
         {
             WrapRepaire remodel = new WrapRepaire();
+            remodel.Ipimgadess = ConfigurationManager.AppSettings["imgurl"];
             var data = from m in BbRepaire
                        join n in BbRepairelist
                        on m.Id equals n.RepairId into temp
                        from t in temp.DefaultIfEmpty()
                        where t.Id == model.Id
-                       select new WrapRepaire() { HouseId = m.HouseId, Id = m.Id, Phone = m.Phone, Adress = m.Adress, City = m.City, Area = m.Area, AppiontTime = m.AppiontTime, House = m.House, JournaList = m.JournaList };
+                       select new WrapRepaire() {Remark=m.Remark,HouseId = m.HouseId, Id = m.Id, Phone = m.Phone, Adress = m.Adress, City = m.City, Area = m.Area, AppiontTime = m.AppiontTime, House = m.House, JournaList = m.JournaList };
             remodel = data.FirstOrDefault();
             if (remodel != null)
             {
-                remodel.Ipimgadess = "http://106.14.96.37:82/";
+               
                 var data1 = (from m in BbRepairelist
                              join n in BbUser on m.UserId equals n.Id into temp
                              from t in temp.DefaultIfEmpty()
@@ -205,6 +210,7 @@ namespace DAL
                         //    mo.Image = mo.Image.Substring(0, mo.Image.Length - 1);
                         //}
                         mo.RepairId = bill.Id;
+                        mo.CompanyId = bill.CompanyId;
                         mo.Id = GetNextValNum("GET_WSEQUENCES('T_REPAIRLIST')");
                         PlAddModel<RepairList>(mo);
                     }
@@ -212,7 +218,7 @@ namespace DAL
             }
             else
             {
-                PLModifiedModel<Repaire>(bill, false, new[] { "CreateTime" });
+                PLModifiedModel<Repaire>(bill, false, new[] { "CreateTime", "CompanyId" });
                 if (bill.list != null)
                 {
                     foreach (var mo in bill.list)
@@ -225,7 +231,7 @@ namespace DAL
                         }
                         else
                         {
-                            PLModifiedModel<RepairList>(mo, false, new[] { "" });
+                            PLModifiedModel<RepairList>(mo, false, new[] { "Status", "CompanyId" });
                         }
                     }
                 }

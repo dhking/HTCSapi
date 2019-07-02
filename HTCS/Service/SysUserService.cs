@@ -12,6 +12,7 @@ using Model.Bill;
 using Model.Base;
 using Model.House;
 using DAL.Common;
+using Newtonsoft.Json;
 
 namespace Service
 {
@@ -51,7 +52,7 @@ namespace Service
             }
             if (Type == 3)
             {
-                return "yzm_";
+                return "zyzm_";
             }
             if (Type == 4)
             {
@@ -71,6 +72,11 @@ namespace Service
             }
             return "";
         }
+        public SysResult isquit(T_SysUser model)
+        {
+            ProceService pservice = new ProceService();
+            return  pservice.CmdProce1(new Pure() { Id=model.Id.ToStr(),Spname= "sp_quit"});
+            }
         //登陆
         public SysResult<T_SysUser> Login(T_SysUser model)
         {
@@ -91,12 +97,23 @@ namespace Service
             user = dal.Login(model);
             if (user!=null)
             {
+                if (user.isquit == 1)
+                {
+                    result.Code = 1;
+                    result.Message = "您已离职无法登陆";
+                    return result;
+                }
                 RoleDAL roledal = new RoleDAL();
                 List<T_SysUserRole> listrole = dal.listrole(user.Id);
                 List<long> roleids = listrole.Select(p => p.SysRoleId).ToList();
                 if (roleids.Count > 0)
                 {
                     user.roles = roledal.queryrole(roleids);
+                    if (user.roles != null)
+                    {
+                        user.roles.userid = user.Id;
+                        user.range = user.roles.range;
+                    }
                     user.listpression = Querybasepressionbuuser(roleids).numberData;
                 }
                 JWTHelp jwt = new JWTHelp();
@@ -108,8 +125,10 @@ namespace Service
                 string key = "sysuser_key" + access_token;
                 reuser.Id = user.Id;
                 reuser.access_token = key;
+                reuser.departs = getdepart(reuser.storeid, reuser.Id);
+                rds.Delete(key);
                 rds.SetModel<T_SysUser>(key, reuser);
-             
+               
                 result.Code = 0;
                 result.Message = "登陆成功";
                 result.numberData = reuser;
@@ -117,6 +136,7 @@ namespace Service
             else
             {
                 result.Code = 1;
+                //string jsonData = JsonConvert.SerializeObject(model);
                 result.Message = "用户名或者密码错误";
             }
             return result;
@@ -124,10 +144,20 @@ namespace Service
         public SysResult<T_SysUser> QueryUser(T_SysUser model)
         {
             BaseDataDALL bdal = new BaseDataDALL();
+            RoleDAL roledal = new RoleDAL(); 
             SysResult<T_SysUser> result = new SysResult<T_SysUser>();
             T_SysUser user = dal.QueryUerbyid(model);
-            user.listrole1 = dal.Querynopageuserrole(new T_SysUserRole() { SysUserId = user.Id });
-          
+            List<T_SysUserRole> listrole = dal.listrole(user.Id);
+            List<long> roleids = listrole.Select(p => p.SysRoleId).ToList();
+            if (roleids.Count > 0)
+            {
+                user.roles = roledal.queryrole(roleids);
+                if (user.roles != null)
+                {
+                    user.roles.userid = user.Id;
+                }
+                user.listpression = Querybasepressionbuuser(roleids).numberData;
+            }
             result.numberData = user;
             return result;
         }
@@ -137,7 +167,7 @@ namespace Service
             T_SysUser user = new T_SysUser();
             //查询房管员编号
             HouseDAL housedal = new HouseDAL();
-            HouseModel housemode = housedal.Queryhouse(model);
+            HouseModel housemode = housedal.Queryhouse(model,null,null);
             //查询系统用户
             if(housemode!=null&& housemode.HouseKeeper!=0)
             {
@@ -207,7 +237,7 @@ namespace Service
         {
             SysResult result = new SysResult();
             yzRequest req = new yzRequest();
-            req = GetRequest(4, model.Phone);
+            req = GetRequest(4, model.Phone,model.name+"住户");
             string message = "";
             SendMessageDAL dal = new SendMessageDAL();
             if (dal.SendMessage(req, out message))
@@ -227,7 +257,7 @@ namespace Service
             foreach(var  mo in model)
             {
                 yzRequest req = new yzRequest();
-                req = GetRequest(4, mo.Phone);
+                req = GetRequest(4, mo.Phone,mo.name+"住户");
                 string message = "";
                 SendMessageDAL dal = new SendMessageDAL();
                 if (dal.SendMessage(req, out message))
@@ -275,12 +305,13 @@ namespace Service
             }
             return result;
         }
-        public yzRequest GetRequest(int Type, string Phone)
+        public yzRequest GetRequest(int Type, string Phone,string name="")
         {
             yzRequest req = new yzRequest();
             req.Phone = Phone;
             req.yzm = getguid();
             req.Type = Type;
+            req.name = name;
             if (Type == 1)
             {
                 req.Temp = "{\"number\":\"" + req.yzm + "\"}";
@@ -301,6 +332,12 @@ namespace Service
                 req.Temp = "{\"number\":\"" + req.yzm + "\"}";
                 req.TemplateCode = "SMS_150742900";
             }
+            //窝乐1号
+            //if (Type == 4)
+            //{
+            //    req.Temp = "{\"name\":\"" + req.name + "\"}";
+            //    req.TemplateCode = "SMS_168585369";
+            //}
             if (Type == 5)
             {
                 req.Temp = "{\"number\":\"" + req.yzm + "\"}";
@@ -311,11 +348,17 @@ namespace Service
                 req.Temp = "{\"number\":\"" + req.yzm + "\"}";
                 req.TemplateCode = "SMS_162736189";
             }
+
             //绑定合同
             if (Type == 7)
             {
                 req.TemplateCode = "SMS_161593766";
             }
+            //窝乐1号
+            //if (Type == 7)
+            //{
+            //    req.TemplateCode = "SMS_167531768";
+            //}
             //支付密码
             if (Type == 8)
             {
@@ -490,6 +533,7 @@ namespace Service
                 else
                 {
                     model.Name = model.Mobile;
+                    model.roleid = 45;
                     List<T_SysUserRole> listrole = new List<T_SysUserRole>();
                     T_SysUserRole role = new T_SysUserRole();
                     role.SysRoleId = 45;
@@ -498,7 +542,7 @@ namespace Service
                     
                     //注册公司
                     BaseDataDALL cdal = new BaseDataDALL();
-                    long companyid=cdal.saveaccount(new T_account() {smsnumber=100,contractnumber=100 });
+                    long companyid=cdal.saveaccount(new T_account() {smsnumber=100,contractnumber=0,url= "http://feiniao.fn2016.com/" });
                     model.CompanyId = companyid;
                     
                     long id = userdal.adduser(model);
@@ -522,7 +566,7 @@ namespace Service
                         T_SysUser re = new T_SysUser();
                         re = model;
                         re.Id = id;
-                        re.roles = "老板";
+                        re.roles = new T_SysRole() { RoleName="老板"};
                         RedisHtcs rds = new RedisHtcs();
                         string key = "sysuser_key" + jwt.getToken(re.Mobile, re.Password);
                         re.token = key;
@@ -665,9 +709,6 @@ namespace Service
         {
             SysResult result = new SysResult();
             T_SysUser user = new T_SysUser();
-            Dictionary<string, string> dic = getstr(model.storeid);
-            model.area = dic["area"];
-            model.city = dic["city"];
             if (dal.adduser(model) > 0)
             {
                 if (model.registrationId !=null)
@@ -681,24 +722,45 @@ namespace Service
                     List<T_SysUserRole> listrole = dal.listrole(user.Id);
                     List<long> roleids = listrole.Select(p => p.SysRoleId).ToList();
                     query.listpression = Querybasepressionbuuser(roleids).numberData;
+                    query.departs = getdepart(query.storeid, query.Id);
                     JWTHelp jwt = new JWTHelp();
                     string access_token =ConvertHelper.GetMd5HashStr(model.Id.ToStr());
                     RedisHtcs rds = new RedisHtcs();
                     string key = "sysuser_key" + access_token;
-                    rds.SetModel<T_SysUser>(key, query);
+                    rds.SetModel<T_SysUser>(key, query); 
                 }
+                if (model.storeid != 0)
+                {
+                    ProceService proce = new Service.ProceService();
+                    proce.CmdProce3(new Pure() { Ids = model.storeid.ToStr(), Spname = "sp_departcityarea",Other= model.Id.ToStr() },null,null);
+                }
+
                 result = result.SuccessResult("保存成功");
             }
             else
             {
-                result = result.SuccessResult("保存失败");
+                result = result.FailResult("保存失败");
             }
             return result;
+        }
+
+        public List<t_department> getdepart(long departmentid,long userid)
+        {
+            RedisHtcs rds = new RedisHtcs();
+            MenuDAL menudal = new MenuDAL();
+            List<t_department> listdepart=Querypage(new wrapdepartment() { Id = departmentid }).numberData;
+            t_department selfdepart= menudal.queryid(new t_department() { Id = departmentid });
+            if (selfdepart != null)
+            {
+                listdepart.Add(selfdepart);
+            }
+            return listdepart.ToList();
         }
         public SysResult<List<T_SysUser>> Querybase(T_SysUser model, OrderablePagination orderablePagination)
         {
             SysResult<List<T_SysUser>> sysresult = new SysResult<List<T_SysUser>>();
             List<T_SysUser> data = new List<T_SysUser>();
+            
             data = dal.Querylist(model, orderablePagination);
             sysresult.numberData = data;
             sysresult.numberCount = orderablePagination.TotalCount;
@@ -881,6 +943,66 @@ namespace Service
             {
                 result = result.SuccessResult("失败");
             }
+            return result;
+        }
+
+        //查询部门
+        public SysResult<List<wrapdepartment>> Querydepartment(wrapdepartment model)
+        {
+            MenuDAL menudal = new MenuDAL();
+            SysResult<List<wrapdepartment>> sysresult = new SysResult<List<wrapdepartment>>();
+
+            sysresult.numberData = menudal.Querydepartment(model);
+            return sysresult;
+        }
+        //查询部门分页
+        public SysResult<List<t_department>> Querypage(wrapdepartment model)
+        {
+            MenuDAL menudal = new MenuDAL();
+            SysResult<List<t_department>> sysresult = new SysResult<List<t_department>>();
+            sysresult.numberData = menudal.Querypage(model);
+            return sysresult;
+        }
+        //新增部门
+        public SysResult adddepartment(t_department model,T_SysUser user,string key)
+        {
+            SysResult result = new SysResult();
+            MenuDAL menudal = new MenuDAL();
+            long parentid = menudal.Savedepartment(model);
+            if (parentid > 0)
+            {
+                if (model.Id != 0)
+                {
+                    ProceService proce = new Service.ProceService();
+                    proce.CmdProce3(new Pure() { Ids = model.Id.ToStr(), Spname = "sp_departcityarea" },user,key);
+                }
+             
+                result = result.SuccessResult("添加成功");
+            }
+            else
+            {
+                result = result.FailResult("添加失败");
+            }
+            return result;
+        }
+        public bool updateredis(string key,T_SysUser user)
+        {
+            RedisHtcs rds = new RedisHtcs();
+            return rds.SetModel<T_SysUser>(key, user);
+        }
+        //查询部门详情
+        public SysResult<t_department> queryepartmentid(t_department model)
+        {
+            SysResult<t_department> result = new SysResult<t_department>();
+            MenuDAL menudal = new MenuDAL();
+            t_department depart = menudal.queryid(model);
+            //if (depart!=null)
+            //{
+            //    t_department parent= menudal.queryid(new t_department() { Id = depart.parentid });
+            //    depart.parentname = parent.name;
+                
+            //}
+            result.numberData = depart;
             return result;
         }
     }

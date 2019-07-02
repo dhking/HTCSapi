@@ -50,6 +50,8 @@ namespace Mapping.cs.Bill
             Property(m => m.bank).HasColumnName("BANK");
             Property(m => m.subbranch).HasColumnName("SUBBRANCH");
             Property(m => m.type).HasColumnName("TYPE");
+
+            Property(m => m.name).HasColumnName("NAME");
         }
     }
 }

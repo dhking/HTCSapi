@@ -62,6 +62,7 @@
     <Compile Include="Bill\T_WrapBill.cs" />
     <Compile Include="clean.cs" />
     <Compile Include="ContractEnum.cs" />
+    <Compile Include="Contrct\ContractBill.cs" />
     <Compile Include="Contrct\T_OwernContract.cs" />
     <Compile Include="Contrct\T_Contrct.cs" />
     <Compile Include="Contrct\T_Otherfee.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="House\HouseZK.cs" />
     <Compile Include="House\T_CellName.cs" />
     <Compile Include="ids.cs" />
+    <Compile Include="Indepent.cs" />
     <Compile Include="Inittuizu.cs" />
     <Compile Include="kjx.cs" />
     <Compile Include="Map\MapAdress.cs" />

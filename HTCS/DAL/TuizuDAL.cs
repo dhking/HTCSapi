@@ -91,6 +91,12 @@ namespace DAL
             AddModel<TuizuZhu>(model);
             return model.Id;
         }
+
+
+        public void deletetuizuzhu(TuizuZhu model)
+        {
+            PLDeleteModel<TuizuZhu>(model);
+        }
         public long deletemdel(TuizuZhu model)
         {
             
@@ -136,6 +142,12 @@ namespace DAL
 
             return mo.FirstOrDefault();
         }
+        public TuizuZhu QueryTuizu1(TuizuZhu model)
+        {
+            var mo = from m in BTuizuZhu where m.ContractId == model.ContractId  select m;
+
+            return mo.FirstOrDefault();
+        }
         public List<Tuizu> Querylist(TuizuZhu model)
         {
             var mo = from m in BTuizu where m.zhuId == model.Id select m;
@@ -151,6 +163,7 @@ namespace DAL
             }
             return mo.ToList();
         }
+       
         public DbSet<Inittuizu> Inittuizu { get; set; }
         public DbSet<T_ZafeiList> Zafeilist { get; set; }
         public DbSet<T_Contrct> Contract { get; set; }

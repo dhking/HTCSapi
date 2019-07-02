@@ -28,7 +28,7 @@ namespace Mapping.cs
             Property(m => m.Area).HasColumnName("AREA");
             Property(m => m.House).HasColumnName("HOUSE");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
-
+            Property(m => m.Remark).HasColumnName("REMARK");
         }
     }
     public class RepaireListMapping : BaseEntityTypeMap<RepairList>

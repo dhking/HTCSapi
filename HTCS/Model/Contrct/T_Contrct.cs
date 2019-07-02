@@ -38,7 +38,7 @@ namespace Model.Contrct
 
         public string Enclosure { get; set; }
         public DateTime CreateTime { get; set; }
-        public string  CreatePerson { get; set; }
+        public long  CreatePerson { get; set; }
         public int Status { get; set; }
         public long HouseId { get; set; }
         public int  HouseType { get; set; }
@@ -80,9 +80,20 @@ namespace Model.Contrct
         public string bank { get; set; }
 
         public int eleccontract { get; set; }
+
+
+
+        public int isxuzu { get; set; }
+
+        public string contracttype { get; set; }
+
     }
     public class WrapContract: BasicModel
     {
+        public long Day { get; set; }
+        public int isxuzu { get; set; }
+
+        public int yuqitype { get; set; }
         public long Id { get; set; }
         public int eleccontract { get; set; }
         public long storeid { get; set; }
@@ -122,7 +133,9 @@ namespace Model.Contrct
         public int Recivetype { get; set; }
         public string Enclosure { get; set; }
 
-        public string CreatePerson { get; set; }
+        public long CreatePerson { get; set; }
+
+        public string CreatePersonstr { get; set; }
 
         public DateTime CreateTime { get; set; }
         public int BeforeDay { get; set; }
@@ -166,6 +179,11 @@ namespace Model.Contrct
         public DateTime tBeginTime { get; set; }
         [NotMapped]
         public DateTime tEndTime { get; set; }
+
+        [NotMapped]
+        public DateTime qBeginTime { get; set; }
+        [NotMapped]
+        public DateTime qEndTime { get; set; }
         //搜索类别
         [NotMapped]
         public int  Type { get; set; }
@@ -186,6 +204,9 @@ namespace Model.Contrct
         public long teantid { get; set; }
         public int pinlv { get; set; }
         public string housename { get; set; }
+
+        public string Cellname { get; set; }
+
         public long CompanyId { get; set; }
         public long houseid { get; set; }
 
@@ -199,7 +220,7 @@ namespace Model.Contrct
 
         public DateTime lasttime { get; set; }
 
-        public int lastdushu { get; set; }
+        public decimal lastdushu { get; set; }
 
         public int isyajin { get; set; }
         public int mobject { get; set; }
@@ -209,7 +230,7 @@ namespace Model.Contrct
 
 
         public DateTime receivetime { get; set; }
-        public int dushu { get; set; }
+        public decimal dushu { get; set; }
 
         public decimal price { get; set; }
 
@@ -227,5 +248,10 @@ namespace Model.Contrct
 
 
         public int HouseType { get; set; }
+
+        public string CityName { get; set; }
+
+
+        public string AreaName { get; set; }
     }
 }

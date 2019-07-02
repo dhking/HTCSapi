@@ -21,6 +21,9 @@ namespace Model
         public DateTime CreateTime { get; set; }
         public string JournaList { get; set; }
         public string Phone { get; set; }
+
+        public string Remark { get; set; }
+
         public string Province { get; set; }
         public string City { get; set; }
         public string Area { get; set; }
@@ -79,6 +82,8 @@ namespace Model
         public string City { get; set; }
         public string Area { get; set; }
         public string House { get; set; }
+
+        public string Content { get; set; }
         [NotMapped]
         public string Ipimgadess { get; set; }
         [NotMapped]

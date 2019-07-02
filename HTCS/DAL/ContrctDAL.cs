@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -26,7 +27,7 @@ namespace DAL
 {
     public   class ContrctDAL : RcsBaseDao
     {
-        public List<WrapContract> Query(WrapContract model, OrderablePagination orderablePagination,T_SysUser user)
+        public List<WrapContract> Query(WrapContract model, OrderablePagination orderablePagination,T_SysUser user,long[] userids)
         {
             //整租查询
             var data = (from m in Contract
@@ -34,16 +35,19 @@ namespace DAL
                        into temp from t in temp.DefaultIfEmpty()
                        join c in t_v_HouseQuery on m.HouseId equals c.Id
                        into temp1 from x in temp1.DefaultIfEmpty()
-                      
+                       join c1 in BbUser on m.CreatePerson equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
                        select new WrapContract()
                        {
                            CreateTime=m.CreateTime,
-                           CreatePerson = m.CreatePerson,
+                           CreatePersonstr = x1==null?"":x1.RealName,
+                           CreatePerson =m.CreatePerson,
                            Id = m.Id,
                            Name = t.Name==null?"":t.Name,
                            BeginTime = m.BeginTime,
                            EndTime = m.EndTime,
-                           Status = m.Status==null?0:m.Status,
+                           Status =m.Status,
                            Deposit = m.Deposit,
                            Recent = m.Recent,
                            Pinlv = m.PinLv,
@@ -61,6 +65,8 @@ namespace DAL
                            storeid= x == null ? 0 : x.storeid,
                            CompanyId = x == null ? 0 : x.CompanyId,
                            HouseKeeper = x == null ? 0 : x.HouseKeeper,
+                           isxuzu=m.isxuzu
+                           
                        });
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;
             if (model.HouseId != 0)
@@ -71,40 +77,45 @@ namespace DAL
             {
                 where = where.And(m => m.HouseType == model.HouseType);
             }
-            if (model.storeid != 0)
+            //逾期时间筛选
+            if (model.yuqitype != 0)
             {
-                where = where.And(m => m.storeid == model.storeid);
+                DateTime dt = DateTime.Now.Date;
+                if (model.yuqitype == 2)
+                {
+                    where = where.And(m => m.EndTime < dt);
+                }
+                if (model.yuqitype == 3)
+                {
+                    where = where.And(m => DbFunctions.TruncateTime(m.EndTime) == dt);
+                }
+                if (model.yuqitype == 4)
+                {
+                    DateTime dt1 = dt.AddDays(-1);
+                    DateTime dt2 = dt.AddDays(-7);
+                    where = where.And(m => m.EndTime >= dt2 && m.EndTime <= dt1);
+                }
+            }
+            //部门信息筛选
+            if (user.departs != null && user.roles != null)
+            {
+                List<long> depentids = user.departs.Select(p => p.Id).ToList();
+                if (user.roles.range == 2)
+                {
+                    where = where.And(m => depentids.Contains(m.storeid));
+                    if (userids != null && userids.Length > 0)
+                    {
+                        where = where.Or(m => userids.Contains(m.HouseKeeper));
+                    }
+                }
+                if (user.roles.range == 3)
+                {
+                    where = where.And(m => m.HouseKeeper == user.roles.userid);
+                }
             }
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
-            }
-            if (model.arrCellNames.Length > 0)
-            {
-                where = where.And(m => model.arrCellNames.Contains(m.CellName));
-            }
-            if (user != null)
-            {
-                if (user.storeids.Length > 0 || user.range != 5)
-                {
-                    if (user.range == 1)
-                    {
-                        where = where.And(c => c.HouseKeeper == user.Id);
-                    }
-                    if (user.range == 2)
-                    {
-                        where = where.And(c => user.storeids.Contains(c.storeid));
-                    }
-                    if (user.range == 3)
-                    {
-                        where = where.And(c => user.areas.Contains(c.AreaName));
-                    }
-                    if (user.range == 4)
-                    {
-                        where = where.And(c => user.citys.Contains(c.CityName));
-                    }
-                    
-                }
             }
             
             if (model.Status != 0)
@@ -115,31 +126,34 @@ namespace DAL
                 }
                 if (model.Status == 4)
                 {
-                    where = where.And(m => m.Status ==5);
+                    where = where.And(m => m.Status ==5 || m.Status == 2);
                     where = where.And(m => m.BeginTime >DateTime.Now);
                 }
                 if (model.Status == 9)
                 {
                     where = where.And(m => m.Status == 9);
-                
                 }
                 if (model.Status == 5)
                 {
-                    where = where.And(m => m.Status == 5);
-                    //where = where.And(m => m.BeginTime <= DateTime.Now);
-                    //where = where.And(m => m.EndTime >= DateTime.Now);
+                    where = where.And(m => m.Status == 5 || m.Status == 2);
                 }
                 if (model.Status == 6)
                 {
-                    DateTime dt = DateTime.Now.AddDays(-5);
-                    where = where.And(m => m.Status == 5);
+                    DateTime dt = DateTime.Now.AddDays(45).Date;
+                    where = where.And(m => m.Status == 5 || m.Status == 2);
                     where = where.And(m => m.EndTime <= dt);
                 }
                 if (model.Status == 10)
                 {
                     DateTime dt = DateTime.Now;
-                    where = where.And(m => m.Status == 5);
+                    where = where.And(m => m.Status == 5 || m.Status == 2);
                     where = where.And(m => m.EndTime < dt);
+                }
+                if (model.Status == 12)
+                {
+                    DateTime dt = DateTime.Now;
+                    where = where.And(m => m.Status == 5|| m.Status == 2||  m.Status == 4);
+                    where = where.And(m => m.isxuzu == 1);
                 }
             }
             if (model.CityName != "全部" && model.CityName != null)
@@ -160,13 +174,12 @@ namespace DAL
             }
             if (model.Content != null)
             {
-                where = where.And(m => m.Phone.Contains(model.Content) || m.Name.Contains(model.Content) || m.HouseName.Contains(model.Content) || m.CreatePerson.Contains(model.Content));
+                where = where.And(m => m.Phone.Contains(model.Content) || m.Name.Contains(model.Content) || m.HouseName.Contains(model.Content) || m.CreatePersonstr.Contains(model.Content));
             }
             if (model.BeginTime != DateTime.MinValue)
             {
                 where = where.And(m => m.BeginTime>= model.BeginTime&& m.BeginTime <= model.EndTime);
             }
-
             if (model.tBeginTime != DateTime.MinValue)
             {
                 where = where.And(m => m.EndTime >= model.tBeginTime && m.EndTime <= model.tEndTime);
@@ -183,12 +196,13 @@ namespace DAL
             {
                 where = where.And(m => m.EndTime >= model.EndTime);
             }
-            if (model.Content!=null)
+            if (model.eleccontract !=0)
             {
-                if (model.Type == 1)
-                {
-                    where = where.And(m => m.Name == model.Content);
-                }
+                where = where.And(m => m.eleccontract >= model.eleccontract);
+            }
+            if (model.CreatePerson != 0)
+            {
+                where = where.And(m => m.CreatePerson >= model.CreatePerson);
             }
             data = data.Where(where);
             IOrderByExpression<WrapContract> order1 = new OrderByExpression<WrapContract, long>(p => p.Id, true);
@@ -206,16 +220,19 @@ namespace DAL
                         join c in t_v_HouseQuery on m.HouseId equals c.Id
                         into temp1
                         from x in temp1.DefaultIfEmpty()
-
+                        join c1 in BbUser on m.CreatePerson equals c1.Id
+                        into temp2
+                        from x1 in temp2.DefaultIfEmpty()
                         select new WrapContract()
                         {
                             CreateTime = m.CreateTime,
                             CreatePerson = m.CreatePerson,
+                            CreatePersonstr=x1==null?"":x1.RealName,
                             Id = m.Id,
                             Name = t.Name == null ? "" : t.Name,
                             BeginTime = m.BeginTime,
                             EndTime = m.EndTime,
-                            Status = m.Status == null ? 0 : m.Status,
+                            Status = m.Status,
                             Deposit = m.Deposit,
                             Recent = m.Recent,
                             Pinlv = m.PinLv,
@@ -251,7 +268,16 @@ namespace DAL
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
             }
-            if(model.arrCellNames != null)
+            if (model.CreatePersonstr != null)
+            {
+                where = where.And(m => m.CreatePersonstr.Contains(model.CreatePersonstr));
+            }
+            
+            //if (model.eleccontract != 2)
+            //{
+            //    where = where.And(m => m.eleccontract==model.eleccontract);
+            //}
+            if (model.arrCellNames != null)
             {
                 if (model.arrCellNames.Length > 0)
                 {
@@ -335,7 +361,7 @@ namespace DAL
             }
             if (model.Content != null)
             {
-                where = where.And(m => m.Phone.Contains(model.Content) || m.Name.Contains(model.Content) || m.HouseName.Contains(model.Content) || m.CreatePerson.Contains(model.Content));
+                where = where.And(m => m.Phone.Contains(model.Content) || m.Name.Contains(model.Content) || m.HouseName.Contains(model.Content) || m.CreatePersonstr.Contains(model.Content));
             }
             if (model.BeginTime != DateTime.MinValue)
             {
@@ -345,6 +371,11 @@ namespace DAL
             if (model.tBeginTime != DateTime.MinValue)
             {
                 where = where.And(m => m.EndTime >= model.tBeginTime && m.EndTime <= model.tEndTime);
+            }
+
+            if (model.qBeginTime != DateTime.MinValue)
+            {
+                where = where.And(m => m.CreateTime >= model.qBeginTime && m.CreateTime <= model.qEndTime);
             }
             if (model.Phone != null)
             {
@@ -571,6 +602,8 @@ namespace DAL
                             pinlv=t.Pinlv,
                             storeid = x == null ? 0 : x.storeid,
                             CompanyId= x == null ? 0 : x.CompanyId,
+                            CityName = x.CityName,
+                            AreaName = x.AreaName
                         });
              Expression<Func<chaobiao, bool>> where = m => 1 == 1;
             //where = where.And(m => m.type == 1);
@@ -580,7 +613,14 @@ namespace DAL
             {
                 where = where.And(m => m.housename == model.housename);
             }
-
+            if (!string.IsNullOrEmpty(model.AreaName))
+            {
+                where = where.And(m => m.AreaName == model.AreaName);
+            }
+            if (!string.IsNullOrEmpty(model.CityName))
+            {
+                where = where.And(m => m.CityName == model.CityName);
+            }
             if (!string.IsNullOrEmpty(model.project))
             {
                 where = where.And(m => m.project == model.project);
@@ -594,6 +634,10 @@ namespace DAL
             {
                 where = where.And(m => model.houseid == model.houseid);
             }
+            if (model.HouseType != 0)
+            {
+                where = where.And(m => model.HouseType == model.HouseType);
+            }
             if (model.type != 0)
             {
                 where = where.And(m => m.type == model.type);
@@ -604,7 +648,7 @@ namespace DAL
             }
             if (model.CompanyId != 0)
             {
-                where = where.And(m => model.CompanyId == model.CompanyId);
+                where = where.And(m => m.CompanyId == model.CompanyId);
             }
             if (model.HouseType != 0)
             {
@@ -676,6 +720,22 @@ namespace DAL
             int mo = (from m in Contract where m.Status == 1 select m).Count();
             return mo;
         }
+
+        public int Querycountby(T_Contrct model)
+        {
+            var  data = (from m in Contract where m.Status == 2 || m.Status == 5 select m);
+            Expression<Func<T_Contrct, bool>> where = m => 1 == 1;
+            if (model.Id!=0)
+            {
+                where = where.And(m => m.Id == model.Id);
+            }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            data = data.Where(where);
+            return data.Count();
+        }
         public List<T_Teant> Queryteant(List<long?> arr)
         {
             var mo =from m in Teant where arr.Contains(m.Id) select m;
@@ -689,6 +749,9 @@ namespace DAL
                        join c in t_v_HouseQuery on m.HouseId equals c.Id
                        into temp1
                        from x in temp1.DefaultIfEmpty()
+                       join c in BbUser on m.CreatePerson equals c.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
                        select new WrapContract() {
                            Id=m.Id,
                            BeginTime = m.BeginTime,
@@ -702,6 +765,8 @@ namespace DAL
                            Remark = m.Remark,
                            Enclosure = m.Enclosure,
                            CreatePerson = m.CreatePerson,
+                           CreatePersonstr = x1 == null ? "" : x1.RealName,
+                           CreateTime = m.CreateTime,
                            Status = m.Status,
                            HouseName = x.Name,
                            LockId = x.LocalId,
@@ -712,7 +777,7 @@ namespace DAL
                            RecivedAccount = m.RecivedAccount,
                            TeantId=m.TeantId,
                            HouseId=m.HouseId,
-                          
+                           
                            //收款人
                            payee = m.payee,
                            accounts =m.accounts,
@@ -724,8 +789,6 @@ namespace DAL
                            allfloor = x == null ? 0 : x.allfloor,
                            mesure = x == null ? 0 : x.measure,
                            CompanyId= x == null ? 0 : x.CompanyId
-
-
                        };
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;
             if (model.Id != 0)
@@ -830,7 +893,7 @@ namespace DAL
         //查询合同数量
         public int Querycount(T_Contrct model)
         {
-            ZafeiDAL zafei = new DAL.ZafeiDAL();
+         
             //整租查询
             var data = from m in Contract select m;
             Expression<Func<T_Contrct, bool>> where = m => 1 == 1;
@@ -845,6 +908,11 @@ namespace DAL
             if (model.Status != 0)
             {
                 where = where.And(m => m.Status != model.Status);
+            }
+            if (model.CreateTime !=DateTime.MinValue)
+            {
+              
+                where = where.And(m => DbFunctions.TruncateTime(m.CreateTime) ==model.CreateTime);
             }
             data = data.Where(where);
             return data.Count();
@@ -877,24 +945,34 @@ namespace DAL
             return mo.FirstOrDefault();
         }
 
-        public T_Contrct querycontract(long  id)
+        public T_Contrct querycontract(T_Contrct model)
         {
-            var mo = from m in Contract where m.Id == id select m;
-            return mo.FirstOrDefault();
+            var data = from m in Contract select m;
+            Expression<Func<T_Contrct, bool>> where = m => 1 == 1;
+            if (model.Id != 0)
+            {
+                where = where.And(m => m.Id == model.Id);
+            }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            data = data.Where(where);
+            return data.FirstOrDefault();
         }
         public long SaveContrct(T_Contrct model)
         {
             if (model.Id == 0)
             {
-                
                 model.Id = GetNextValNum("GET_WSEQUENCES('T_CONTRACT')");
-                model.CreateTime = DateTime.Now;
+                if (model.CreateTime==DateTime.MinValue){
+                    model.CreateTime = DateTime.Now;
+                }
                 AddModel<T_Contrct>(model);
-                
             }
             else
             {
-                 ModifiedModel<T_Contrct>(model, false,new string[] { "HouseId", "CreatePerson", "userid" });
+                 ModifiedModel<T_Contrct>(model, false,new string[] {  "HouseId",  "userid" });
             }
             return model.Id;
         }
@@ -905,7 +983,11 @@ namespace DAL
             {
 
                 model.Id = GetNextValNum("GET_WSEQUENCES('T_CONTRACT')");
-                model.CreateTime = DateTime.Now;
+                if (model.CreateTime == DateTime.MinValue)
+                {
+                    model.CreateTime = DateTime.Now;
+                }
+         
                 AddModel<T_Contrct>(model);
 
             }
@@ -1030,33 +1112,36 @@ namespace DAL
                 return false;
             }
         }
-        public bool CmdotherfeeBill(long id,DateTime lasttime,int lastdushu,DateTime shoureceivetime,string remark, string opera, out string errmsg)
+        public bool CmdotherfeeBill(chaobiao model, string opera, out string errmsg)
         {
 
             errmsg = "";
             var cmd = this.Database.Connection.CreateCommand();
             OracleParameter paramSkuids = new OracleParameter("restparameter", OracleDbType.Int64);
             paramSkuids.Direction = ParameterDirection.Input;
-            paramSkuids.Value = id;
+            paramSkuids.Value = model.Id;
             cmd.Parameters.Add(paramSkuids);
             OracleParameter paramlasttime = new OracleParameter("lasttime", OracleDbType.Date);
             paramlasttime.Direction = ParameterDirection.Input;
-            paramlasttime.Value = lasttime;
+            paramlasttime.Value = model.lasttime;
             cmd.Parameters.Add(paramlasttime);
-            OracleParameter paramlastdushu = new OracleParameter("lastdushu", OracleDbType.Int32);
+            OracleParameter paramlastdushu = new OracleParameter("lastdushu", OracleDbType.Decimal);
             paramlastdushu.Direction = ParameterDirection.Input;
-            paramlastdushu.Value = lastdushu;
+            paramlastdushu.Value = model.lastdushu;
             cmd.Parameters.Add(paramlastdushu);
 
             OracleParameter paramshoureceivetime = new OracleParameter("shoureceivetime", OracleDbType.Date);
             paramshoureceivetime.Direction = ParameterDirection.Input;
-            paramshoureceivetime.Value = shoureceivetime;
+            paramshoureceivetime.Value = model.receivetime;
             cmd.Parameters.Add(paramshoureceivetime);
             OracleParameter paramremark = new OracleParameter("remark", OracleDbType.Varchar2);
             paramremark.Direction = ParameterDirection.Input;
-            paramremark.Value = remark;
-
+            paramremark.Value = model.remark;
             cmd.Parameters.Add(paramremark);
+
+           
+         
+
             OracleParameter paramShopId = new OracleParameter("operator", OracleDbType.Varchar2);
             paramShopId.Direction = ParameterDirection.Input;
             paramShopId.Value = opera;
@@ -1091,7 +1176,7 @@ namespace DAL
                 OracleCommand cmd = new OracleCommand(spname, cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 OracleParameter restParameter = new OracleParameter("RestParameter", ContractId);
-                OracleParameter OperatorParameter = new OracleParameter("Operator", "sys");
+                OracleParameter OperatorParameter = new OracleParameter("Operator", opera);
                 OracleParameter CodeParameter = new OracleParameter("Code", OracleDbType.Int32);
                 CodeParameter.Direction = ParameterDirection.Output;
                 OracleParameter MsgParameter = new OracleParameter("Msg", OracleDbType.NVarchar2, 2000);
@@ -1145,8 +1230,8 @@ namespace DAL
                             HouseId = x == null ? 0 : x.Id,
                             onlinesign=m.onlinesign,
                             issign=t.issign,
-                            CompanyId=t.CompanyId,
-                            Document=t.Document
+                            CompanyId= x == null ? 0 : x.CompanyId,
+                            Document =t.Document
                         });
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;
             where = where.And(p => p.Id == id);
@@ -1158,6 +1243,7 @@ namespace DAL
         public DbSet<HouseModel> House { get; set; }
         public DbSet<HouseQuery> t_v_HouseQuery { get; set; }
         public DbSet<T_Otherfee> Otherfee { get; set; }
+        public DbSet<T_SysUser> BbUser { get; set; }
         protected override void CreateModelMap(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ContrctMapping());
@@ -1165,7 +1251,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new TenantMapping());
             modelBuilder.Configurations.Add(new HouseMapping());
             modelBuilder.Configurations.Add(new HouseQueryMapping());
-
+            modelBuilder.Configurations.Add(new T_SysUserMapping());
         }
     }
 }

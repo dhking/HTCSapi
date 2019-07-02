@@ -19,9 +19,9 @@ namespace Model
         public int count { get; set; }
         //间数
         public int count1 { get; set; }
-        public HouseModel house { get; set; }
+        public WrapHouseModel1 house { get; set; }
 
-        public List<HousePendent> housependent { get; set; }
+        public List<WrapHousePendent> housependent { get; set; }
     }
     public class WrapHouse
     {

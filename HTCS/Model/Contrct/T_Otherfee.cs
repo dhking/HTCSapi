@@ -12,13 +12,13 @@ namespace Model.Contrct
         public long Id { get; set; }
         public string Name { get; set; }
         public long CompanyId { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public int Type { get; set; }
 
         public decimal Price { get; set; }
 
-        public int Reading { get; set; }
+        public decimal Reading { get; set; }
 
         public int Pinlv { get; set; }
         [NotMapped]

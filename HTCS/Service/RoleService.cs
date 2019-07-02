@@ -28,8 +28,23 @@ namespace Service
         public SysResult<List<T_CellName>> Querystore(T_CellName model, OrderablePagination orderablePagination,int[] arr)
         {
             SysResult<List<T_CellName>> result = new SysResult<List<T_CellName>>();
-        
             List<T_CellName> list = dal.storeQuery(model, orderablePagination,arr);
+            if (model.regtype != 4)
+            {
+                //查询上级目录信息
+                List<T_CellName> list1 = dal.storelistquery1(list.Select(p => p.parentid).ToList());
+                if (list1 != null)
+                {
+                    foreach (var mo in list)
+                    {
+                        T_CellName cell = list1.Where(p => p.Id == mo.parentid).FirstOrDefault();
+                        if (cell != null)
+                        {
+                            mo.CityName = cell.Name;
+                        }
+                    }
+                }
+            }
             result.numberData = list;
             result.numberCount = orderablePagination.TotalCount;
             return result;

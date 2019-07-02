@@ -21,6 +21,7 @@ namespace Mapping.cs
             ToTable("T_HOURESOURCES_PENDENT");
             Property(m => m.ID).HasColumnName("ID");
             Property(m => m.HouseKeeper).HasColumnName("HOUSEKEEPER");
+            Property(m => m.storeid).HasColumnName("STOREID");
             Property(m => m.Price).HasColumnName("PRICE");
             Property(m => m.Name).HasColumnName("NAME");
             Property(m => m.Huxing).HasColumnName("HUXING");
@@ -30,7 +31,7 @@ namespace Mapping.cs
             Property(m => m.ParentRoomid).HasColumnName("PARENTROOMID");
             Property(m => m.Remarks).HasColumnName("REMARKS");
             Property(m => m.PrivateImage).HasColumnName("PEIVATEIMAGE");
-
+            Property(m => m.isyccontract).HasColumnName("ISYCCONTRACT");
             Property(m => m.PrivatePeibei).HasColumnName("PEIBEI");
             Property(m => m.PrivateTeshe).HasColumnName("TESHE");
 
@@ -44,6 +45,20 @@ namespace Mapping.cs
             Property(m => m.iscuizu).HasColumnName("ISCUIZU");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
             Property(m => m.sign).HasColumnName("SIGN");
+
+            Property(m => m.shi).HasColumnName("SHI");
+            Property(m => m.ting).HasColumnName("TING");
+            Property(m => m.wei).HasColumnName("WEI");
+            //永昌
+            //Property(m => m.yeara).HasColumnName("YEARA");
+
+            //Property(m => m.yearb).HasColumnName("YEARB");
+
+            //Property(m => m.yearc).HasColumnName("YEARC");
+
+            //Property(m => m.yeard).HasColumnName("YEARD");
+
+            //Property(m => m.yeare).HasColumnName("YEARE");
 
         }
     }
@@ -62,6 +77,26 @@ namespace Mapping.cs
             Property(m => m.Floor).HasColumnName("FLOOR");
             Property(m => m.ParentId).HasColumnName("PARENTID");
            
+        }
+    }
+    public class FxingMaping : BaseEntityTypeMap<Fxing>
+    {
+        protected override void IniMaps()
+        {
+            HasKey(m => m.Id);
+
+            Property(m => m.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            ToTable("T_FXING");
+            Property(m => m.Id).HasColumnName("ID");
+            Property(m => m.shi).HasColumnName("SHI");
+            Property(m => m.ting).HasColumnName("TING");
+            Property(m => m.wei).HasColumnName("WEI");
+            Property(m => m.image).HasColumnName("IMAGE");
+            Property(m => m.measure).HasColumnName("MEASURE");
+            Property(m => m.houseid).HasColumnName("HOUSEID");
+            Property(m => m.name).HasColumnName("NAME");
         }
     }
 

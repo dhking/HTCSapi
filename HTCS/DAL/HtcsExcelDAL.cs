@@ -75,7 +75,61 @@ namespace DAL
         }
 
 
-        public byte[] hexcel(List<HousePendent> listmodel)
+        public byte[] hexcel(List<WrapHousePendent> listmodel)
+        {
+            //创建Excel文件的对象
+            HSSFWorkbook book = new HSSFWorkbook();
+
+            //添加一个sheet
+            for (int index = 0; index < 1; index++)
+            {
+                ISheet sheet = book.CreateSheet($"工作簿{(index + 1)}");
+                //行下标记录
+                int rowIndex = 0;
+                //创建首行
+                IRow row0 = sheet.CreateRow(rowIndex++);
+                //创建单元格
+                ICell cell0 = row0.CreateCell(0);
+                cell0.SetCellValue("房源编号");
+
+                ICell cell1 = row0.CreateCell(1);
+                cell1.SetCellValue("小区");
+
+                ICell cell2 = row0.CreateCell(2);
+                cell2.SetCellValue("地址");
+
+
+                ICell cell4 = row0.CreateCell(4);
+                cell4.SetCellValue("面积");
+                ICell cell5 = row0.CreateCell(5);
+                cell5.SetCellValue("面积");
+
+                ICell cell6 = row0.CreateCell(6);
+                cell6.SetCellValue("朝向");
+
+                ICell cell7 = row0.CreateCell(7);
+                cell7.SetCellValue("空置时间");
+
+                foreach (var mo in listmodel)
+                {
+                    var row = sheet.CreateRow(rowIndex++);
+                    row.CreateCell(0).SetCellValue(mo.ID);
+                    row.CreateCell(1).SetCellValue(mo.Cellname);
+                    row.CreateCell(2).SetCellValue(mo.Adress);
+                    row.CreateCell(4).SetCellValue(mo.Price + "平方");
+                    row.CreateCell(5).SetCellValue(mo.Measure + "平方");
+                    row.CreateCell(6).SetCellValue(mo.Orientation);
+                    row.CreateCell(7).SetCellValue(mo.Idletime + "天");
+                }
+            }
+            using (MemoryStream st = new MemoryStream())
+            {
+                book.Write(st);
+                var buffer = st.GetBuffer();
+                return buffer;
+            }
+        }
+        public byte[] hexce3(List<HousePendent> listmodel)
         {
             //创建Excel文件的对象
             HSSFWorkbook book = new HSSFWorkbook();

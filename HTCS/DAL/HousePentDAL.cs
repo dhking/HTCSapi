@@ -2,8 +2,12 @@
 using DAL.Common;
 using DBHelp;
 using Mapping.cs;
+using Mapping.cs.Contrct;
 using Model;
+using Model.Contrct;
 using Model.House;
+using Model.TENANT;
+using Model.User;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -41,15 +45,56 @@ namespace DAL
             return data.ToList();
         }
 
-        public List<HousePendent> Querybyparentids(List<long> ids,int status)
+        public List<WrapHousePendent> Querybyparentids(List<long> ids,HouseModel model,dtmode dtmo)
         {
-            var data = from m in BbHousepent where ids.Contains(m.ParentRoomid) select m;
-            Expression<Func<HousePendent, bool>> where = m => 1 == 1;
-            if (status != 0)
+            var data = from m in BbHousepent
+                       join c1 in (from cont in Contract where (cont.Status == 2 || cont.Status == 5)select cont) 
+                       on m.ID equals c1.HouseId
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+                       join n in Teant on x1.TeantId equals n.Id
+                       into temp3
+                       from x2 in temp3.DefaultIfEmpty()
+                       where ids.Contains(m.ParentRoomid)
+                       select new WrapHousePendent()
+                       {
+                           teantname= x2.Name,
+                           recent = x1 == null ? 0 : x1.Recent,
+                           endtime = x1 == null ?DateTime.MinValue: DbFunctions.TruncateTime(x1.EndTime),
+                           ID=m.ID,
+                           sign = m.sign,
+                           HouseKeeper = m.HouseKeeper,
+                           Price = m.Price,
+                           Name = m.Name,
+                           Huxing = m.Huxing,
+                           Measure = m.Measure,
+                           Orientation = m.Orientation,
+                           CompanyId = m.CompanyId,
+                           costprice = m.costprice,
+                           Remarks = m.Remarks,
+                           ParentRoomid = m.ParentRoomid,
+                           PrivateTeshe = m.PrivateTeshe,
+                           PrivatePeibei = m.PrivatePeibei,
+                           PrivateImage = m.PrivateImage,
+                           Status = m.Status,
+                           RecentTime = m.RecentTime,
+                           IsRm = m.IsRm
+                       };
+            Expression<Func<WrapHousePendent, bool>> where = m => 1 == 1;
+            if (model.Status != 0)
             {
-                data = data.Where(p => p.Status == status);
+                data = data.Where(p => p.Status == model.Status);
             }
-
+            if (model.sign !=0)
+            {
+                data = data.Where(p => p.sign == model.sign);
+            }
+            if (dtmo.dt != DateTime.MinValue|| dtmo.dt2 != DateTime.MinValue)
+            {
+                where = where.And(m => DbFunctions.TruncateTime(m.RecentTime) >= dtmo.dt);
+                where = where.And(m => DbFunctions.TruncateTime(m.RecentTime) <= dtmo.dt2);
+                where = where.And(m => m.Status == 1);
+            }
             return data.Where(where).ToList();
         }
         public long SaveorUpdateHouse(HousePendent model,string[] param)
@@ -88,33 +133,38 @@ namespace DAL
             return data.FirstOrDefault();
         }
 
-        public Stock StockQuery(int housetype)
+        public Stock StockQuery(int housetype,long companyid)
         {
             DateTime datetime10 = DateTime.Now.AddDays(-10);
             DateTime datetime20 = DateTime.Now.AddDays(-20);
             DateTime datetime30 = DateTime.Now.AddDays(-30);
             Stock stoc = new Stock();
-            var data = from m in BbHouse where m.RecrntType== housetype select  m;
+            var data = from m in BbHouse where m.RecrntType== housetype && m.CompanyId == companyid select  m;
            
-            stoc.ALL = (from m in BbHousepent join n in data on m.ParentRoomid equals n.Id   select m).Count();
+            stoc.ALL = (from m in BbHousepent join n in data on m.ParentRoomid equals n.Id where m.CompanyId == companyid select m).Count();
             stoc.Rent = (from m in BbHousepent join n in data on m.ParentRoomid equals n.Id
-                        where m.Status==2 select m).Count();
+                        where m.Status==2 && m.CompanyId == companyid
+                         select m).Count();
             stoc.Configuration = (from m in BbHousepent
                                   join n in data on m.ParentRoomid equals n.Id
-                                  where m.Status == 3
+                                  where m.Status == 3 && m.CompanyId == companyid
                                   select m).Count();
             stoc.Vacancy10 = (from m in BbHousepent
                               join n in data on m.ParentRoomid equals n.Id
-                              where m.RecentTime < DateTime.Now && m.RecentTime > datetime10 && m.Status ==1 select m).Count();
+                              where m.RecentTime < DateTime.Now && m.RecentTime > datetime10 && m.Status ==1 && m.CompanyId == companyid
+                              select m).Count();
             stoc.Vacancy20 = (from m in BbHousepent
                               join n in data on m.ParentRoomid equals n.Id
-                              where m.RecentTime < datetime10 && m.RecentTime > datetime20 && m.Status == 1 select m).Count();
+                              where m.RecentTime < datetime10 && m.RecentTime > datetime20 && m.Status == 1 && m.CompanyId == companyid
+                              select m).Count();
             stoc.Vacancy30 = (from m in BbHousepent
                               join n in data on m.ParentRoomid equals n.Id
-                              where m.RecentTime < datetime20 && m.RecentTime > datetime30 && m.Status == 1 select m).Count();
+                              where m.RecentTime < datetime20 && m.RecentTime > datetime30 && m.Status == 1 && m.CompanyId == companyid
+                              select m).Count();
             stoc.Vacancyover30 = (from m in BbHousepent
                                   join n in data on m.ParentRoomid equals n.Id
-                                  where m.RecentTime < datetime30 && m.Status == 0 select m).Count();
+                                  where m.RecentTime < datetime30 && m.Status == 0 && m.CompanyId == companyid
+                                  select m).Count();
             stoc.Vacancy = stoc.ALL - stoc.Rent - stoc.Configuration;
             double a = (double)stoc.Vacancy / stoc.ALL;
             stoc.RentPert = a.ToString("0.0%");
@@ -158,6 +208,13 @@ namespace DAL
             return mo.Count();
 
         }
+        //查询楼层详情
+        public T_Floor queryfloorxq(long id)
+        {
+            var mo = from m in Floor where m.Id == id select m;
+            return mo.FirstOrDefault();
+
+        }
         //查询公寓房间数量
         public int queryhousecount(long parentid)
         {
@@ -169,7 +226,6 @@ namespace DAL
         public List<Floorco> queryfloor(HousePendent model)
         {
             var data = from m in BbHousepent where m.ParentRoomid == model.ParentRoomid group m by m.FloorId into g select new Floorco() { Floorcount=g.Count(),FloorId=g.Key };
-
             return data.ToList();
         }
         //查询楼层列表
@@ -206,16 +262,104 @@ namespace DAL
             return result;
         }
         //查询楼层和所属房间
-        public List<HousePendent> Querylistpc( List<long> ids)
+        public List<WrapHousePendent> Querylistpc(List<long> ids, HouseModel model, dtmode dtmo,string[] citys,T_SysUser user,long[] userids)
         {
-            List<HousePendent> list = new List<HousePendent>();
-            var data = from a in BbHousepent where ids.Contains(a.FloorId)
-                       select a;
+            List<WrapHousePendent> list = new List<WrapHousePendent>();
+            var data = from m in BbHousepent
+                       join c1 in (from cont in Contract where (cont.Status == 2 || cont.Status == 5) select cont) on m.ID equals c1.HouseId
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+                       join n in Teant on x1.TeantId equals n.Id
+                       into temp3
+                       from x2 in temp3.DefaultIfEmpty()
+                       where ids.Contains(m.FloorId)
+                       select new WrapHousePendent()
+                       {
+                           teantname = x2.Name,
+                           constatus = x1 == null ? 0 : x1.Status,
+                           recent = x1 == null ? 0 : x1.Recent,
+                           endtime = x1 == null ? DateTime.MinValue : DbFunctions.TruncateTime(x1.EndTime),
+                           ID = m.ID,
+                           sign = m.sign,
+                           HouseKeeper = m.HouseKeeper,
+                           Price = m.Price,
+                           Name = m.Name,
+                           Huxing = m.Huxing,
+                           Measure = m.Measure,
+                           Orientation = m.Orientation,
+                           CompanyId = m.CompanyId,
+                           costprice = m.costprice,
+                           Remarks = m.Remarks,
+                           ParentRoomid = m.ParentRoomid,
+                           PrivateTeshe = m.PrivateTeshe,
+                           PrivatePeibei = m.PrivatePeibei,
+                           PrivateImage = m.PrivateImage,
+                           Status = m.Status,
+                           RecentTime = m.RecentTime,
+                           IsRm = m.IsRm,
+                           FloorId=m.FloorId,
+                           storeid=m.storeid,
+                           shi=m.shi,
+                           ting=m.ting,
+                           wei=m.wei
+                       };
+            Expression<Func<WrapHousePendent, bool>> where = m =>1 == 1;
+            //部门信息筛选
+            if (user.departs != null && user.roles != null)
+            {
+                List<long> depentids = user.departs.Select(p => p.Id).ToList();
+
+                if (user.roles.ishouse == 0)
+                {
+                    if (user.range == 2)
+                    {
+                        where = where.And(m => depentids.Contains(m.storeid));
+                        if (userids != null && userids.Length > 0)
+                        {
+                            where = where.Or(m => userids.Contains(m.HouseKeeper));
+                        }
+                    }
+                    if (user.range == 3)
+                    {
+                        where = where.And(m => m.HouseKeeper == user.Id);
+                    }
+                }
+            }
+            if (model.Status != 0)
+            {
+                where = where.And(m => m.Status == model.Status);
+            }
+            if (dtmo.dt != DateTime.MinValue || dtmo.dt2 != DateTime.MinValue)
+            {
+                where = where.And(m => m.RecentTime >= dtmo.dt);
+                where = where.And(m => m.RecentTime <= dtmo.dt2);
+                where = where.And(m => m.Status == 1);
+            }
+            if (model.sign != 0)
+            {
+                where = where.And(m => m.sign == model.sign);
+            }
+            if (model.Huxing != null)
+            {
+                where = where.And(m => m.Huxing == model.Huxing);
+            }
+            if (model.ishaveimg != 0)
+            {
+                if (model.ishaveimg !=1)
+                {
+                    where = where.And(m => m.PrivateImage!=null);
+                }
+                if (model.ishaveimg != 1)
+                {
+                    where = where.And(m => m.PrivateImage == null);
+                }
+            }
+            data = data.Where(where);
             list = data.ToList();
             return list;
         }
         //按照楼层和房间保存
-        public int autoIndentSavePent(long parentid, List<T_Floor> floors,int HouseCount,long CompanyId)
+        public int autoIndentSavePent(long parentid,long storeid, long housekeeper, List<T_Floor> floors,int HouseCount,long CompanyId)
         {
             int result = 0;
             foreach(var mo in floors)
@@ -231,6 +375,8 @@ namespace DAL
                     model.RecentTime = DateTime.Now;
                     model.ParentRoomid = parentid;
                     model.Status = 1;
+                    model.storeid = storeid;
+                    model.HouseKeeper = housekeeper;
                     model.sign =4;
                     model.ID = GetNextValNum("GET_WSEQUENCES('t_houresources_pendent')");
                     result += AddModel<HousePendent>(model);
@@ -333,7 +479,11 @@ namespace DAL
             }
         }
 
-      
+        public int getindex(string name)
+        {
+            string[] str = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            return Array.IndexOf(str, name);
+        }
         public string getzimu(int index)
         {
             string[] str = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
@@ -357,6 +507,35 @@ namespace DAL
                 }
             }
         }
+        //永昌
+        //public int getindex(string name)
+        //{
+        //    string[] str = new string[] { "甲", "乙", "丙", "丁", "戊", "己", "庚", "乙", "丁", "己", "辛", "癸", "甲1", "乙1", "丙1", "丁1", "戊1", "己1", "庚1", "乙1", "丁1", "己1", "辛1", "癸1" };
+        //    return Array.IndexOf(str, name);
+        //}
+        //public string getzimu(int index)
+        //{
+        //    string[] str = new string[] { "甲", "乙", "丙", "丁", "戊", "己", "庚", "乙", "丁", "己", "辛", "癸", "甲1", "乙1", "丙1", "丁1", "戊1", "己1", "庚1", "乙1", "丁1", "己1", "辛1", "癸1" };
+        //    if (index <= 24)
+        //    {
+        //        return str[index];
+        //    }
+        //    else
+        //    {
+        //        if (index < 10)
+        //        {
+        //            return "00" + index.ToString();
+        //        }
+        //        if (index < 100)
+        //        {
+        //            return "0" + index.ToString();
+        //        }
+        //        else
+        //        {
+        //            return index.ToString();
+        //        }
+        //    }
+        //}
         //查询数量
         public int Querycount(HousePendent model)
         {
@@ -384,18 +563,40 @@ namespace DAL
             {
                 where = where.And(p => !string.IsNullOrEmpty(p.Electricid));
             }
+
             data = data.Where(where);
             IOrderByExpression<HousePendent> order = new OrderByExpression<HousePendent, long>(p => p.ID, false);
             return QueryableForList(data, orderablePagination, order);
         }
         //楼层分页
-        public List<T_Floor> follorlist(HouseModel model, dtmode dtmo, OrderablePagination orderablePagination,out long housecount)
+        public List<T_Floor> follorlist(HouseModel model, dtmode dtmo, OrderablePagination orderablePagination, string[] citys, T_SysUser user, long[] userids,out long housecount)
         {
             var data = from mo in Floor  
                        select mo;
             var data1 = from mo in BbHousepent select mo;
             Expression<Func<T_Floor, bool>> where = m => 1 == 1;
             Expression<Func<HousePendent, bool>> where1 = m => 1 == 1;
+            //部门信息筛选
+            if (user.departs != null && user.roles != null)
+            {
+                List<long> depentids = user.departs.Select(p => p.Id).ToList();
+
+                if (user.roles.ishouse == 0)
+                {
+                    if (user.range == 2)
+                    {
+                        where1 = where1.And(m => depentids.Contains(m.storeid));
+                        if (userids != null && userids.Length > 0)
+                        {
+                            where1 = where1.Or(m => userids.Contains(m.HouseKeeper));
+                        }
+                    }
+                    if (user.range == 3)
+                    {
+                        where1 = where1.And(m => m.HouseKeeper == user.Id);
+                    }
+                }
+            }
             if (model.Id != 0)
             {
                 where = where.And(p => p.ParentId == model.Id);
@@ -405,10 +606,11 @@ namespace DAL
             {
                 where1 = where1.And(m => m.Status == model.Status);
             }
-            if (dtmo.dt != DateTime.MinValue)
+            if (dtmo.dt != DateTime.MinValue||dtmo.dt2 != DateTime.MinValue)
             {
                 where1 = where1.And(m => m.RecentTime >= dtmo.dt);
                 where1 = where1.And(m => m.RecentTime <= dtmo.dt2);
+                where1 = where1.And(m => m.Status == 1);
             }
             if (model.sign != 0)
             {
@@ -418,22 +620,55 @@ namespace DAL
             {
                 where1 = where1.And(m => m.Huxing == model.Huxing);
             }
-            data = data.Where(where);
+            if (model.NowFloor != 0)
+            {
+                where = where.And(p => p.Floor == model.NowFloor);
+            }
+            if (model.ishaveimg != 0)
+            {
+                if (model.ishaveimg != 1)
+                {
+                    where1 = where1.And(m => m.PrivateImage != null);
+                }
+                if (model.ishaveimg != 1)
+                {
+                    where1 = where1.And(m => m.PrivateImage == null);
+                }
+            }
             data1 = data1.Where(where1);
-            data = data.Where(p => data1.Select(m => m.FloorId).Contains(p.Id));
+            where = where.And(m => (data1.Select(p => p.FloorId)).Contains(m.Id));
+            data = data.Where(where);
             housecount = data1.Count();
             IOrderByExpression<T_Floor> order = new OrderByExpression<T_Floor, long>(p => p.Id, false);
             return QueryableForList(data, orderablePagination, order);
         }
-        
+        //户型列表
+        public List<Fxing> HouseFxing(HouseModel model)
+        {
+            var data = from mo in Fxing
+                       select mo;
+            Expression<Func<Fxing, bool>> where = m => 1 == 1;
+            if (model.Id != 0)
+            {
+                where = where.And(p => p.houseid == model.Id);
+            }
+            data = data.Where(where);
+            return data.ToList();
+        }
         public DbSet<HouseModel> BbHouse { get; set; }
         public DbSet<HousePendent> BbHousepent { get; set; }
         public DbSet<T_Floor> Floor { get; set; }
+        public DbSet<T_Contrct> Contract { get; set; }
+        public DbSet<T_Teant> Teant { get; set; }
+        public DbSet<Fxing> Fxing { get; set; }
         protected override void CreateModelMap(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new HouseMapping());
             modelBuilder.Configurations.Add(new HousedePentMaping());
             modelBuilder.Configurations.Add(new FloorMaping());
+            modelBuilder.Configurations.Add(new ContrctMapping());
+            modelBuilder.Configurations.Add(new TenantMapping());
+            modelBuilder.Configurations.Add(new FxingMaping());
         }
     }
 

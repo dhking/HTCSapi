@@ -30,7 +30,7 @@ namespace DAL
                      from t in temp.DefaultIfEmpty()
                      select new WrapRenovation() { Id=m.Id, HouseName = t.Name, budget =m.budget , createtime =m.createtime, createperson=m.createperson, CompanyId=t==null?0:t.CompanyId };
             Expression<Func<WrapRenovation, bool>> where = m => 1 == 1;
-            if (model.CompanyId != model.CompanyId)
+            if (model.CompanyId != 0)
             {
                 where = where.And(p => p.CompanyId == model.CompanyId);
             }

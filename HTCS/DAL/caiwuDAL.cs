@@ -80,7 +80,7 @@ namespace DAL
             {
                 where = where.And(p=>p.housereportid==model.housereportid);
             }
-            if (model.storeid != null)
+            if (model.storeid != 0)
             {
                 where = where.And(p => p.storeid == model.storeid);
             }

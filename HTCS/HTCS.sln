@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Blend for Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBHelp", "DBHelp\DBHelp.csproj", "{FB50B47E-0060-4EC5-BFC4-05F38C410236}"
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerHelper", "ControllerHelper\ControllerHelper.csproj", "{093CB7DB-F980-4C7D-9333-176D711D2AFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapping.cs", "Mapping.cs\Mapping.cs.csproj", "{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEST", "TEST\TEST.csproj", "{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{3A731482-E558-4D10-BDFE-37427685F373}"
 EndProject
@@ -72,12 +70,6 @@ Global
 		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
 		{EDA4C606-50E3-4D17-84D7-2A9E37111EA4}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
-		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.开发环境|Any CPU.ActiveCfg = 开发环境|Any CPU
-		{ADE0EF91-A9C2-4488-96C3-EC4544ACB7D2}.开发环境|Any CPU.Build.0 = 开发环境|Any CPU
 		{3A731482-E558-4D10-BDFE-37427685F373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A731482-E558-4D10-BDFE-37427685F373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A731482-E558-4D10-BDFE-37427685F373}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

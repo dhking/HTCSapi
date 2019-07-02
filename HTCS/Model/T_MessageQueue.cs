@@ -12,6 +12,7 @@ namespace Model
     {
         public long Id { get; set; }
         public string phone { get; set; }
+        public string name { get; set; }
         public string message { get; set; }
         public DateTime createtime { get; set; }
         public int times { get; set; }

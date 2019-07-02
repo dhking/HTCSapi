@@ -156,13 +156,13 @@ namespace Model
 
     public class StatisticsModel
     {
-        public decimal CopeWith { get; set; }
+        public decimal overreveive { get; set; }
 
-        public decimal Paid { get; set; }
+        public decimal overduepay { get; set; }
 
-        public decimal Receivable { get; set; }
-        public decimal Receivableed { get; set; }
-        public int Appointment { get; set; }
+        public decimal todreveive { get; set; }
+        public decimal todpay { get; set; }
+        public long Appointment { get; set; }
         public long Repair { get; set; }
         public int Book { get; set; }
         public Stock Stock { get; set; }
@@ -225,7 +225,9 @@ namespace Model
 
         public long daiweixiu { get; set; }
 
+        public decimal daishouamount { get; set; }
 
+        public decimal daifuamount { get; set; }
     }
 
     public class caiwu

@@ -23,11 +23,24 @@ namespace Model.House
         public decimal Price { get; set; }
         public int IsRm { get; set; }
         public DateTime PushTime { get; set; }
+        public DateTime CreateTime { get; set; }
         public int Status { get; set; }
         public string Fukuan { get; set; }
         public string TingWei { get; set; }
         public int Type { get; set; }
         public int Shi { get; set; }
+        public decimal Measure { get; set; }
+        //精度
+        public double LongiTude { get; set; }
+        //纬度
+        public double LatiTude { get; set; }
+        //总层
+        public int Floor { get; set; }
+        //当前层
+        public int FloorIndex { get; set; }
+        public string CellName { get; set; }
+        public string pts { get; set; }
+        public string metro { get; set; }
         public string  Phone { get; set; }
         public DateTime RecentTime { get; set; }
         public long CompanyId { get; set; }
@@ -36,6 +49,9 @@ namespace Model.House
         [NotMapped]
         public decimal MinPrice { get; set; }
         //特色信息
+        /// <summary>
+        /// 
+        /// </summary>
         [NotMapped]
         public List<TeseZK> Ts { get; set; }
         [NotMapped]

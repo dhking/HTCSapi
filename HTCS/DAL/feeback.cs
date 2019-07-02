@@ -16,8 +16,23 @@ namespace DAL
     {
         public BanBen Query(BanBen model)
         {
-            var mo = from m in dbValue where m.Type==2 select m;
-            return mo.FirstOrDefault();
+            if (model == null)
+            {
+                var mo = from m in dbValue where m.Type == 2 select m;
+                return mo.FirstOrDefault();
+            }
+            if (model.Type == 3)
+            {
+                var mo = from m in dbValue where m.Type == 3 select m;
+                return mo.FirstOrDefault();
+            }
+            else
+            {
+                var mo = from m in dbValue where m.Type == 2 select m;
+                return mo.FirstOrDefault();
+            }
+          
+           
         }
         public DbSet<BanBen> dbValue { get; set; }
         protected override void CreateModelMap(DbModelBuilder modelBuilder)

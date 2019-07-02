@@ -25,7 +25,7 @@ namespace Service
         public T_SysUser getnewuer(T_SysUser user)
         {
             T_SysUser newuser = new T_SysUser();
-            newuser.storeids = getstore(user.storeid);
+            
             newuser.areas = getcityorarea(user.area);
             newuser.citys = getcityorarea(user.city);
             newuser.Id = user.Id;
@@ -80,6 +80,7 @@ namespace Service
             if (user.listpression != null)
             {
                 count = user.listpression.Where(p => buttonname.Contains(p.Code)&& p.appcheck == 1).Count();
+                //count = user.listpression.Where(p => buttonname.Contains(p.Code)).Count();
                 if (count > 0)
                 {
                     result = true;

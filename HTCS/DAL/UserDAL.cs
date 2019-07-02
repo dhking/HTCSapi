@@ -80,7 +80,7 @@ namespace DAL
             }
             else
             {
-                PLModifiedModel<T_SysUser>(model, false,new string[] {"CompanyId" });
+                PLModifiedModel<T_SysUser>(model, false,new string[] {"CompanyId","area", "city" });
                 if (model.listrole != null)
                 {
                     foreach (var mo in model.listrole)
@@ -97,9 +97,11 @@ namespace DAL
                         }
                     }
                 }
-                if (model.deletebilllist != null)
+                //删除其他角色
+                var data = from m in BbUserRole where m.SysUserId == model.Id select m;
+                if (data.Count() > 0)
                 {
-                    foreach (var mo in model.deletebilllist)
+                    foreach(var mo in data.ToList())
                     {
                         PLDeleteModel<T_SysUserRole>(mo);
                     }
@@ -129,6 +131,10 @@ namespace DAL
             {
                 where = where.And(m => m.RealName.Contains(model.RealName));
             }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId== model.CompanyId);
+            }
             result = result.Where(where);
             return result.ToList().Select(p => new T_SysUser { Name = p.Name,RealName =p.RealName==null?p.Mobile:p.RealName, Id = p.Id }).ToList();
         }
@@ -141,6 +147,14 @@ namespace DAL
             {
                 where = where.And(m => m.Id == model.Id);
             }
+            if (model.departs != null&&model.departs.Count>0)
+            {
+                List<long> ids = model.departs.Select(p => p.Id).ToList();
+                if (!ids.Contains(-1))
+                {
+                    where = where.And(m => ids.Contains(m.storeid));
+                }
+            }
             if (model.Mobile != null)
             {
                 where = where.And(m => m.Mobile.Contains(model.Mobile));
@@ -152,6 +166,10 @@ namespace DAL
             if (model.CompanyId != 0&& model.CompanyId != 1)
             {
                 where = where.And(m => m.CompanyId==model.CompanyId);
+            }
+            if (model.isquit!=2)
+            {
+                where = where.And(m => m.isquit == model.isquit);
             }
             data = data.Where(where);
             IOrderByExpression<T_SysUser> order = new OrderByExpression<T_SysUser, long>(p => p.Id, true);
@@ -339,6 +357,10 @@ namespace DAL
             if (model != null && model.Id != 0)
             {
                 where = where.And(m => m.Id == model.Id);
+            }
+            if (model.CompanyId!=0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
             }
             data = data.Where(where);
             count = data.Count();

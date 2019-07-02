@@ -1,4 +1,5 @@
 ﻿using Model.Menu;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,11 +20,11 @@ namespace Model.User
         public long Id { get; set; }
         public string Name { get; set; }
         public string Mobile { get; set; }
-        
+
         public string RealName { get; set; }
 
-       
-     
+
+
         public string Email { get; set; }
         public string Password { get; set; }
         public string AuthShop { get; set; }
@@ -41,7 +42,7 @@ namespace Model.User
     //    public string Phone { get; set; }
     //    public string Temp { get; set; }
     //}
-    public  class Wrapcert
+    public class Wrapcert
     {
         public T_CertIfication qiye { get; set; }
 
@@ -49,7 +50,7 @@ namespace Model.User
     }
     public class T_CertIfication : BasicModel
     {
-        public long   Id { get; set; }
+        public long Id { get; set; }
         public string phone { get; set; }
         public string province { get; set; }
         public string name { get; set; }
@@ -60,7 +61,7 @@ namespace Model.User
         public long CompanyId { get; set; }
         public string imgyyzz { get; set; }
         public string imggz { get; set; }
-        public long   UserId { get; set; }
+        public long UserId { get; set; }
         public string realname { get; set; }
         public string idcard { get; set; }
         public string idzimg { get; set; }
@@ -71,12 +72,55 @@ namespace Model.User
         public string result { get; set; }
 
     }
+
+    public class t_department : BasicModel
+    {
+        public long Id { get; set; }
+
+        public string name { get; set; }
+
+        public string city { get; set; }
+
+        public string area { get; set; }
+
+        public long parentid { get; set; }
+        public long companyid { get; set; }
+        public string phone { get; set; }
+
+        public string userids { get; set; }
+        public string adress { get; set; }
+        public string cellname { get; set; }
+        public int stroe { get; set; }
+        [NotMapped]
+        public string  parentname { get; set; }
+    }
+
+    public class wrapdepartment : BasicModel
+    {
+        public long Id { get; set; }
+        public long companyid { get; set; }
+        public string name { get; set; }
+
+        public long parentid { get; set; }
+
+        public string phone { get; set; }
+
+        public string adress { get; set; }
+
+        public int stroe { get; set; }
+        public bool open { get; set; }
+        public bool spread { get; set; }
+        [JsonProperty("checked")]
+        public bool checkedd{ get; set; }
+        public List<wrapdepartment> children { get; set; }
+       }
     public   class T_SysUser: BasicModel
     {
         public string registrationId { get; set; }
-       
+        
+        public long roleid { get; set; }
         public long Id { get; set; }
-        public string storeid { get; set; }
+        public long storeid { get; set; }
       
         public string area { get; set; }
         [NotMapped]
@@ -97,18 +141,17 @@ namespace Model.User
         public int range { get; set; }
         public int isactive { get; set; }
 
-       
-
+        public int isquit { get; set; }
 
         public string Zfbzh { get; set; }
 
         public string Wxzh { get; set; }
 
-     
 
-       
 
-       
+      
+
+
 
         public string userimg { get; set; }
 
@@ -120,7 +163,7 @@ namespace Model.User
         public string pinpai { get; set; }
 
         public string city { get; set; }
-
+        public string cellname { get; set; }
         public long CompanyId { get; set; }
 
         public string province { get; set; }
@@ -135,7 +178,7 @@ namespace Model.User
         [NotMapped]
         public string token { get; set; }
         [NotMapped]
-        public string roles { get; set; }
+        public T_SysRole roles { get; set; }
         [NotMapped]
         public List<Pression> listpression { get; set; }
         [NotMapped]
@@ -145,6 +188,8 @@ namespace Model.User
 
         [NotMapped]
         public List<T_SysUserRole> deletebilllist { get; set; }
+        [NotMapped]
+        public List<t_department> departs { get; set; }
     }
     public class T_Record : BasicModel
     {
@@ -193,8 +238,13 @@ namespace Model.User
         public int PasswordExpiration { get; set ; }
 
         public int IsActive { get; set; }
+
+        public int range { get; set; }
+        public int ishouse { get; set; }
         [NotMapped]
         public T_Button Btn { get; set; }
+        [NotMapped]
+        public long userid { get; set; }
     }
     public class T_SysUserRole : BasicModel
     {
@@ -221,6 +271,9 @@ namespace Model.User
         [NotMapped]
         public string rolename { get; set; }
        
+        public int range { get; set; }
+
+        public int ishouse { get; set; }
     }
     public class T_Button : BasicModel
     {

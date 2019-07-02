@@ -25,10 +25,18 @@ namespace Model
 
         [NotMapped]
         public string Uuid { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
         [NotMapped]
         public string Expand { get; set; }
         [NotMapped]
         public DateTime now { get; set; }
+    }
+    public class Expanduser2
+    {
+        public int cash { get; set; }
+
+
+        public DateTime settletime { get; set; }
     }
 
     public class Elec<T>

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 
@@ -11,10 +12,10 @@ namespace DAL.Common
     public  class HtcsZKClient
     {
         private string token = "123456789";
-        private string serverurl = "http://106.14.96.37:83/";
+        private string serverurl = ConfigurationManager.AppSettings["url"];
 
         private WebUtils webUtils;
-        public HtcsZKClient(string api, string user)
+        public HtcsZKClient(string api)
         {
             serverurl = serverurl + api;
             this.webUtils = new WebUtils();

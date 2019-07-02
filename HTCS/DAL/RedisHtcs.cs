@@ -56,6 +56,13 @@ namespace DAL
             str = redisClient.Expire(key, 10*24*3600);
             return str;
         }
+
+        
+        public bool SetModel1<T>(string key, T model)
+        {
+            bool str = redisClient.Set<T>(key, model);
+            return str;
+        }
         public T GetModel<T>(string key)
         {
             return redisClient.Get<T>(key);

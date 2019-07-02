@@ -47,7 +47,7 @@ namespace DAL.Common
                 case 24:
                     str = "二年一付";
                     break;
-                case 99:
+                case 999:
                     str = "一次付清";
                     break;
                 default:

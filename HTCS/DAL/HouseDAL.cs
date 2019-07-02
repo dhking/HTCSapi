@@ -16,18 +16,50 @@ using System.Data;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.Entity.SqlServer;
 using Model.User;
+using CodeFirstStoreFunctions;
+using Model.TENANT;
 
 namespace DAL
 {
     public class HouseDAL : RcsBaseDao
     {
 
-        public IList<HouseModel>  Querylist(HouseModel model, dtmode dtmo, OrderablePagination orderablePagination,out long count)
+
+        public IList<WrapHouseModel1>  Querylist(HouseModel model, dtmode dtmo, List<t_department> list, T_SysRole role,long [] userids, OrderablePagination orderablePagination,out long count)
         {
-            IList<HouseModel> listhouse = new List<HouseModel>();
-            var data = from a in BbHouse  select a;
+            IList<WrapHouseModel1> listhouse = new List<WrapHouseModel1>();
+           
+            var data = from a in BbHouse
+                       join c1 in BbUser on a.HouseKeeper equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+                       select new WrapHouseModel1() {
+                           Id=a.Id,
+                           BuildingNumber=a.BuildingNumber,
+                           housekeepername=x1==null?"": x1.RealName,
+                           RoomId =a.RoomId,
+                           storeid=a.storeid,
+                           ShiNumber=a.ShiNumber,
+                           HouseKeeper=a.HouseKeeper,
+                           Orientation = a.Orientation,
+
+                           CompanyId = a.CompanyId,
+                           CellName = a.CellName,
+                           Adress = a.Adress,
+
+                           CityName = a.CityName,
+                           AreamName = a.AreamName,
+                           RecrntType = a.RecrntType,
+                           PublicImg=a.PublicImg,
+                           Measure =a.Measure,
+                           Status=a.Status,
+                           sign=a.sign,
+                           Renttime=a.Renttime,
+                           distince= get_distance(model.latitude,model.longitude, a.latitude, a.longitude)
+                        
+                       };
             var data1 = from b in BbHousepent  select b;
-            Expression<Func<HouseModel, bool>> where = m =>1 == 1;
+            Expression<Func<WrapHouseModel1, bool>> where = m =>1 == 1;
             Expression<Func<HousePendent, bool>> where1 = m => 1 == 1;
             if (model.City != 0)
             {
@@ -37,13 +69,37 @@ namespace DAL
             {
                 where = where.And(m => m.RoomId == model.RoomId);
             }
-            if (model.storeid != 0)
+            //部门信息筛选
+            if (list != null&&role!=null)
             {
-                where = where.And(m => m.storeid == model.storeid);
+                List<long> depentids = list.Select(p => p.Id).ToList();
+                
+                if (role.ishouse == 0)
+                {
+                    if (role.range == 2)
+                    {
+                        where = where.And(m => depentids.Contains(m.storeid));
+                        if(userids!=null&& userids.Length > 0)
+                        {
+                            where = where.Or(m => userids.Contains(m.HouseKeeper));
+                        }
+                    }
+                    if (role.range == 3)
+                    {
+                        where = where.And(m => m.HouseKeeper == role.userid);
+                    }
+                }
             }
             if (model.ShiNumber != 0)
             {
-                where = where.And(m => m.ShiNumber == model.ShiNumber);
+                if(model.ShiNumber == 5)
+                {
+                    where = where.And(m => m.ShiNumber >= model.ShiNumber);
+                }
+                else
+                {
+                    where = where.And(m => m.ShiNumber == model.ShiNumber);
+                }
             }
             if (model.CompanyId != 0)
             {
@@ -51,13 +107,13 @@ namespace DAL
             }
             if (!string.IsNullOrEmpty(model.Content))
             {
-                where = where.And(m => m.CellName.Contains(model.Content)||m.Adress.Contains(model.Content)||m.RoomId.Contains(model.Content));
+                where = where.And(m => m.CellName.Contains(model.Content)||m.Adress.Contains(model.Content)||m.RoomId.Contains(model.Content) || m.housekeepername.Contains(model.Content));
             }
-            if (!string.IsNullOrEmpty( model.CityName))
+            if (!string.IsNullOrEmpty(model.CityName)&&model.CityName!="附近")
             {
                 where = where.And(m => m.CityName == model.CityName);
             }
-            if (!string.IsNullOrEmpty(model.AreamName))
+            if (!string.IsNullOrEmpty(model.AreamName) && model.AreamName != "不限" && model.AreamName != "1千米" && model.AreamName != "2千米" && model.AreamName != "3千米")
             {
                 where = where.And(m => m.AreamName == model.AreamName);
             }
@@ -69,34 +125,58 @@ namespace DAL
             {
                 where = where.And(m => m.RecrntType== model.RecrntType);
             }
-            if (model.Status != 0 && model.RecrntType == 1)
+            if (!string.IsNullOrEmpty(model.Orientation))
             {
-                where = where.And(m => m.Status==model.Status);
+                where = where.And(m => m.Orientation == model.Orientation);
             }
-            if (dtmo.dt != DateTime.MinValue && model.RecrntType == 1)
+            if (model.ishaveimg != 0)
             {
-                data = from a in BbHouse  where a.Renttime >= dtmo.dt && a.Renttime <= dtmo.dt2&&a.Status==1   select a;
+                if (model.ishaveimg == 1)
+                {
+                    where1 = where1.And(m => m.PrivateImage != null);
+                }
+                if (model.ishaveimg == 2)
+                {
+                    where1 = where1.And(m => m.PrivateImage == null);
+                }
             }
-            if (model.Status != 0&&model.RecrntType!=1)
+            //if (dtmo.dt != DateTime.MinValue && model.RecrntType == 1)
+            //{
+            //    data = from a in BbHouse  where a.Renttime >= dtmo.dt && a.Renttime <= dtmo.dt2&&a.Status==1   select a;
+            //}
+            if (model.Status != 0)
             {
                 where1 = where1.And(m => m.Status == model.Status);
             }
-            if (dtmo.dt != DateTime.MinValue && model.RecrntType !=1)
+            if (dtmo.dt != DateTime.MinValue||dtmo.dt2 != DateTime.MinValue)
             {
-                where1 = where1.And(m => m.RecentTime >= dtmo.dt);
-                where1 = where1.And(m => m.RecentTime <= dtmo.dt2);
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) >= dtmo.dt);
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) <= dtmo.dt2);
                 where1 = where1.And(m => m.Status == 1);
             }
+
             if (model.sign!=0)
             {
                 where1 = where1.And(m => m.sign == model.sign);
             }
-           
+            if (model.radius != 0&&model.latitude != 0 && model.longitude != 0)
+            {
+                where = where.And(m => m.distince <= model.radius);
+            }
             data1 = data1.Where(where1);
             where = where.And(m=>(data1.Select(p => p.ParentRoomid)).Contains(m.Id));
             data = data.Where(where);
-            IOrderByExpression<HouseModel> order = new OrderByExpression<HouseModel, long>(p => p.Id, model.GroupBy);
-            listhouse = this.QueryableForList<HouseModel>(data, orderablePagination, order);
+            if (model.latitude != 0 && model.longitude != 0)
+            {
+                
+                IOrderByExpression<WrapHouseModel1> order = new OrderByExpression<WrapHouseModel1, double>(p => p.distince, false);
+                listhouse = this.QueryableForList<WrapHouseModel1>(data, orderablePagination, order);
+            }
+            else
+            {
+                IOrderByExpression<WrapHouseModel1> order = new OrderByExpression<WrapHouseModel1, long>(p => p.Id, model.GroupBy);
+                listhouse = this.QueryableForList<WrapHouseModel1>(data, orderablePagination, order);
+            }
             count = data1.Where(p => data.Select(m => m.Id).Contains(p.ParentRoomid)).Count();
             return listhouse;
         }
@@ -152,15 +232,12 @@ namespace DAL
             {
                 where = where.And(m => m.Status == model.Status);
             }
-            if (dtmo.dt != DateTime.MinValue && model.RecrntType == 1)
-            {
-                data = from a in BbHouse where a.Renttime >= dtmo.dt && a.Renttime <= dtmo.dt2 && a.Status == 1 select a;
-            }
+           
             if (model.Status != 0 && model.RecrntType != 1)
             {
                 where1 = where1.And(m => m.Status == model.Status);
             }
-            if (dtmo.dt != DateTime.MinValue && model.RecrntType != 1)
+            if (dtmo.dt != DateTime.MinValue||dtmo.dt2!=DateTime.MinValue )
             {
                 where1 = where1.And(m => m.RecentTime >= dtmo.dt);
                 where1 = where1.And(m => m.RecentTime <= dtmo.dt2);
@@ -176,12 +253,57 @@ namespace DAL
             IOrderByExpression<HouseModel> order = new OrderByExpression<HouseModel, long>(p => p.Id, model.GroupBy);
             return data.ToList();
         }
-        public List<HouseModel> Querylist2(HouseModel model, dtmode dtmo, OrderablePagination orderablePagination)
+        //group分组
+        public List<WrapCellName> housegroup(HouseModel model, dtmode dtmo, OrderablePagination orderablePagination, string[] citys, T_SysUser user)
         {
-            List<HouseModel> sysresult = new List<HouseModel>();
-            var data = from a in BbHouse select a;
-            Expression<Func<HouseModel, bool>> where = m => 1 == 1;
-            Expression<Func<HousePendent, bool>> where1 = m => 1 == 1;
+            List<WrapCellName> sysresult = new List<WrapCellName>();
+            var data = from a in BbHouse
+                       group a by a.CellName into grouped
+                       select new WrapCellName()
+                       {
+                           CellName=grouped.Key,
+                           housecount= grouped.Count()
+                       };
+            var data1 = from a in BbHouse
+                       join c1 in BbUser on a.HouseKeeper equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+
+                       join c1 in (from cont in Contract where (cont.Status == 2 || cont.Status == 5) select cont) on a.Id equals c1.HouseId
+                       into temp3
+                       from x2 in temp3.DefaultIfEmpty()
+                       join n in Teant on x2.TeantId equals n.Id
+                       into temp4
+                       from x3 in temp4.DefaultIfEmpty()
+                       select new WrapHouseModel1()
+                       {
+                           constatus = x2 == null ? 0 : x2.Status,
+                           teantname = x3.Name,
+                           recent = x2 == null ? 0 : x2.Recent,
+                           endtime = x2 == null ? DateTime.MinValue : DbFunctions.TruncateTime(x2.EndTime),
+                           Id = a.Id,
+                           BuildingNumber = a.BuildingNumber,
+                           housekeepername = x1 == null ? "" : x1.RealName,
+                           RoomId = a.RoomId,
+                           storeid = a.storeid,
+                           ShiNumber = a.ShiNumber,
+                           CompanyId = a.CompanyId,
+                           CellName = a.CellName,
+                           Adress = a.Adress,
+                           BusinessArea = a.BusinessArea,
+                           CityName = a.CityName,
+                           AreamName = a.AreamName,
+                           RecrntType = a.RecrntType,
+                           Measure = a.Measure,
+                           Status = a.Status,
+                           sign = a.sign,
+                           Renttime = a.Renttime,
+                           Orientation = a.Orientation,
+                           PublicImg = a.PublicImg,
+                           distince = get_distance(model.latitude, model.longitude, a.latitude, a.longitude)
+                       };
+            Expression<Func<WrapHouseModel1, bool>> where = m => 1 == 1;
+            Expression<Func<WrapCellName, bool>> where1 = m => 1 == 1;
             if (model.City != 0)
             {
                 where = where.And(m => m.City == model.City);
@@ -190,27 +312,53 @@ namespace DAL
             {
                 where = where.And(m => m.RoomId == model.RoomId);
             }
+            if (model.radius != 0 && model.latitude != 0 && model.longitude != 0)
+            {
+                where = where.And(m => m.distince <= model.radius);
+            }
             if (model.storeid != 0)
             {
                 where = where.And(m => m.storeid == model.storeid);
             }
             if (model.ShiNumber != 0)
             {
-                where = where.And(m => m.ShiNumber == model.ShiNumber);
+                if (model.ShiNumber == 5)
+                {
+                    where = where.And(m => m.ShiNumber >= model.ShiNumber);
+                }
+                else
+                {
+                    where = where.And(m => m.ShiNumber == model.ShiNumber);
+                }
             }
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
             }
+            if (model.ishaveimg != 0)
+            {
+                if (model.ishaveimg == 1)
+                {
+                    where = where.And(m => m.PublicImg != null);
+                }
+                if (model.ishaveimg == 2)
+                {
+                    where = where.And(m => m.PublicImg == null);
+                }
+            }
+            if ((user.range == 2 || user.range == 3) && citys != null)
+            {
+                where = where.And(p => citys.Contains(p.CityName));
+            }
             if (!string.IsNullOrEmpty(model.Content))
             {
-                where = where.And(m => m.CellName.Contains(model.Content) || m.Adress.Contains(model.Content) || m.RoomId.Contains(model.Content));
+                where = where.And(m => m.CellName.Contains(model.Content) || m.Adress.Contains(model.Content) || m.RoomId.Contains(model.Content) || m.housekeepername.Contains(model.Content));
             }
-            if (!string.IsNullOrEmpty(model.CityName))
+            if (!string.IsNullOrEmpty(model.CityName) && model.CityName != "附近")
             {
                 where = where.And(m => m.CityName == model.CityName);
             }
-            if (!string.IsNullOrEmpty(model.AreamName))
+            if (!string.IsNullOrEmpty(model.AreamName) && model.AreamName != "不限" && model.AreamName != "1千米" && model.AreamName != "2千米" && model.AreamName != "3千米")
             {
                 where = where.And(m => m.AreamName == model.AreamName);
             }
@@ -222,31 +370,316 @@ namespace DAL
             {
                 where = where.And(m => m.RecrntType == model.RecrntType);
             }
-            if (model.Status != 0 && model.RecrntType == 1)
+            if (model.Status != 0)
             {
                 where = where.And(m => m.Status == model.Status);
             }
-            if (dtmo.dt != DateTime.MinValue && model.RecrntType == 1)
+            if (!string.IsNullOrEmpty(model.Orientation))
             {
-                data = from a in BbHouse where a.Renttime >= dtmo.dt && a.Renttime <= dtmo.dt2 && a.Status == 1 select a;
+                where = where.And(m => m.Orientation == model.Orientation);
             }
-            if (model.Status != 0 && model.RecrntType != 1)
+
+            if (dtmo.dt != DateTime.MinValue || dtmo.dt2 != DateTime.MinValue)
             {
-                where1 = where1.And(m => m.Status == model.Status);
-            }
-            if (dtmo.dt != DateTime.MinValue && model.RecrntType != 1)
-            {
-                where1 = where1.And(m => m.RecentTime >= dtmo.dt);
-                where1 = where1.And(m => m.RecentTime <= dtmo.dt2);
-                where1 = where1.And(m => m.Status == 1);
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) >= dtmo.dt);
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) <= dtmo.dt2);
+                where = where.And(m => m.Status == 1);
             }
             if (model.sign != 0)
             {
-                where1 = where1.And(m => m.sign == model.sign);
+                where = where.And(m => m.sign == model.sign);
+            }
+            data1 = data1.Where(where);
+            data =data.Where(where1.And(m =>(data1.Select(p => p.CellName)).Contains(m.CellName)));
+            IOrderByExpression<WrapCellName> order = new OrderByExpression<WrapCellName, string>(p => p.CellName, model.GroupBy);
+            sysresult = this.QueryableForList<WrapCellName>(data, orderablePagination, order);
+            return sysresult;
+        }
+        public List<WrapHouseModel1> Querylist2(HouseModel model, dtmode dtmo, OrderablePagination orderablePagination,string[] citys,T_SysUser user)
+        {
+            List<WrapHouseModel1> sysresult = new List<WrapHouseModel1>();
+            var data = from a in BbHouse
+                       join c1 in BbUser on a.HouseKeeper equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+
+                       join c1 in (from cont in Contract where (cont.Status == 2 || cont.Status == 5) select cont) on a.Id equals c1.HouseId
+                       into temp3
+                       from x2 in temp3.DefaultIfEmpty()
+                       join n in Teant on x2.TeantId equals n.Id
+                       into temp4
+                       from x3 in temp4.DefaultIfEmpty()
+                       select new WrapHouseModel1()
+                       {
+                           constatus = x2 == null ? 0 : x2.Status,
+                           teantname = x3.Name,
+                           recent = x2 == null ? 0 : x2.Recent,
+                           endtime = x2 == null ? DateTime.MinValue : DbFunctions.TruncateTime(x2.EndTime),
+
+                           Id = a.Id,
+                           BuildingNumber = a.BuildingNumber,
+                           housekeepername = x1 == null ? "" : x1.RealName,
+                           RoomId = a.RoomId,
+                           storeid = a.storeid,
+                           ShiNumber = a.ShiNumber,
+
+                           CompanyId = a.CompanyId,
+                           CellName = a.CellName,
+                           Adress = a.Adress,
+                           BusinessArea=a.BusinessArea,
+                           CityName = a.CityName,
+                           AreamName = a.AreamName,
+                           RecrntType = a.RecrntType,
+                           Measure = a.Measure,
+                           Status = a.Status,
+                           sign = a.sign,
+                           Renttime = a.Renttime,
+                           Orientation=a.Orientation,
+                           PublicImg=a.PublicImg,
+                           distince = get_distance(model.latitude, model.longitude, a.latitude, a.longitude),
+                         
+                       };
+            Expression<Func<WrapHouseModel1, bool>> where = m => 1 == 1;
+         
+            if (model.City != 0)
+            {
+                where = where.And(m => m.City == model.City);
+            }
+            if (model.RoomId != null)
+            {
+                where = where.And(m => m.RoomId == model.RoomId);
+            }
+            if (model.radius != 0 && model.latitude != 0 && model.longitude != 0)
+            {
+                where = where.And(m => m.distince <= model.radius);
+            }
+            if (model.storeid != 0)
+            {
+                where = where.And(m => m.storeid == model.storeid);
+            }
+            if (model.ShiNumber != 0)
+            {
+                if (model.ShiNumber ==5)
+                {
+                    where = where.And(m => m.ShiNumber >= model.ShiNumber);
+                }
+                else
+                {
+                    where = where.And(m => m.ShiNumber == model.ShiNumber);
+                }
+                
+            }
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            if (model.ishaveimg != 0)
+            {
+                if (model.ishaveimg == 1)
+                {
+                    where = where.And(m => m.PublicImg != null);
+                }
+                if (model.ishaveimg == 2)
+                {
+                    where = where.And(m => m.PublicImg == null);
+                }
+            }
+            if ((user.range == 2 || user.range == 3) && citys != null)
+            {
+                where = where.And(p => citys.Contains(p.CityName));
+            }
+            if (!string.IsNullOrEmpty(model.Content))
+            {
+                where = where.And(m => m.CellName.Contains(model.Content) || m.Adress.Contains(model.Content) || m.RoomId.Contains(model.Content) || m.housekeepername.Contains(model.Content));
+            }
+            if (!string.IsNullOrEmpty(model.CityName) && model.CityName != "附近")
+            {
+                where = where.And(m => m.CityName == model.CityName);
+            }
+            if (!string.IsNullOrEmpty(model.AreamName) && model.AreamName != "不限" && model.AreamName != "1千米" && model.AreamName != "2千米" && model.AreamName != "3千米")
+            {
+                where = where.And(m => m.AreamName == model.AreamName);
+            }
+            if (!string.IsNullOrEmpty(model.CellName))
+            {
+                where = where.And(m => m.CellName == model.CellName);
+            }
+            if (model.RecrntType != 0)
+            {
+                where = where.And(m => m.RecrntType == model.RecrntType);
+            }
+            if (model.Status != 0)
+            {
+                where = where.And(m => m.Status == model.Status);
+            }
+            if (!string.IsNullOrEmpty(model.Orientation))
+            {
+                where = where.And(m => m.Orientation == model.Orientation);
+            }
+
+            if (dtmo.dt != DateTime.MinValue||dtmo.dt2!=DateTime.MinValue)
+            {
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime)  >= dtmo.dt);
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) <= dtmo.dt2);
+                where = where.And(m => m.Status == 1);
+            }
+            if (model.sign != 0)
+            {
+                where = where.And(m => m.sign == model.sign);
             }
             data = data.Where(where);
-            IOrderByExpression<HouseModel> order = new OrderByExpression<HouseModel, long>(p => p.Id, model.GroupBy);
-            sysresult = this.QueryableForList<HouseModel>(data, orderablePagination, order);
+            model.GroupBy = true;
+            IOrderByExpression<WrapHouseModel1> order = new OrderByExpression<WrapHouseModel1, long>(p => p.Id, model.GroupBy);
+            if (model.radius != 0 && model.latitude != 0 && model.longitude != 0)
+            {
+                order = new OrderByExpression<WrapHouseModel1, double>(p => p.distince,false);
+            }
+            sysresult = this.QueryableForList<WrapHouseModel1>(data, orderablePagination, order);
+
+            return sysresult;
+        }
+        //整租分组查询
+        public List<WrapHouseModel1> Querylist2group(HouseModel model, dtmode dtmo, List<WrapCellName> listcell, string[] citys, T_SysUser user)
+        {
+            List<WrapHouseModel1> sysresult = new List<WrapHouseModel1>();
+            var data = from a in BbHouse
+                       join c1 in BbUser on a.HouseKeeper equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+
+                       join c1 in (from cont in Contract where (cont.Status == 2 || cont.Status == 5) select cont) on a.Id equals c1.HouseId
+                       into temp3
+                       from x2 in temp3.DefaultIfEmpty()
+                       join n in Teant on x2.TeantId equals n.Id
+                       into temp4
+                       from x3 in temp4.DefaultIfEmpty()
+                       select new WrapHouseModel1()
+                       {
+                           constatus = x2 == null ? 0 : x2.Status,
+                           teantname = x3.Name,
+                           recent = x2 == null ? 0 : x2.Recent,
+                           endtime = x2 == null ? DateTime.MinValue : DbFunctions.TruncateTime(x2.EndTime),
+
+                           Id = a.Id,
+                           BuildingNumber = a.BuildingNumber,
+                           housekeepername = x1 == null ? "" : x1.RealName,
+                           RoomId = a.RoomId,
+                           storeid = a.storeid,
+                           ShiNumber = a.ShiNumber,
+
+                           CompanyId = a.CompanyId,
+                           CellName = a.CellName,
+                           Adress = a.Adress,
+                           BusinessArea = a.BusinessArea,
+                           CityName = a.CityName,
+                           AreamName = a.AreamName,
+                           RecrntType = a.RecrntType,
+                           Measure = a.Measure,
+                           Status = a.Status,
+                           sign = a.sign,
+                           Renttime = a.Renttime,
+                           Orientation = a.Orientation,
+                           PublicImg = a.PublicImg,
+                           distince = get_distance(model.latitude, model.longitude, a.latitude, a.longitude)
+                       };
+            Expression<Func<WrapHouseModel1, bool>> where = m => 1 == 1;
+           
+            if (model.City != 0)
+            {
+                where = where.And(m => m.City == model.City);
+            }
+            if (model.RoomId != null)
+            {
+                where = where.And(m => m.RoomId == model.RoomId);
+            }
+            if (model.radius != 0 && model.latitude != 0 && model.longitude != 0)
+            {
+                where = where.And(m => m.distince <= model.radius);
+            }
+            if (model.storeid != 0)
+            {
+                where = where.And(m => m.storeid == model.storeid);
+            }
+            if (model.ShiNumber != 0)
+            {
+                if (model.ShiNumber == 5)
+                {
+                    where = where.And(m => m.ShiNumber >= model.ShiNumber);
+                }
+                else
+                {
+                    where = where.And(m => m.ShiNumber == model.ShiNumber);
+                }
+            }
+           
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            if (model.ishaveimg != 0)
+            {
+                if (model.ishaveimg == 1)
+                {
+                    where = where.And(m => m.PublicImg != null);
+                }
+                if (model.ishaveimg == 2)
+                {
+                    where = where.And(m => m.PublicImg == null);
+                }
+            }
+            if ((user.range == 2 || user.range == 3) && citys != null)
+            {
+                where = where.And(p => citys.Contains(p.CityName));
+            }
+            if (!string.IsNullOrEmpty(model.Content))
+            {
+                where = where.And(m => m.CellName.Contains(model.Content) || m.Adress.Contains(model.Content) || m.RoomId.Contains(model.Content) || m.housekeepername.Contains(model.Content));
+            }
+            if (!string.IsNullOrEmpty(model.CityName) && model.CityName != "附近")
+            {
+                where = where.And(m => m.CityName == model.CityName);
+            }
+            if (!string.IsNullOrEmpty(model.AreamName) && model.AreamName != "不限" && model.AreamName != "1千米" && model.AreamName != "2千米" && model.AreamName != "3千米")
+            {
+                where = where.And(m => m.AreamName == model.AreamName);
+            }
+            if (!string.IsNullOrEmpty(model.CellName))
+            {
+                where = where.And(m => m.CellName == model.CellName);
+            }
+            if (model.RecrntType != 0)
+            {
+                where = where.And(m => m.RecrntType == model.RecrntType);
+            }
+            if (model.Status != 0)
+            {
+                where = where.And(m => m.Status == model.Status);
+            }
+            if (!string.IsNullOrEmpty(model.Orientation))
+            {
+                where = where.And(m => m.Orientation == model.Orientation);
+            }
+            if (dtmo.dt != DateTime.MinValue || dtmo.dt2 != DateTime.MinValue)
+            {
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) >= dtmo.dt);
+                where = where.And(m => DbFunctions.TruncateTime(m.Renttime) <= dtmo.dt2);
+                where = where.And(m => m.Status == 1);
+            }
+            if (model.sign != 0)
+            {
+                where = where.And(m => m.sign == model.sign);
+            }
+            if (listcell != null)
+            {
+                where = where.And(m => m.CellName.Contains(m.CellName));
+            }
+            data = data.Where(where);
+            IOrderByExpression<WrapHouseModel1> order = new OrderByExpression<WrapHouseModel1, long>(p => p.Id, model.GroupBy);
+            if (model.radius != 0 && model.latitude != 0 && model.longitude != 0)
+            {
+                order = new OrderByExpression<WrapHouseModel1, double>(p => p.distince, false);
+            }
+            sysresult = data.ToList();
 
             return sysresult;
         }
@@ -256,6 +689,10 @@ namespace DAL
                select        mo;
             Expression<Func<houresources, bool>> where = m => 1 == 1;
             where = where.And(p => p.Name.Replace("-", "").Contains(model.Name));
+            if (model.CompanyId != 0)
+            {
+                where = where.And(m => m.CompanyId == model.CompanyId);
+            }
             data = data.Where(where);
             IOrderByExpression<houresources> order = new OrderByExpression<houresources, long>(p => p.Id, false);
             return QueryableForList(data, orderablePagination, order);
@@ -295,7 +732,7 @@ namespace DAL
             {
                 where = where.And(m => m.RoomId == model.RoomId);
             }
-            if (dtmo.dt != DateTime.MinValue)
+            if (dtmo.dt != DateTime.MinValue|| dtmo.dt2 != DateTime.MinValue )
             {
                 data = from a in BbHouse where a.Renttime >= dtmo.dt && a.Renttime <= dtmo.dt2 && a.Status == 1 select a;
             }
@@ -315,27 +752,27 @@ namespace DAL
             data = data.Where(where);
             return data.ToList();
         }
-        public Stock Query(int housetype)
+        public Stock Query(int housetype,long companyid)
         {
             DateTime datetime10 = DateTime.Now.AddDays(-10);
             DateTime datetime20 = DateTime.Now.AddDays(-20);
             DateTime datetime30 = DateTime.Now.AddDays(-30);
             Stock stoc = new Stock();
-            stoc.ALL = (from m in BbHouse where m.RecrntType== housetype select m).Count();
-            stoc.Rent = (from m in BbHouse where m.Status==2&&m.RecrntType==housetype select m).Count();
-            stoc.Book = (from m in BbHouse where m.Status == 3 && m.RecrntType == housetype select m).Count();
-            stoc.Vacancy10 = (from m in BbHouse where m.Renttime<DateTime.Now&&m.Renttime> datetime10 && m.Status==0 && m.RecrntType == housetype select m).Count();
-            stoc.Vacancy20 = (from m in BbHouse where m.Renttime < datetime10 && m.Renttime > datetime20 && m.Status == 0 && m.RecrntType == housetype select m).Count();
+            stoc.ALL = (from m in BbHouse where m.RecrntType== housetype&&m.CompanyId==companyid select m).Count();
+            stoc.Rent = (from m in BbHouse where m.Status==2&&m.RecrntType==housetype && m.CompanyId == companyid select m).Count();
+            stoc.Book = (from m in BbHouse where m.Status == 3 && m.RecrntType == housetype && m.CompanyId == companyid select m).Count();
+            stoc.Vacancy10 = (from m in BbHouse where m.Renttime<DateTime.Now&&m.Renttime> datetime10 && m.Status==0 && m.RecrntType == housetype && m.CompanyId == companyid select m).Count();
+            stoc.Vacancy20 = (from m in BbHouse where m.Renttime < datetime10 && m.Renttime > datetime20 && m.Status == 0 && m.RecrntType == housetype && m.CompanyId == companyid select m).Count();
         
-            stoc.Vacancy30 = (from m in BbHouse where m.Renttime < datetime20 && m.Renttime > datetime30 && m.Status == 0 && m.RecrntType == housetype select m).Count();
-            stoc.Vacancyover30 = (from m in BbHouse where m.Renttime < datetime30 && m.Status == 0 && m.RecrntType == housetype select m).Count();
+            stoc.Vacancy30 = (from m in BbHouse where m.Renttime < datetime20 && m.Renttime > datetime30 && m.Status == 0 && m.RecrntType == housetype && m.CompanyId == companyid select m).Count();
+            stoc.Vacancyover30 = (from m in BbHouse where m.Renttime < datetime30 && m.Status == 0 && m.RecrntType == housetype && m.CompanyId == companyid select m).Count();
             stoc.Vacancy = stoc.ALL - stoc.Rent - stoc.Configuration;
             double a = (double)stoc.Vacancy / stoc.ALL;
             stoc.RentPert = a.ToString("0.0%");
             return stoc;
         }
 
-        public HouseModel Queryhouse(HouseModel model)
+        public HouseModel Queryhouse(HouseModel model,string[] citys, T_SysUser user)
         {
             var data = from m in BbHouse  select m;
             Expression<Func<HouseModel, bool>> where = m => 1 == 1;
@@ -343,6 +780,8 @@ namespace DAL
             {
                 where = where.And(p => p.Electricid == model.Electricid);
             }
+           
+            
             if (model.Id != 0)
             {
                 where = where.And(p => p.Id == model.Id);
@@ -351,7 +790,14 @@ namespace DAL
             {
                 where = where.And(p => p.CellName == model.CellName);
             }
-           
+            if (model.CompanyId != 0)
+            {
+                where = where.And(p => p.CompanyId == model.CompanyId);
+            }
+            if (citys != null&&(user.range == 2 || user.range == 3) )
+            {
+                where = where.And(p => citys.Contains(p.CityName));
+            }
             data = data.Where(where);
             model = data.FirstOrDefault();
             return model;
@@ -364,6 +810,150 @@ namespace DAL
            
             model = data.FirstOrDefault();
             return model;
+        }
+        public List<distributionHouseQuery> Queryhousepage(HouseModel model, OrderablePagination orderablePagination)
+        {
+            var data = from mo in bhouresources
+                       join c1 in BbUser on mo.HouseKeeper equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+                       select new distributionHouseQuery()
+                       {
+                           id = mo.Id,
+                           HouseKeeper = mo.HouseKeeper,
+                           Name = mo.Name,
+                           RecentType = mo.HouseType,
+                           AreaName = mo.AreaName,
+                           CityName = mo.CityName,
+                           Adress = mo.Adress,
+                           CellName = mo.CellName,
+                           CompanyId = mo.CompanyId,
+                           HouseKeeperName = x1 == null ? "" : x1.RealName,
+                           storeid = mo.storeid
+                          
+                       };
+            Expression<Func<distributionHouseQuery, bool>> where = m => 1 == 1;
+            if (model.CompanyId != 0)
+            {
+                where = where.And(p => p.CompanyId == model.CompanyId);
+            }
+            if (model.CityName !=null)
+            {
+                where = where.And(p => p.CityName == model.CityName);
+            }
+            if (model.AreamName != null)
+            {
+                where = where.And(p => p.AreaName == model.AreamName);
+            }
+            if (model.arrCellNames != null)
+            {
+                where = where.And(m => model.arrCellNames.Contains(m.CellName));
+            }
+            if (model.CellName != null)
+            {
+                where = where.And(p => p.CellName == model.CellName);
+            }
+            if (!string.IsNullOrEmpty(model.storename))
+            {
+                if (model.storename == "未分配")
+                {
+                    where = where.And(p => p.HouseKeeperName == null);
+                }
+                if (model.storename == "已分配")
+                {
+                    where = where.And(p => p.HouseKeeperName != null );
+                }
+            }
+            if (!string.IsNullOrEmpty(model.Content))
+            {
+                where = where.And(p => p.CellName.Contains(model.Content) || p.storename.Contains(model.Content));
+            }
+            data = data.Where(where);
+            IOrderByExpression<distributionHouseQuery> order = new OrderByExpression<distributionHouseQuery, long>(p => p.id, false);
+            return QueryableForList(data, orderablePagination, order);
+        }
+        //查询所有部门房源
+        public List<distributionHouseQuery> Queryhousedepart(HouseModel model, OrderablePagination orderablePagination)
+        {
+            var data = from mo in bhouresources
+                       join c1 in department on mo.storeid equals c1.Id
+                       into temp2
+                       from x1 in temp2.DefaultIfEmpty()
+                       select new distributionHouseQuery()
+                       {
+                           id = mo.Id,
+                           HouseKeeper = mo.HouseKeeper,
+                           Name = mo.Name,
+                           RecentType = mo.HouseType,
+                           AreaName = mo.AreaName,
+                           CityName = mo.CityName,
+                           Adress = mo.Adress,
+                           CellName = mo.CellName,
+                           CompanyId = mo.CompanyId,
+                           storename = x1 == null ? "": x1.name,
+                           storeid =mo.storeid
+                       };
+            Expression<Func<distributionHouseQuery, bool>> where = m => 1 == 1;
+            if (model.CompanyId != 0)
+            {
+                where = where.And(p => p.CompanyId == model.CompanyId);
+            }
+            if (model.CityName != null)
+            {
+                where = where.And(p => p.CityName == model.CityName);
+            }
+            if (model.arrCellNames != null)
+            {
+                where = where.And(m => model.arrCellNames.Contains(m.CellName));
+            }
+            if (model.AreamName != null)
+            {
+                where = where.And(p => p.AreaName == model.AreamName);
+            }
+            if (model.CellName != null)
+            {
+                where = where.And(p => p.CellName == model.CellName);
+            }
+            if (!string.IsNullOrEmpty(model.storename))
+            {
+                if (model.storename == "未分配")
+                {
+                    where = where.And(p => p.storename==null|| p.storename =="");
+                }
+                if (model.storename == "已分配")
+                {
+                    where = where.And(p => p.storename != null);
+                }
+            }
+            if (!string.IsNullOrEmpty(model.Content))
+            {
+                where = where.And(p => p.CellName.Contains(model.Content) || p.storename.Contains(model.Content));
+            }
+            data = data.Where(where);
+            IOrderByExpression<distributionHouseQuery> order = new OrderByExpression<distributionHouseQuery, long>(p => p.id, false);
+            return QueryableForList(data, orderablePagination, order);
+        }
+
+        //查询所有部门房源
+        public List<long> Queryhousedepartcheck(HouseModel model)
+        {
+            var data = from mo in bhouresources  select mo;
+            Expression<Func<houresources, bool>> where = m => 1 == 1;
+            if (model.CompanyId != 0)
+            {
+                where = where.And(p => p.CompanyId == model.CompanyId);
+            }
+            if (model.HouseKeeper != 0)
+            {
+                where = where.And(p => p.HouseKeeper == model.HouseKeeper);
+            }
+            if (model.storeid != 0)
+            {
+                where = where.And(p => p.storeid == model.storeid);
+            }
+           
+            data = data.Where(where);
+            return data.Select(p=>p.Id).ToList();
         }
         public HouseLockQuery Queryhouse2(long id)
         {
@@ -385,10 +975,15 @@ namespace DAL
                            Adress=mo.Adress,
                            CityName=mo.CityName,
                            AreaName=mo.AreaName,
-                          Status=mo.Status
+                          Status=mo.Status,
+                          CompanyId=mo.CompanyId
                        };
             Expression<Func<HouseTip, bool>> where = m => 1 == 1;
             where = where.And(p => p.Name.Replace("-", "").Contains(model.CellName));
+            if (model.CompanyId != 0)
+            {
+                where = where.And(p => p.CompanyId == model.CompanyId);
+            }
             data = data.Where(where);
             IOrderByExpression<HouseTip> order = new OrderByExpression<HouseTip,long>(p => p.HouseId, false);
             return QueryableForList(data, orderablePagination,order);
@@ -407,7 +1002,8 @@ namespace DAL
                            CityName = mo.CityName,
                            AreaName = mo.AreaName,
                            TeantId=t.Id,
-                           Status=mo.Status
+                           Status=mo.Status,
+                           isyccontract=mo.isyccontract
                        };
             Expression<Func<HouseTip, bool>> where = m => 1 == 1;
             where = where.And(p => p.Name.Replace("-", "").Contains(model.CellName));
@@ -451,13 +1047,13 @@ namespace DAL
         }
 
 
-        public List<HouseQuery> Query4(HouseModel model)
+        public List<HouseLockQuery> Query4(HouseModel model)
         {
-            var data = (from mo in HouseQuery select mo).AsNoTracking();
-            Expression<Func<HouseQuery, bool>> where = m => 1 == 1;
+            var data = (from mo in LockQuery select mo).AsNoTracking();
+            Expression<Func<HouseLockQuery, bool>> where = m => 1 == 1;
             if (model.Electricid != null)
             {
-                where = where.And(p => p.electricid == model.Electricid);
+                where = where.And(p => p.ElecId == model.Electricid);
             }
             if (model.Id != 0)
             {
@@ -563,7 +1159,7 @@ namespace DAL
             }
         }
         //存储过程查询独栋房源数据
-        public DataSet IndentHouseQuery(int mopagesize,int mopageindex,string cellname,int rgroup,out long count)
+        public DataSet IndentHouseQuery(int mopagesize,int mopageindex,string cellname,int rgroup,long companyid, out long count)
         {
             OracleCommand cmd = new OracleCommand();
             OracleParameter pagesize = new OracleParameter("v_pagesize", OracleDbType.Int64);
@@ -585,6 +1181,12 @@ namespace DAL
             parargroup.Direction = ParameterDirection.Input;
             parargroup.Value = rgroup;
             cmd.Parameters.Add(parargroup);
+
+            OracleParameter paracompanyid = new OracleParameter("rcompanyid", OracleDbType.Varchar2);
+            paracompanyid.Direction = ParameterDirection.Input;
+            paracompanyid.Value = companyid;
+            cmd.Parameters.Add(paracompanyid);
+
 
             OracleParameter paramCode = new OracleParameter("Code", OracleDbType.Int16);
             paramCode.Direction = ParameterDirection.Output;
@@ -624,20 +1226,25 @@ namespace DAL
             return mo.ToList();
         }
         //APP首页空置情况统计
-        public Stock querykz()
+        public Stock querykz(long companyid)
         {
             Stock result = new Stock();
             int[] arr = new int[] { 1, 2, 3 };
-            var mo = from m in HouseQuery where arr.Contains(m.Status) 
+            var mo = from m in HouseQuery where arr.Contains(m.Status) && m.CompanyId==companyid
                      select m;
             var mo1 = from m in HouseQuery
-                      where m.Status == 1
-                     select m;
+                      where m.Status == 1 && m.CompanyId == companyid
+                      select m;
             result.ALL = mo.Count();
             result.Vacancy= mo1.Count();
             double a = (double)result.Vacancy / result.ALL;
             result.RentPert = a.ToString("0.0%");
             return result;
+        }
+        [DbFunctionAttribute("CodeFirstDatabaseSchema", "GETDISTANCE")]
+        public static double get_distance(double curLat, double curLng, double srcLat, double srcLng)
+        {
+            throw new NotSupportedException();
         }
         public DbSet<HouseModel> BbHouse { get; set; }
 
@@ -653,9 +1260,12 @@ namespace DAL
 
         public DbSet<houresources> bhouresources { get; set; }
         public DbSet<HousePendent> BbHousepent { get; set; }
+        public DbSet<T_SysUser> BbUser { get; set; }
+        public DbSet<T_Teant> Teant { get; set; }
+        public DbSet<t_department> department { get; set; }
         protected override void CreateModelMap(DbModelBuilder modelBuilder)
         {
-
+            modelBuilder.Conventions.Add(new FunctionsConvention("SYSTEM", this.GetType()));
             modelBuilder.Configurations.Add(new ContrctMapping());
             modelBuilder.Configurations.Add(new T_TeseMaping());
             modelBuilder.Configurations.Add(new T_peibeiMaping());
@@ -666,6 +1276,10 @@ namespace DAL
             modelBuilder.Configurations.Add(new houresourcesMapping());
             modelBuilder.Configurations.Add(new HouseQueryLockMapping());
             modelBuilder.Configurations.Add(new HousedePentMaping());
+            modelBuilder.Configurations.Add(new T_SysUserMapping());
+            modelBuilder.Configurations.Add(new TenantMapping());
+            modelBuilder.Configurations.Add(new departmentMapping());
         }
     }
+   
 }

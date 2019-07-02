@@ -27,8 +27,8 @@ namespace Service
             }
             else
             {
-                result.Code = 1002;
-                result.Message = "请先登录";
+                result.Code = 1003;
+                result.Message = "请联系客服开通智能电表账号";
             }
             return result;
         }
@@ -36,25 +36,24 @@ namespace Service
         public SysResult notBing(DeviceData model)
         {
             SysResult result = new SysResult();
+            result.Code = 0;
+            result.Message = "解除绑定成功";
             HouseDAL dal = new HouseDAL();
             HousePentDAL pdal = new HousePentDAL();
             kjxDAL kjx = new kjxDAL();
-            List<HouseQuery> listmodel = dal.Query4(new HouseModel() { Electricid = model.devid });
+            List<HouseLockQuery> listmodel = dal.Query4(new HouseModel() { Electricid = model.devid });
             model.devid = null;
             model.Uuid = null;
-            foreach(var mo in listmodel)
+            foreach (var mo in listmodel)
             {
-                if (mo.RecentType == 1)
-                {
-                    dal.SaveorUpdateHouse1(new HouseModel() { Id = model.HouseId, Electricid = model.devid, uuid = model.Uuid }, new string[] { "Electricid", "uuid" });
-                }
-                else
-                {
-                    pdal.SaveorUpdateHouse(new HousePendent() { ID = mo.Id, Electricid = model.devid, uuid = model.Uuid }, new string[] { "Electricid", "uuid" });
-                }
+                ProceDAL proedal = new ProceDAL();
+                proedal.Cmdproce11(new Pure() { Spname = "sp_notbind", Id = model.HouseId.ToStr() });
             }
-            result.Code = 0;
-            result.Message = "解除绑定成功";
+            if (listmodel.Count == 0)
+            {
+                result.Code = 1;
+                result.Message = "没有查询到电表";
+            }
             return result;
         }
         //绑定房间
@@ -70,7 +69,13 @@ namespace Service
                 return result;
             }
             HouseLockQuery query = hdal.Queryhouse2(model.HouseId);
-            if (model.ElecType==0)
+            if (query.RecentType == 3 &&model.ElecType != 0)
+            {
+                result.Code = 1;
+                result.Message = "子表没有通信功能，独栋房源请绑定主表";
+                return result;
+            }
+            if (model.ElecType==0&& query.RecentType!= 3)
             {
                 HouseDAL dal = new HouseDAL();
                 dal.SaveorUpdateHouse1(new HouseModel() { Id = model.HouseId, Electricid = model.devid,uuid=model.Uuid }, new string[] { "Electricid", "uuid" });
@@ -184,8 +189,8 @@ namespace Service
             Elec1<ElecUser> eleresult = checkuser(user,sysuser);
             if (eleresult.Code != 0)
             {
-                result.Code = 1002;
-                result.Message = "请重新登陆";
+                result.Code = eleresult.Code;
+                result.Message = eleresult.Message;
                 return result;
             }
             model.Uuid = eleresult.Data.Uuid;

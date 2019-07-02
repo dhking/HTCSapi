@@ -6,6 +6,7 @@ using Model;
 using Model.User;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -22,7 +23,7 @@ namespace DAL
            
             var data = from m in BbGuest join n in BbUser on m.UserId equals n.Id into temp
                        from t in temp.DefaultIfEmpty()
-                       select new WrapGuest() {Id=m.Id, Phone=m.Phone,Sex=m.Sex,Source=m.Source, IntoTime=m.IntoTime, Remark=m.Remark, Ugent= m.Ugent, UserName = t.RealName,House=m.House,Name=m.Name,Status=m.Status,Huxing=m.Huxing,Other=m.Other,MaxPrice=m.MaxPrice,MinPrice=m.MinPrice,RectDate=m.RectDate,CreatePerson=m.CreatePerson,CreateTime=m.CreateTime,CompanyId=m.CompanyId };
+                       select new WrapGuest() {Id=m.Id, Phone=m.Phone,Sex=m.Sex,Source=m.Source, IntoTime=m.IntoTime, Remark=m.Remark, Ugent= m.Ugent, UserName = t.RealName,House=m.House,Name=m.Name,Status=m.Status,Huxing=m.Huxing,Other=m.Other,MaxPrice=m.MaxPrice,MinPrice=m.MinPrice,RectDate=m.RectDate,CreatePerson=m.CreatePerson,CreateTime=m.CreateTime,CompanyId=m.CompanyId,HopeAdress=m.HopeAdress };
             Expression<Func<WrapGuest, bool>> where = m => 1 == 1;
             if (model.Id != 0)
             {
@@ -81,7 +82,7 @@ namespace DAL
                        where m.Id==model.Id
                        select new WrapGuest() { Id = m.Id, Phone = m.Phone, Sex = m.Sex, Source = m.Source, IntoTime = m.IntoTime, Remark = m.Remark, Ugent = m.Ugent, UserName = t.Name, House = m.House, Name = m.Name, Status = m.Status, RectDate=m.RectDate,Huxing=m.Huxing,Other=m.Other,HopeAdress=m.HopeAdress,MaxPrice=m.MaxPrice,MinPrice=m.MinPrice,CreatePerson=m.CreatePerson};
             remodel = data.FirstOrDefault();
-            remodel.Ipimgadess = "http://106.14.96.37:82/";
+            remodel.Ipimgadess = ConfigurationManager.AppSettings["imgurl"];
             if (remodel != null)
             {
                 var data1 = (from m in BbRzGuest where m.GuestId == remodel.Id select m);

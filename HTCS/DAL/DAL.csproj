@@ -42,6 +42,10 @@
     <Reference Include="Aspose.Words">
       <HintPath>..\package\Aspose.Words.dll</HintPath>
     </Reference>
+    <Reference Include="CodeFirstStoreFunctions, Version=1.1.3.0, Culture=neutral, PublicKeyToken=46c4868af4307d2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.CodeFirstStoreFunctions.1.1.3\lib\net45\CodeFirstStoreFunctions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
@@ -145,8 +149,11 @@
     <Compile Include="caiwuDAL.cs" />
     <Compile Include="Common\Class2.cs" />
     <Compile Include="Common\CreateWord.cs" />
+    <Compile Include="Common\DatetimeDiff.cs" />
+    <Compile Include="Common\LbsHelp.cs" />
     <Compile Include="Common\Publichelp.cs" />
     <Compile Include="Common\RzDAL.cs" />
+    <Compile Include="CreateBillDAL.cs" />
     <Compile Include="ElectricDAL.cs" />
     <Compile Include="feeback.cs" />
     <Compile Include="CityDAL.cs" />
@@ -170,6 +177,7 @@
     <Compile Include="HousePentDAL.cs" />
     <Compile Include="HtcsExcelDAL.cs" />
     <Compile Include="IndentHouseDAL.cs" />
+    <Compile Include="InitgwDAl.cs" />
     <Compile Include="ISysAutoTaskHistoryRepository.cs" />
     <Compile Include="ISysAutoTaskRepository.cs" />
     <Compile Include="ISysAutoTaskTriggerRepository.cs" />
@@ -196,6 +204,7 @@
     <Compile Include="RoleDAL.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="SendMessageDAL.cs" />
+    <Compile Include="SetDAL.cs" />
     <Compile Include="SignDAL.cs" />
     <Compile Include="StatisticsDAL.cs" />
     <Compile Include="SysParaRepository.cs" />

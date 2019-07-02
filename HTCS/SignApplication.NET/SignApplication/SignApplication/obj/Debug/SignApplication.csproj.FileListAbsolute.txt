@@ -28,7 +28,6 @@ C:\Users\Shinelon\Desktop\文档\众签\SignApplication.NET\SignApplication.NET\
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.exe.config
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.exe
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\bin\Debug\SignApplication.pdb
-D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.csprojResolveAssemblyReference.cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.configWin.resources
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.createContract.resources
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.download.resources
@@ -39,3 +38,4 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplicati
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.csproj.GenerateResource.Cache
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.exe
 D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\SignApplication.NET\SignApplication\SignApplication\obj\Debug\SignApplication.csprojResolveAssemblyReference.cache

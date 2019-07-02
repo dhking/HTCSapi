@@ -166,6 +166,12 @@ namespace Service
             T_kjx rekjx = redis.GetModel<T_kjx>("kjx" + CompanyId);
             ElectricDAL elecdal = new ElectricDAL();
             ElecUser elecuser = elecdal.Query(new ElecUser() { CompanyId = CompanyId,paratype=2 });
+            if (elecuser == null)
+            {
+                result.Code = 1003;
+                result.Message ="请联系客服开通智能门锁权限";
+                return result;
+            }
             result = login(new T_kjx() { username = elecuser.username, password = elecuser.pass }, "kjx" + CompanyId);
             rekjx = result.numberData;
             result.numberData = rekjx;
@@ -211,8 +217,8 @@ namespace Service
             T_kjx rekjx = redis.GetModel<T_kjx>("zkkjx" + username);
             if (rekjx != null)
             {
-                if (rekjx.r_expires_in >= DateTime.Now.AddDays(7))
-                {
+                //if (rekjx.r_expires_in >= DateTime.Now.AddDays(7))
+                //{
                     rekjx.username = username;
                     rekjx = reflashtoken(rekjx);
                     if (rekjx.errcode != "0" && rekjx.errcode != null)
@@ -224,7 +230,7 @@ namespace Service
                             rekjx = login(new T_kjx() { username = teant.Pt_UserName, password = teant.Pt_PassWord }, "zkkjx" + username).numberData;
                         }
                     }
-                }
+                //}
             }
             else
             {
@@ -348,8 +354,8 @@ namespace Service
                
                 if (syskjx.Code != 0)
                 {
-                    result.Code = 1;
-                    result.Message = "科技侠登陆失败请联系管理员";
+                    result.Code = syskjx.Code;
+                    result.Message = syskjx.Message;
                     return result;
                 }
                 if (syskjx.numberData != null)
@@ -1247,6 +1253,270 @@ namespace Service
             {
                 result.Code = 2;
                 result.Message = "获取密码异常" + ex.ToStr();
+            }
+            return result;
+        }
+        //网关列表
+        public SysResult<List<gateway>> gatewaylist(local model, T_SysUser user)
+        {
+            SysResult<List<gateway>> result = new SysResult<List<gateway>>(0, "");
+            try
+            {
+                T_kjx kjx = new T_kjx();
+                SysResult<T_kjx> syskjx = Gettoken(user.CompanyId);
+                if (syskjx.Code != 0)
+                {
+                    result.Code = syskjx.Code;
+                    result.Message = syskjx.Message;
+                    return result;
+                }
+                if (syskjx.numberData != null)
+                {
+                    kjx = syskjx.numberData;
+                }
+                T_PayMentAcount info = dal.GetAcount(3);
+                IDictionary<string, string> tobject = new Dictionary<string, string>();
+                IDictionary<string, string> txtParams = new Dictionary<string, string>();
+                txtParams.Add("clientId", info.app_id);
+                txtParams.Add("accessToken", kjx.access_token);
+                txtParams.Add("pageNo", model.PageIndex.ToString());
+                txtParams.Add("pageSize", model.PageSize.ToString());
+                txtParams.Add("date", ConvertHelper.getsecond());
+
+                TlKjx utils = new TlKjx();
+                string str = utils.DoPost("https://api.sciener.cn/v3/gateway/list", txtParams);
+
+                List<gateway> savemodel = Newtonsoft.Json.JsonConvert.DeserializeObject<List<gateway>>(str);
+                result.numberData = savemodel;
+               
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Code = 2;
+                result.Message = ex.ToString();
+            }
+            return result;
+        }
+        //网关下门锁列表
+        public SysResult<List<locklist>> listLock(local model, T_SysUser user)
+        {
+            SysResult<List<locklist>> result = new SysResult<List<locklist>>(0, "");
+            try
+            {
+                T_kjx kjx = new T_kjx();
+                SysResult<T_kjx> syskjx = Gettoken(user.CompanyId);
+                if (syskjx.Code != 0)
+                {
+                    result.Code = syskjx.Code;
+                    result.Message = syskjx.Message;
+                    return result;
+                }
+                if (syskjx.numberData != null)
+                {
+                    kjx = syskjx.numberData;
+                }
+                T_PayMentAcount info = dal.GetAcount(3);
+                IDictionary<string, string> tobject = new Dictionary<string, string>();
+                IDictionary<string, string> txtParams = new Dictionary<string, string>();
+                txtParams.Add("clientId", info.app_id);
+                txtParams.Add("accessToken", kjx.access_token);
+                txtParams.Add("gatewayId", model.gatewayId.ToString());
+                txtParams.Add("date", ConvertHelper.getsecond());
+
+                TlKjx utils = new TlKjx();
+                string str = utils.DoPost("https://api.sciener.cn/v3/gateway/list", txtParams);
+
+                List<locklist> savemodel = Newtonsoft.Json.JsonConvert.DeserializeObject<List<locklist>>(str);
+                result.numberData = savemodel;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Code = 2;
+                result.Message = ex.ToString();
+            }
+            return result;
+        }
+
+        //上传网关信息
+        public SysResult gatewayuploadDetail(gateway model, T_SysUser user)
+        {
+            SysResult result = new SysResult(0, "");
+
+            try
+            {
+                T_kjx kjx = new T_kjx();
+                SysResult<T_kjx> syskjx = Gettoken(user.CompanyId);
+                if (syskjx.Code != 0)
+                {
+                    result.Code = 1;
+                    result.Message = "科技侠登陆失败请联系管理员";
+                    return result;
+                }
+                if (syskjx.numberData != null)
+                {
+                    kjx = syskjx.numberData;
+                }
+                T_PayMentAcount info = dal.GetAcount(3);
+                IDictionary<string, string> txtParams = new Dictionary<string, string>();
+                txtParams.Add("clientId", info.app_id);
+                txtParams.Add("accessToken", kjx.access_token);
+                txtParams.Add("gatewayId", model.gatewayId.ToString());
+                txtParams.Add("modelNum", model.modelNum.ToString());
+                txtParams.Add("hardwareRevision", model.hardwareRevision.ToString());
+                txtParams.Add("firmwareRevision", model.firmwareRevision.ToString());
+                txtParams.Add("networkName", model.networkName.ToString());
+                txtParams.Add("date", ConvertHelper.getsecond());
+                TlKjx utils = new TlKjx();
+                string str = utils.DoPost("https://api.sciener.cn/v3/gateway/uploadDetail", txtParams);
+                reclass remodel = Newtonsoft.Json.JsonConvert.DeserializeObject<reclass>(str);
+                if (remodel.errcode == "0" || remodel.errcode == null)
+                {
+                    result = result.SuccessResult("上传网关信息成功");
+                }
+                else
+                {
+                    result = result.FailResult("上传网关信息失败" + remodel.errmsg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = result.ExceptionResult("上传网关信息", ex);
+            }
+            return result;
+        }
+        //删除网关
+        public SysResult gatewaydelete(gateway model, T_SysUser user)
+        {
+            SysResult result = new SysResult(0, "");
+
+            try
+            {
+                T_kjx kjx = new T_kjx();
+                SysResult<T_kjx> syskjx = Gettoken(user.CompanyId);
+                if (syskjx.Code != 0)
+                {
+                    result.Code = 1;
+                    result.Message = "科技侠登陆失败请联系管理员";
+                    return result;
+                }
+                if (syskjx.numberData != null)
+                {
+                    kjx = syskjx.numberData;
+                }
+                T_PayMentAcount info = dal.GetAcount(3);
+                IDictionary<string, string> txtParams = new Dictionary<string, string>();
+                txtParams.Add("clientId", info.app_id);
+                txtParams.Add("accessToken", kjx.access_token);
+                txtParams.Add("gatewayId", model.gatewayId.ToString());
+                txtParams.Add("date", ConvertHelper.getsecond());
+                TlKjx utils = new TlKjx();
+                string str = utils.DoPost("https://api.sciener.cn/v3/gateway/delete", txtParams);
+                reclass remodel = Newtonsoft.Json.JsonConvert.DeserializeObject<reclass>(str);
+                if (remodel.errcode == "0" || remodel.errcode == null)
+                {
+                    result = result.SuccessResult("网关删除成功");
+                }
+                else
+                {
+                    result = result.FailResult("网关删除失败" + remodel.errmsg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = result.ExceptionResult("网关删除", ex);
+            }
+            return result;
+        }
+        //查询某网关是否初始化成功
+        public SysResult gatewayisInitSuccess(gateway model, T_SysUser user)
+        {
+            SysResult result = new SysResult(0, "");
+
+            try
+            {
+                T_kjx kjx = new T_kjx();
+                SysResult<T_kjx> syskjx = Gettoken(user.CompanyId);
+                if (syskjx.Code != 0)
+                {
+                    result.Code = 1;
+                    result.Message = "科技侠登陆失败请联系管理员";
+                    return result;
+                }
+                if (syskjx.numberData != null)
+                {
+                    kjx = syskjx.numberData;
+                }
+                T_PayMentAcount info = dal.GetAcount(3);
+                IDictionary<string, string> txtParams = new Dictionary<string, string>();
+                txtParams.Add("clientId", info.app_id);
+                txtParams.Add("accessToken", kjx.access_token);
+                txtParams.Add("gatewayNetMac", model.gatewayNetMac.ToString());
+                txtParams.Add("date", ConvertHelper.getsecond());
+                TlKjx utils = new TlKjx();
+                string str = utils.DoPost("https://api.sciener.cn/v3/gateway/isInitSuccess", txtParams);
+                reclass remodel = Newtonsoft.Json.JsonConvert.DeserializeObject<reclass>(str);
+                if (remodel.errcode == "0" || remodel.errcode == null)
+                {
+                    result = result.SuccessResult("添加成功");
+                }
+                else
+                {
+                    result = result.FailResult("添加失败" + remodel.errmsg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = result.ExceptionResult("添加网关", ex);
+            }
+            return result;
+        }
+        //开锁
+        public SysResult lockunlock(gateway model, T_SysUser user)
+        {
+            SysResult result = new SysResult(0, "");
+
+            try
+            {
+                T_kjx kjx = new T_kjx();
+                SysResult<T_kjx> syskjx = Gettoken(user.CompanyId);
+                if (syskjx.Code != 0)
+                {
+                    result.Code = 1;
+                    result.Message = "科技侠登陆失败请联系管理员";
+                    return result;
+                }
+                if (syskjx.numberData != null)
+                {
+                    kjx = syskjx.numberData;
+                }
+                T_PayMentAcount info = dal.GetAcount(3);
+                IDictionary<string, string> txtParams = new Dictionary<string, string>();
+                txtParams.Add("clientId", info.app_id);
+                txtParams.Add("accessToken", kjx.access_token);
+                txtParams.Add("gatewayNetMac", model.gatewayNetMac.ToString());
+                txtParams.Add("date", ConvertHelper.getsecond());
+                TlKjx utils = new TlKjx();
+                string str = utils.DoPost("https://api.sciener.cn/v3/lock/unlock", txtParams);
+                reclass remodel = Newtonsoft.Json.JsonConvert.DeserializeObject<reclass>(str);
+                if (remodel.errcode == "0" || remodel.errcode == null)
+                {
+                    result = result.SuccessResult("开锁成功");
+                }
+                else
+                {
+                    result = result.FailResult("开锁失败" + remodel.errmsg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = result.ExceptionResult("开锁", ex);
             }
             return result;
         }
