@@ -109,6 +109,22 @@
       <HintPath>..\packages\Quartz.2.2.1\lib\net40\Quartz.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ServiceStack.Common, Version=1.0.4321.41957, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.3.0.0\lib\ServiceStack.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=1.0.4321.41956, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.3.0.0\lib\ServiceStack.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Redis, Version=3.0.0.41978, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.3.0.0\lib\ServiceStack.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.0.1.41944, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.3.0.0\lib\ServiceStack.Text.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

@@ -184,6 +184,14 @@ namespace Api.Controllers
         {
             return service.delete(model);
         }
+
+        //删除报修子项
+        [HttpPost]
+        [Route("api/hRepaire/delete")]
+        public SysResult hdelete(Repaire model)
+        {
+            return service.hdelete(model);
+        }
         //我的报修列表
         [HttpPost]
         [Route("api/Repaire/MyReceipt")]

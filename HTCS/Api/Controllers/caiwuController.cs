@@ -57,8 +57,7 @@ namespace Api.Controllers
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            
-            sysresult = service.Querybaobiao(model, this.OrderablePagination);
+            sysresult = service.Querybaobiao(model,user, this.OrderablePagination);
             return sysresult;
         }
         //报表子表

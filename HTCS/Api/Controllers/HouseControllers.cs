@@ -53,8 +53,9 @@ namespace API
                 sysresult.Message = "请先登录";
                 return sysresult;
             }
+            long[] userids = getuserids(user.departs, user.Id);
             model.CompanyId = user.CompanyId;
-            return service.Querytip(model,this.OrderablePagination);
+            return service.Querytip(model,this.OrderablePagination, userids,user);
         }
         //搜索房源
         [Route("api/House/Query")]
@@ -359,6 +360,22 @@ namespace API
             model.CompanyId = user.CompanyId;
             return service.Queryhouse(model, this.OrderablePagination);
         }
+        //按照小区和楼查询房源
+        [Route("api/House/Queryhousecount")]
+        public SysResult<List<WrapHouse>> Queryhousecount(HouseModel model)
+        {
+            InitPage(model.PageSize, (model.PageSize * model.PageIndex));
+            SysResult<List<WrapHouse>> sysresult = new SysResult<List<WrapHouse>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.Queryhousecount(model, this.OrderablePagination);
+        }
         //查询所有部门房源
         [Route("api/House/Queryhousedepart")]
         public SysResult<List<distributionHouseQuery>> Queryhousedepart(HouseModel model)
@@ -389,6 +406,21 @@ namespace API
             }
             model.CompanyId = user.CompanyId;
             return service.Queryhousedepartcheck(model);
+        }
+        //查询股东已分配的房源
+        [Route("api/House/checkQueryhousedepart1")]
+        public SysResult<List<string>> checkQueryhousedepart1(T_SysUser model)
+        {
+            SysResult<List<string>> sysresult = new SysResult<List<string>>();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            model.CompanyId = user.CompanyId;
+            return service.Queryhousedepartcheck1(model);
         }
     }
 }

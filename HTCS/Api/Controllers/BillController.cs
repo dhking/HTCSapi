@@ -130,6 +130,24 @@ namespace Api.Controllers
             bill.CompanyId = user.CompanyId;
             return service.save(bill, user.Id);
         }
+        [HttpPost]
+        [Route("api/Bill/Bookkeeping")]
+        [JurisdictionAuthorize(name = new string[] { "bill-add-btn" })]
+        public SysResult Bookkeeping(T_Bill bill)
+        {
+            SysResult sysresult = new SysResult();
+            T_SysUser user = GetCurrentUser(GetSysToken());
+            if (user == null)
+            {
+                sysresult.Code = 1002;
+                sysresult.Message = "请先登录";
+                return sysresult;
+            }
+            bill.CompanyId = user.CompanyId;
+            bill.name = "记账";
+            return service.save(bill, user.Id);
+        }
+        
         //账单详情
         [HttpPost]
         [Route("api/Bill/Querybillbyid")]
@@ -180,6 +198,9 @@ namespace Api.Controllers
         public SysResult pcuizu(List<T_WrapBill> model)
         {
             SysUserService sysservice = new SysUserService();
+            string jsonData = JsonConvert.SerializeObject(model);
+            LogService log = new LogService();
+            log.logInfo("批量催租:" + jsonData);
             return sysservice.pcuizu(model);
         }
         [HttpPost]

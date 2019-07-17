@@ -119,10 +119,10 @@ namespace Api.Controllers
         }
         //楼层筛选条件
         [Route("api/IndependHouse/shaixuan")]
-        public SysResult<List<WrapIndentHouse>> shaixuan()
+        public SysResult<List<WrapIndentHouse>> shaixuan(HouseModel model)
         {
             SysResult<List<WrapIndentHouse>> sysresult = new SysResult<List<WrapIndentHouse>>();
-            sysresult = service.Queryshaixuan();
+            sysresult = service.Queryshaixuan(model);
             return sysresult;
         }
         //根据公寓名称查楼层
@@ -156,6 +156,9 @@ namespace Api.Controllers
         public SysResult Update(HouseModel model)
         {
             SysResult sysresult = new SysResult();
+            string jsonData = JsonConvert.SerializeObject(model);
+
+            log.LogError("编辑公区参数" + jsonData);
             T_SysUser user = GetCurrentUser(GetSysToken());
             if (user == null)
             {

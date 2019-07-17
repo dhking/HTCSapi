@@ -89,7 +89,8 @@ namespace Api.Controllers
         public SysResult test(T_SysUser model)
         {
             SysResult result = new SysResult();
-      
+            initgwService service = new initgwService();
+            result = service.query(1);
             //try
             //{
 

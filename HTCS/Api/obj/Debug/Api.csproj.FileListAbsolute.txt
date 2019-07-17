@@ -314,9 +314,7 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\log4net.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Castle.Windsor.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\SignApplication.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ICSharpCode.SharpZipLib.xml
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Interfaces.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Text.xml
-D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Common.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Castle.Core.xml
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\zh-Hans\EntityFramework.resources.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\zh-Hans\EntityFramework.SqlServer.resources.dll
@@ -343,3 +341,7 @@ D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\obj\Debug\Api.pdb
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Web.dll
 D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\Web.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Common.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Interfaces.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Redis.pdb
+D:\HTCS\HTCSapi.git\trunk\HTCS\Api\bin\ServiceStack.Text.pdb
