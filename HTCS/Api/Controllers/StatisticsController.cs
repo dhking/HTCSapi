@@ -30,8 +30,8 @@ namespace Api.Controllers
                 sysresult.Message = "请先登录";
                 return sysresult;
             }
-           
-            return service.querystatic(date,housetype,user.CompanyId);
+            long[] userids = getuserids(user.departs, user.Id);
+            return service.querystatic(date,housetype,user.CompanyId,userids,user);
         }
         [Route("api/Bw/Query")]
         public SysResult<IList<T_memo>> Query(T_memo model)
