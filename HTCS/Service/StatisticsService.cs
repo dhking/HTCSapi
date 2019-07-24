@@ -3,6 +3,7 @@ using DAL;
 using DBHelp;
 using Model;
 using Model.Bill;
+using Model.User;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,14 +25,23 @@ namespace Service
             result.numberCount = count;
             return result;
         }
-        public SysResult<StatisticsModel> querystatic(DateTime date,int housetype,long companyid)
+        public SysResult<StatisticsModel> querystatic(DateTime date,int housetype,long companyid, long[] userids,T_SysUser user)
         {
             SysResult<StatisticsModel> result = new SysResult<StatisticsModel>();
             BillDAL bill = new BillDAL();
             ContrctDAL contract = new ContrctDAL();
             StatisticsModel remodel = new StatisticsModel();
             WrapStatistics wrap = new WrapStatistics();
-            DataSet ds = dal.indexStatisticsQuery(companyid);
+            List<long> depentids = new List<long>();
+            int range = 0;
+            long userid = 0;
+            if (user.departs != null && user.roles != null)
+            {
+                depentids= user.departs.Select(p => p.Id).ToList();
+                userid=user.Id;
+            }
+            range = user.range;
+            DataSet ds = dal.indexStatisticsQuery(companyid,depentids,userids, userid,range);
             DataTable dt = ds.Tables[0];
             remodel.todreveive = decimal.Parse(dt.Rows[0]["V_TODREVEIVE"].ToStr());
             remodel.todpay = decimal.Parse(dt.Rows[0]["V_TODPAY"].ToStr());

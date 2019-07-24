@@ -73,13 +73,44 @@ namespace DAL
             return SqlHelper.ExecuteDataSet("sp_caiwustatistics", cmd, "EntityDB", null);
         }
         //首页统计数据
-        public DataSet indexStatisticsQuery(long companyid)
+        public DataSet indexStatisticsQuery(long companyid, List<long> depentids,long[] userids,long  HouseKeeper,int range)
         {
+            string pentids ="";
+            string struserids = "";
+            if (depentids != null)
+            {
+                pentids = string.Join(",", depentids);
+            }
+            if (userids != null)
+            {
+                struserids = string.Join(",", userids);
+            }
             OracleCommand cmd = new OracleCommand();
             OracleParameter paramwmscode = new OracleParameter("rId", OracleDbType.Varchar2);
             paramwmscode.Direction = ParameterDirection.Input;
             paramwmscode.Value = companyid;
             cmd.Parameters.Add(paramwmscode);
+
+            OracleParameter paramdepentids = new OracleParameter("paramdepentids", OracleDbType.Varchar2);
+            paramdepentids.Direction = ParameterDirection.Input;
+            paramdepentids.Value = pentids;
+            cmd.Parameters.Add(paramdepentids);
+
+            OracleParameter paramuserids = new OracleParameter("paramuserids", OracleDbType.Varchar2);
+            paramuserids.Direction = ParameterDirection.Input;
+            paramuserids.Value = struserids;
+            cmd.Parameters.Add(paramuserids);
+
+            OracleParameter paramHouseKeeper = new OracleParameter("paramHouseKeeper", OracleDbType.Int64);
+            paramHouseKeeper.Direction = ParameterDirection.Input;
+            paramHouseKeeper.Value = HouseKeeper;
+            cmd.Parameters.Add(paramHouseKeeper);
+
+            OracleParameter paramrange = new OracleParameter("paramrange", OracleDbType.Int64);
+            paramrange.Direction = ParameterDirection.Input;
+            paramrange.Value = range;
+            cmd.Parameters.Add(paramrange);
+
             OracleParameter paramCode = new OracleParameter("Code", OracleDbType.Int16);
             paramCode.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(paramCode);
@@ -90,7 +121,7 @@ namespace DAL
             OracleParameter paraCursor1 = new OracleParameter("o_cur1", OracleDbType.RefCursor);
             paraCursor1.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(paraCursor1);
-          
+
             return SqlHelper.ExecuteDataSet("sp_indexstatistics", cmd, "EntityDB", null);
         }
         //pc端运营数据

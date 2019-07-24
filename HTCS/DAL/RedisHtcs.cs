@@ -22,18 +22,18 @@ namespace DAL
             bool str = redisClient.Set<string>(key, value);
             if (seconds != 0)
             {
-                str = redisClient.Expire(key, 120);
+                redisClient.Expire(key, 120);
             }
             else
             {
-                str = redisClient.Expire(key, 120);
+                redisClient.Expire(key, 120);
             }
             return str;
         }
         public bool Set1(string key, string value,int times)
         {
             bool str = redisClient.Set<string>(key, value);
-            str = redisClient.Expire(key, times);
+            redisClient.Expire(key, times);
             return str;
         }
         public string Get(string key)
@@ -53,7 +53,7 @@ namespace DAL
         {
             //设置10天过期
             bool str = redisClient.Set<T>(key, model);
-            str = redisClient.Expire(key, 10*24*3600);
+            redisClient.Expire(key, 10*24*3600);
             return str;
         }
 

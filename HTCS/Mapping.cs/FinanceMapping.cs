@@ -33,7 +33,7 @@ namespace Mapping.cs
             Property(m => m.Transaoctor).HasColumnName("TRANSACTOR");
             Property(m => m.CompanyId).HasColumnName("COMPANYID");
 
-
+            Property(m => m.source).HasColumnName("SOURCE");
 
         }
     }

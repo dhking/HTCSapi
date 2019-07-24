@@ -20,8 +20,10 @@ namespace Model
         public string cellname { get; set; }
 
         public int recenttype { get; set; }
-
-        
+        [NotMapped]
+        public string[] cellnames { get; set; }
+        [NotMapped]
+        public string[] citynames { get; set; }
     }
     public class HouseReportList : BasicModel
     {

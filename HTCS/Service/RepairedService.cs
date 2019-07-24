@@ -113,6 +113,16 @@ namespace Service
             result = dal.Cmdproce8(pure);
             return result;
         }
+        public SysResult hdelete(Repaire ids)
+        {
+            SysResult result = new SysResult();
+            ProceDAL dal = new ProceDAL();
+            Pure pure = new Pure();
+            pure.Id = ids.Id.ToStr();
+            pure.Spname = "sp_deleterepairelist";
+            result = dal.Cmdproce8(pure);
+            return result;
+        }
         //报修列表
         public SysResult<List<RepairList>> Queryrepairlist(RepairList model)
         {

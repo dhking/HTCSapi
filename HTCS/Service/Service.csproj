@@ -86,6 +86,7 @@
     <Compile Include="HoseService.cs" />
     <Compile Include="HtcsExcelService.cs" />
     <Compile Include="IndentHouseService.cs" />
+    <Compile Include="initgwService - 复制.cs" />
     <Compile Include="initgwService.cs" />
     <Compile Include="Jurisdiction.cs" />
     <Compile Include="KjxService.cs" />

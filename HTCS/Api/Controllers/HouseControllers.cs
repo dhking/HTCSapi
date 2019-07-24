@@ -243,7 +243,7 @@ namespace API
         }
         //编辑独立合租房源
         //[AuthFilterAttribute]
-        [JurisdictionAuthorize(name = new string[] { "hhouseedit" })]
+        [JurisdictionAuthorize(name = new string[] { "dhouseedit" })]
         [Route("api/House/editsavepentHouse")]
         public SysResult editsavepentHouse(HousePendent model)
         {

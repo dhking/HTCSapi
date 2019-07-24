@@ -40,8 +40,9 @@ namespace Api.Controllers
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
+            long[] userids = getuserids(user.departs, user.Id);
             InitPage(model.PageSize, (model.PageSize * model.PageIndex));
-            sysresult = service.Query(model, this.OrderablePagination);
+            sysresult = service.Query(model, this.OrderablePagination, userids,user);
             return sysresult;
         }
         //财务流水详情

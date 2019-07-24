@@ -120,8 +120,11 @@ namespace DAL
                            payee = m.payee,
                            accounts = m.accounts,
                            bank = m.bank,
+                           subbranch=m.subbranch,
                            CreatePersonstr = x1 == null ? "" : x1.RealName,
-                           CreateTime = m.CreateTime
+                           CreateTime = m.CreateTime,
+                           gradingtype=m.gradingtype,
+                           gradingvalue=m.gradingvalue
                        };
             Expression<Func<WrapOwernContract, bool>> where = m => 1 == 1;
             if (model.Id != 0)

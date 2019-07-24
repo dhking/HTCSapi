@@ -635,7 +635,7 @@ namespace DAL
             }
             else
             {
-                PLModifiedModel<T_Bill>(bill,false, new[] { "Object", "CompanyId", "PayStatus", "HouseId", "HouseType", "PayTime", "PayType", "CreatePerson", "TranSactor", "CreateTime",  "Voucher", "ContractId", "ShouldReceive",  "Explain", "TeantId", "BillType","sign" });
+                PLModifiedModel<T_Bill>(bill,false, new[] { "Object", "CompanyId", "PayStatus", "HouseId", "HouseType", "PayTime", "PayType", "CreatePerson", "TranSactor", "CreateTime",  "Voucher", "ContractId",   "Explain", "TeantId", "BillType","sign" });
                 if (bill.list != null)
                 {
                     foreach (var mo in bill.list)

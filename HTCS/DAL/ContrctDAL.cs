@@ -69,6 +69,23 @@ namespace DAL
                            
                        });
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;
+            //部门信息筛选
+            if (user.departs != null && user.roles != null)
+            {
+                List<long> depentids = user.departs.Select(p => p.Id).ToList();
+                if (user.roles.range == 2)
+                {
+                    where = where.And(m => depentids.Contains(m.storeid));
+                    if (userids != null && userids.Length > 0)
+                    {
+                        where = where.Or(m => userids.Contains(m.HouseKeeper));
+                    }
+                }
+                if (user.roles.range == 3)
+                {
+                    where = where.And(m => m.HouseKeeper == user.roles.userid);
+                }
+            }
             if (model.HouseId != 0)
             {
                 where = where.And(m => m.HouseId == model.HouseId);
@@ -96,23 +113,7 @@ namespace DAL
                     where = where.And(m => m.EndTime >= dt2 && m.EndTime <= dt1);
                 }
             }
-            //部门信息筛选
-            if (user.departs != null && user.roles != null)
-            {
-                List<long> depentids = user.departs.Select(p => p.Id).ToList();
-                if (user.roles.range == 2)
-                {
-                    where = where.And(m => depentids.Contains(m.storeid));
-                    if (userids != null && userids.Length > 0)
-                    {
-                        where = where.Or(m => userids.Contains(m.HouseKeeper));
-                    }
-                }
-                if (user.roles.range == 3)
-                {
-                    where = where.And(m => m.HouseKeeper == user.roles.userid);
-                }
-            }
+            
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);

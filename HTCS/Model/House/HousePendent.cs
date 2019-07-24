@@ -164,6 +164,10 @@ namespace Model.House
 
         public int measure { get; set; }
 
+        //1删除
+        [NotMapped]
+        public int operation { get; set; }
+
         public long houseid { get; set; }
     }
 

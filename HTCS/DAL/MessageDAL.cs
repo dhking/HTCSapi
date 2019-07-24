@@ -24,9 +24,11 @@ namespace DAL
     {
         public List<T_MessageQueue> Query(T_MessageQueue model)
         {
+            DateTime dt = DateTime.Now.AddDays(-6);
             var mo = from m in MessageQueue  select m;
             Expression<Func<T_MessageQueue, bool>> where = m => 1 == 1;
             where = where.And(m => m.status == model.status);
+            where = where.And(m => m.createtime > dt);
             if (model.type != 0)
             {
                 where = where.And(m => m.type == model.type);

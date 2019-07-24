@@ -58,7 +58,7 @@ namespace DAL
             Expression<Func<SysAutoTaskHistoryModel, bool>> where = m => 1 == 1;
 
             data = data.Where(where);
-            IOrderByExpression<SysAutoTaskHistoryModel> order = new OrderByExpression<SysAutoTaskHistoryModel, long>(p => p.Id, false);
+            IOrderByExpression<SysAutoTaskHistoryModel> order = new OrderByExpression<SysAutoTaskHistoryModel, long>(p => p.Id, true);
             List<SysAutoTaskHistoryModel> list = QueryableForList(data, orderablePagination, order);
             return list;
         }

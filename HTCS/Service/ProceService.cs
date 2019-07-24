@@ -30,7 +30,7 @@ namespace Service
             SysUserService service = new SysUserService();
             string AreamName, CellName, CityName;
             result =dal.Cmdproce11(model,out CityName, out AreamName, out CellName);
-            if (model.Spname== "sp_zhuanyi"&&result.Code==0)
+            if ((model.Spname== "sp_zhuanyi"||model.Spname== "sp_Shareholderdistribution") &&result.Code==0)
             {
                 eidtredis(model.Other1, AreamName, CellName, CityName);
             }

@@ -101,6 +101,10 @@ namespace Model.Contrct
         //租金分段
         [NotMapped]
         public List<T_Grading> Grading { get; set; }
+        //租金分阶类型
+        public int gradingtype { get; set; }
+        //租金分阶比例
+        public int gradingvalue { get; set; }
     }
 
 
@@ -190,5 +194,10 @@ namespace Model.Contrct
         //租金分段
         [NotMapped]
         public List<T_Grading> Grading { get; set; }
+
+        //租金分阶类型
+        public int gradingtype { get; set; }
+        //租金分阶比例
+        public int gradingvalue { get; set; }
     }
 }

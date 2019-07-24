@@ -25,6 +25,17 @@ namespace Model
     }
     public class WrapHouse
     {
+        public string id { get; set; }
+        public int count { get; set; }
+        public long CompanyId { get; set; }
+        public string CellName { get; set; }
+
+        public string CityName { get; set; }
+        public int RecentType { get; set; }
+        public string AreaName { get; set; }
+    }
+    public class HouseCount
+    {
         public HouseModel house { get; set; }
 
         public HousePendent housependent { get; set; }
@@ -33,9 +44,12 @@ namespace Model
     {
         public long Id { get; set; }
         public string tongji { get; set; }
+        public string CityName { get; set; }
 
+        public string AreaName { get; set; }
         public string Name { get; set; }
-
+        public int RecrntType { get; set; }
+        public long CompanyId { get; set; }
         public DateTime CreateTime { get; set; }
 
         public List<T_Floor> listfloor { get; set; }

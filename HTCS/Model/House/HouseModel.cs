@@ -51,7 +51,10 @@ namespace Model
         public string CityName { get; set; }
 
         public string AreaName { get; set; }
+        public long storeid { get; set; }
 
+        public long HouseKeeper { get; set; }
+        
         public int AreaCode { get; set; }
         public long? TeantId { get; set; }
 
@@ -297,6 +300,9 @@ namespace Model
         public List<T_Tese> listtese { get; set; }
         [NotMapped]
         public List<T_Floor> floor { get; set; }
+
+        [NotMapped]
+        public List<Fxing> FangXing { get; set; }
         [NotMapped]
         [DefaultValue(true)]
         public bool GroupBy { get; set; }

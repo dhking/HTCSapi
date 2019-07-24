@@ -40,7 +40,7 @@ namespace DAL
             List<T_Record> list = QueryableForList(data, orderablePagination, order1);
             return list;
         }
-        public List<HouseReport> Querybaobiao(HouseReport model, OrderablePagination orderablePagination)
+        public List<HouseReport> Querybaobiao(HouseReport model, OrderablePagination orderablePagination,int type)
         {
             //整租查询
             var data = from m in baobiao select m;
@@ -48,6 +48,20 @@ namespace DAL
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);
+            }
+            if (type == 1)
+            {
+                if (model.cellnames != null)
+                {
+                    where = where.And(m => model.cellnames.Contains(m.cellname));
+                }
+            }
+            if (type == 0)
+            {
+                if (model.cellnames != null && model.cellnames.Length > 0)
+                {
+                    where = where.And(m => model.cellnames.Contains(m.cellname));
+                }
             }
             data = data.Where(where);
             IOrderByExpression<HouseReport> order1 = new OrderByExpression<HouseReport, long>(p => p.Id, true);

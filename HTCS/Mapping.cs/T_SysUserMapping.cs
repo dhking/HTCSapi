@@ -24,6 +24,7 @@ namespace Mapping.cs
             Property(m => m.Url).HasColumnName("URL");
             Property(m => m.Type).HasColumnName("TYPE");
             Property(m => m.banben).HasColumnName("BANBEN");
+
         }
     }
     public class T_RecordMapping : BaseEntityTypeMap<T_Record>
@@ -101,6 +102,7 @@ namespace Mapping.cs
             Property(m => m.pt_username).HasColumnName("PT_USERNAME");
             Property(m => m.roleid).HasColumnName("ROLEID");
             Property(m => m.cellname).HasColumnName("CELLNAME");
+            Property(m => m.type).HasColumnName("TYPE");
         }
     }
     public class departmentMapping : BaseEntityTypeMap<t_department>

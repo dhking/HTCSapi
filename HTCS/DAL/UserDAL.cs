@@ -157,7 +157,7 @@ namespace DAL
             }
             if (model.Mobile != null)
             {
-                where = where.And(m => m.Mobile.Contains(model.Mobile));
+                where = where.And(m => m.Mobile.Contains(model.Mobile)|| m.Name.Contains(model.Mobile));
             }
             if (model.RealName !=null)
             {
@@ -170,6 +170,10 @@ namespace DAL
             if (model.isquit!=2)
             {
                 where = where.And(m => m.isquit == model.isquit);
+            }
+            if (model.type != 0)
+            {
+                where = where.And(m => m.type == model.type);
             }
             data = data.Where(where);
             IOrderByExpression<T_SysUser> order = new OrderByExpression<T_SysUser, long>(p => p.Id, true);

@@ -12,7 +12,8 @@ namespace Model
         public long Id { get; set; }
 
         public long HouseId { get; set; }
-
+        public long HouseKeeper { get; set; }
+        public long storeid { get; set; }
         public int  HouseType { get; set; }
 
         public string Trader { get; set; }
@@ -65,7 +66,7 @@ namespace Model
 
         public string CostName { get; set; }
 
-
+        public int source { get; set; }
 
         public decimal Amount { get; set; }
 

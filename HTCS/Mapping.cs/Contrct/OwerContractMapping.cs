@@ -75,12 +75,13 @@ namespace Mapping.cs.Contrct
             Property(m => m.RecivedAccount).HasColumnName("RECIVEDACCOUNT");
             Property(m => m.adress).HasColumnName("ADRESS");
             Property(m => m.treatname).HasColumnName("TREATNAME");
-
-
             Property(m => m.payee).HasColumnName("PAYEE");
             Property(m => m.accounts).HasColumnName("ACCOUNTS");
             Property(m => m.bank).HasColumnName("BANK");
             Property(m => m.subbranch).HasColumnName("SUBBRANCH");
+
+            Property(m => m.gradingtype).HasColumnName("GRADINGTYPE");
+            Property(m => m.gradingvalue).HasColumnName("GRADINGVALUE");
         }
     }
 }
