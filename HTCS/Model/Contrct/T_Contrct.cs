@@ -86,6 +86,7 @@ namespace Model.Contrct
         public int isxuzu { get; set; }
 
         public string contracttype { get; set; }
+        public string contractnum { get; set; }
 
     }
     public class WrapContract: BasicModel
@@ -195,6 +196,7 @@ namespace Model.Contrct
         public T_Teant Teant { get; set; }
         [NotMapped]
         public List<HouseLockQuery> HouseLock { get; set; }
+        public string contractnum { get; set; }
     }
     //抄表模型
     public  class chaobiao:BasicModel

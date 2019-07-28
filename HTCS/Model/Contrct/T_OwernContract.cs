@@ -105,6 +105,7 @@ namespace Model.Contrct
         public int gradingtype { get; set; }
         //租金分阶比例
         public int gradingvalue { get; set; }
+        public string contractnum { get; set; }
     }
 
 
@@ -199,5 +200,6 @@ namespace Model.Contrct
         public int gradingtype { get; set; }
         //租金分阶比例
         public int gradingvalue { get; set; }
+        public string contractnum { get; set; }
     }
 }

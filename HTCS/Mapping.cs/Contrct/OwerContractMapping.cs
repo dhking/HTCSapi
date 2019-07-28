@@ -82,6 +82,7 @@ namespace Mapping.cs.Contrct
 
             Property(m => m.gradingtype).HasColumnName("GRADINGTYPE");
             Property(m => m.gradingvalue).HasColumnName("GRADINGVALUE");
+            Property(m => m.contractnum).HasColumnName("contractnum");
         }
     }
 }

@@ -62,6 +62,7 @@ namespace Mapping.cs.Contrct
 
             Property(m => m.isxuzu).HasColumnName("ISXUZU");
             Property(m => m.contracttype).HasColumnName("CONTRACTTYPE");
+            Property(m => m.contractnum).HasColumnName("CONTRACTNUM");
         }
     }
 }

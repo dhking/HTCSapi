@@ -28,6 +28,8 @@ namespace Model.User
         public string Email { get; set; }
         public string Password { get; set; }
         public string AuthShop { get; set; }
+
+     
         [NotMapped]
         public string roles { get; set; }
         [NotMapped]
@@ -140,7 +142,7 @@ namespace Model.User
 
         public int range { get; set; }
         public int isactive { get; set; }
-
+        public int type { get; set; }
         public int isquit { get; set; }
 
         public string Zfbzh { get; set; }

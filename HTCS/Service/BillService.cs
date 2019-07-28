@@ -99,9 +99,42 @@ namespace Service
                     }
                     RzService service = new RzService();
                     service.addzdrz(querybill, bill, userid);
-                }
+                }  
                 if (dal.save(bill) >0)
                 {
+                    //记账并且为现在支付计入财务流水
+                    if (bill.Id == 0&&bill.PayStatus==1)
+                    {
+                        FinanceService service = new FinanceService();
+                        //组合入参
+                        FinanceModel finance = new FinanceModel();
+                        finance.HouseId = bill.HouseId;
+                        if (bill.BillType == 0)
+                        {
+                            finance.Type = 1;
+                        }
+                        if (bill.BillType == 1)
+                        {
+                            finance.Type = 2;
+                        }
+                        finance.PayType = bill.PayType;
+                        finance.TradingDate = DateTime.Parse(bill.PayTime.ToStr());
+                        finance.Remark = bill.Remark;
+                        finance.HouseId = bill.HouseId;
+                        finance.Transaoctor = bill.TranSactor;
+                        finance.CompanyId = bill.CompanyId;
+                        if (bill.name == "记账")
+                        {
+                            finance.source = 1;
+                        }
+                        foreach (var mo in bill.list)
+                        {
+                            finance.CostName = mo.BillType;
+                            finance.Amount = mo.Amount;
+                            service.save(finance);
+                        }
+                       
+                    }
                     result = result.SuccessResult("保存成功");
                 }
             }

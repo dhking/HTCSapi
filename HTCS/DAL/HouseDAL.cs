@@ -470,6 +470,7 @@ namespace DAL
                            Renttime = a.Renttime,
                            Orientation=a.Orientation,
                            PublicImg=a.PublicImg,
+                           Unit=a.Unit,
                            distince = get_distance(model.latitude, model.longitude, a.latitude, a.longitude),
                          
                        };
@@ -750,7 +751,7 @@ namespace DAL
             var data = from mo in bhouresources
                select        mo;
             Expression<Func<houresources, bool>> where = m => 1 == 1;
-            where = where.And(p => p.Name.Replace("-", "").Contains(model.Name));
+            where = where.And(p => (p.Name.Replace("-", "").Contains(model.Name)));
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);

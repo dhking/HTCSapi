@@ -789,7 +789,8 @@ namespace DAL
                            floor = x == null ? 0 : x.nowfloor,
                            allfloor = x == null ? 0 : x.allfloor,
                            mesure = x == null ? 0 : x.measure,
-                           CompanyId= x == null ? 0 : x.CompanyId
+                           CompanyId= x == null ? 0 : x.CompanyId,
+                           contractnum=m.contractnum
                        };
             Expression<Func<WrapContract, bool>> where = m => 1 == 1;
             if (model.Id != 0)
