@@ -25,10 +25,14 @@ namespace Service
         public SysResult saveHouse(HouseModel model,T_SysUser user)
         {
             SysResult result = new SysResult();
-            model.PublicPeibei = getPeibei(model.listpeibei);
+            if (model.listpeibei != null)
+            {
+                model.PublicPeibei = getPeibei(model.listpeibei);
+            }
             using (var tran = dal.Database.BeginTransaction())
             {
                 long parentid = dal.SaveHouse(model);
+                dal.SaveFangxing(model.FangXing, parentid);
                 dal.SaveOthers(model.listpeibei, null, 2);
                 pentdal.autoFloor(parentid, model.floor);
                 int pentresult = pentdal.autoIndentSavePent(parentid, model.storeid, model.HouseKeeper,model.floor, model.ShiNumber,model.CompanyId);
@@ -125,7 +129,7 @@ namespace Service
         {
             SysResult<List<WrapIndentHouse>> result = new SysResult<List<WrapIndentHouse>>();
             long count = 0;
-           DataSet ds=dal.IndentHouseQuery(model.PageSize, model.PageIndex,model.CellName,model.Group,model.CompanyId,out count);
+            DataSet ds=dal.IndentHouseQuery(model.PageSize, model.PageIndex,model.CellName,model.Group,model.CompanyId,out count);
             List<WrapIndentHouse> list= EntityHelper.GetEntityListByDT<WrapIndentHouse>(ds.Tables[0],null);
             List<T_Floor> listfloor= EntityHelper.GetEntityListByDT<T_Floor>(ds.Tables[1], null);
             if (list != null)
@@ -221,10 +225,10 @@ namespace Service
             return result;
         }
         //筛选条件查询
-        public SysResult<List<WrapIndentHouse>> Queryshaixuan()
+        public SysResult<List<WrapIndentHouse>> Queryshaixuan(HouseModel model)
         {
             SysResult<List<WrapIndentHouse>> result = new SysResult<List<WrapIndentHouse>>();
-            List<WrapIndentHouse> list = dal.querydudong();
+            List<WrapIndentHouse> list = dal.querydudong(model);
             List<T_Floor> listfloor = pentdal.queryfloorlist(new HousePendent() { });
             foreach (var mo in list)
             {
@@ -250,9 +254,24 @@ namespace Service
         //查询公寓详情
         public SysResult<HouseModel> Queryhousebyid(HouseModel model)
         {
+
             SysResult<HouseModel> result = new SysResult<HouseModel>();
             HouseModel remo = new HouseModel();
             remo = dal.Queryhouse(model,null,null);
+            //查询房型
+            if (remo != null)
+            {
+                UserDAL1 userdal = new UserDAL1();
+                remo.FangXing = dal.queryfx(remo.Id);
+                if (remo.HouseKeeper != 0)
+                {
+                    T_SysUser sysuser = userdal.QueryUerbyid(new T_SysUser() { Id = remo.HouseKeeper });
+                    if (sysuser != null)
+                    {
+                        remo.housekeepername = sysuser.RealName;
+                    }
+                }
+            }
             remo.floorcount = pentdal.queryfloorcount(model.Id);
             remo.housecount = pentdal.queryhousecount(model.Id);
             result.numberData= remo;
@@ -264,7 +283,12 @@ namespace Service
             SysResult result = new SysResult();
             ProceDAL procedal = new ProceDAL();
             AddCellName(model);
-            dal.SaveorUpdateHouse(model);
+            using (var tran = dal.Database.BeginTransaction())
+            {
+                dal.SaveorUpdateHouse1(model, new string[] { "NowFloor", "AllFloor","CreateTime", "LocalId", "Status", "Electricid", "uuid", "RecrntType", "Renttime", "CompanyId" });
+                dal.SaveFangxing(model.FangXing, model.Id);
+                tran.Commit();
+            }
             result.Message = "编辑成功";
             return result;
         }

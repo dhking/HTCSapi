@@ -14,14 +14,14 @@ namespace Service
     public  class FinanceService
     {
         FinanceDAL dal = new FinanceDAL();
-        public SysResult<List<WrapFinanceModel>> Query(FinanceModel model, OrderablePagination orderablePagination)
+        public SysResult<List<WrapFinanceModel>> Query(FinanceModel model, OrderablePagination orderablePagination, long[] userids, T_SysUser user)
         {
             List<WrapFinanceModel> list = new List<WrapFinanceModel>();
             if (model.CellNames != null)
             {
                 model.arrCellNames = model.CellNames.Split(',');
             }
-            list = dal.Querylist(model, orderablePagination);
+            list = dal.Querylist(model, orderablePagination, userids, user);
             
             SysResult<List<WrapFinanceModel>> result = new SysResult<List<WrapFinanceModel>>();
             result.numberData = list;

@@ -21,14 +21,56 @@ namespace Service
             sysresult.numberCount = orderablePagination.TotalCount;
             return sysresult;
         }
-        public SysResult<List<HouseReport>> Querybaobiao(HouseReport model, OrderablePagination orderablePagination)
+        public SysResult<List<HouseReport>> Querybaobiao(HouseReport model,T_SysUser user, OrderablePagination orderablePagination)
         {
             caiwuDAL dal = new caiwuDAL();
             SysResult<List<HouseReport>> sysresult = new SysResult<List<HouseReport>>();
-            List<HouseReport> list = dal.Querybaobiao(model, orderablePagination);
+            HouseReport paramodel=getparam(model, user);
+            List<HouseReport> list = dal.Querybaobiao(paramodel, orderablePagination,user.type);
             sysresult.numberData = list;
             sysresult.numberCount = orderablePagination.TotalCount;
             return sysresult;
+        }
+        public HouseReport getparam(HouseReport model,T_SysUser user)
+        {
+            if (user.type == 1)
+            {
+                if (user.cellname != null)
+                {
+                    string[] cellarr = new string[] { };
+                    cellarr = user.cellname.Split(",");
+                    if (model.cellnames != null)
+                    {
+                        model.cellnames = model.cellnames.Concat(cellarr).ToArray();
+                    }
+                    else
+                    {
+                        model.cellnames = cellarr;
+                    }
+                }
+                else
+                {
+                    model.cellnames = new string[] { };
+                }
+                if (user.city != null)
+                {
+                    string[] cityarr = new string[] { };
+                    cityarr = user.city.Split(",");
+                    if (model.cellnames != null)
+                    {
+                        model.citynames = model.cellnames.Concat(cityarr).ToArray();
+                    }
+                    else
+                    {
+                        model.citynames = cityarr;
+                    }
+                }
+                else
+                {
+                    model.citynames = new string[] { };
+                }
+            }
+            return model;
         }
         public SysResult<List<WrapHouseReportList>> baobiaochildQuery(HouseReportList model, OrderablePagination orderablePagination)
         {

@@ -24,7 +24,11 @@ namespace Service
             {
                 return 7;
             }
-            return 0;
+            if (type == 1)
+            {
+                return 4;
+            }
+            return type;
         }
         public SysResult sendmessage(int type,long contract)
         {
