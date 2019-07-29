@@ -71,7 +71,8 @@ namespace API
                 return sysresult;
             }
             model.CompanyId = user.CompanyId;
-            return service.HouseQuery(model, this.OrderablePagination);
+            long[] userids = getuserids(user.departs, user.Id);
+            return service.HouseQuery(model, this.OrderablePagination, userids, user);
         }
         //整租房源列表
         [JurisdictionAuthorize(name = new string[] { "z-house" })]
