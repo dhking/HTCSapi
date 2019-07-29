@@ -171,12 +171,12 @@ namespace Service
             result.numberCount = orderablePagination.TotalCount;
             return result;
         }
-        public SysResult<List<houresources>> HouseQuery(houresources model, OrderablePagination orderablePagination)
+        public SysResult<List<houresources>> HouseQuery(houresources model, OrderablePagination orderablePagination, long[] userids, T_SysUser user)
         {
             SysResult<List<houresources>> result = new SysResult<List<houresources>>();
             
 
-            result.numberData = dal.Querylist1(model, orderablePagination); 
+            result.numberData = dal.Querylist1(model, orderablePagination,user.departs, user.roles, userids); 
             result.numberCount = orderablePagination.TotalCount;
             return result;
         }
