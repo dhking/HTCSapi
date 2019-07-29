@@ -746,12 +746,32 @@ namespace DAL
 
             return sysresult;
         }
-        public List<houresources> Querylist1(houresources model, OrderablePagination orderablePagination)
+        public List<houresources> Querylist1(houresources model, OrderablePagination orderablePagination, List<t_department> list, T_SysRole role, long[] userids)
         {
             var data = from mo in bhouresources
                select        mo;
             Expression<Func<houresources, bool>> where = m => 1 == 1;
             where = where.And(p => (p.Name.Replace("-", "").Contains(model.Name)));
+            //部门信息筛选
+            if (list != null && role != null)
+            {
+                List<long> depentids = list.Select(p => p.Id).ToList();
+                if (role.ishouse == 0)
+                {
+                    if (role.range == 2)
+                    {
+                        where = where.And(m => depentids.Contains(m.storeid));
+                        if (userids != null && userids.Length > 0)
+                        {
+                            where = where.Or(m => userids.Contains(m.HouseKeeper));
+                        }
+                    }
+                    if (role.range == 3)
+                    {
+                        where = where.And(m => m.HouseKeeper == role.userid);
+                    }
+                }
+            }
             if (model.CompanyId != 0)
             {
                 where = where.And(m => m.CompanyId == model.CompanyId);

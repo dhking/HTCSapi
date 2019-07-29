@@ -90,7 +90,7 @@ namespace DAL
             ZafeiDAL zafei = new DAL.ZafeiDAL();
             //整租查询
             var data = from m in Contract
-                       join c in t_v_HouseQuery on m.HouseId equals c.Id
+                       join c in bhouresources on m.HouseId equals c.Id
                        into temp1
                        from x in temp1.DefaultIfEmpty()
                        join c in BbUser on m.CreatePerson equals c.Id
@@ -176,7 +176,7 @@ namespace DAL
                         join n in Teant on m.TeantId equals n.Id
                         into temp
                         from t in temp.DefaultIfEmpty()
-                        join c in t_v_HouseQuery on m.HouseId equals c.Id
+                        join c in bhouresources on m.HouseId equals c.Id
                         into temp1
                         from x in temp1.DefaultIfEmpty()
                         join c in BbUser on m.CreatePerson equals c.Id
@@ -195,10 +195,7 @@ namespace DAL
                             Phone = t == null ? "" : t.Phone,
                             CellName = x == null ? "" : x.CellName,
                             HouseName = x == null ? "" : x.Name,
-                            City = x == null ? 0 : x.City,
-                            Area = x == null ? 0 : x.Area,
-                            LockId = x == null ? "" : x.LocalId,
-                            HouseType = x == null ? 0 : x.RecentType,
+                            HouseType = x == null ? 0 : x.HouseType,
                             HouseId = x == null ? 0 : x.Id,
                             storeid = x == null ? 0 : x.storeid,
                             CompanyId = x == null ? 0 : x.CompanyId,
@@ -646,6 +643,7 @@ namespace DAL
         public DbSet<T_SysUser> BbUser { get; set; }
         public DbSet<T_RentFree> RentFree { get; set; }
         public DbSet<T_Grading> Grading { get; set; }
+        public DbSet<houresources> bhouresources { get; set; }
         protected override void CreateModelMap(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new OwerContractMapping());
@@ -656,6 +654,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new T_SysUserMapping());
             modelBuilder.Configurations.Add(new RentFreeMapping());
             modelBuilder.Configurations.Add(new GradingMapping());
+            modelBuilder.Configurations.Add(new houresourcesMapping());
         }
     }
 }
