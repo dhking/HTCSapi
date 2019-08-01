@@ -303,6 +303,7 @@
     <Compile Include="CommonControllers\RcsBaseController.cs" />
     <Compile Include="Controllers\AccountBankController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\caiwuController.cs" />
@@ -427,6 +428,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AccountBank\" />
+    <Folder Include="Views\Approval\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Bill\" />
     <Folder Include="Views\caiwu\" />

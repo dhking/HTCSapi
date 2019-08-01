@@ -450,5 +450,21 @@ namespace Api.Controllers
             reslut = service.addupmonth(model, user, sysuser);
             return reslut;
         }
+        //修改付费模式
+        [Route("api/device/ammeterpaymode")]
+        public SysResult ammeterpaymode(DeviceData model)
+        {
+            T_SysUser sysuser = GetCurrentUser(GetSysToken());
+            SysResult reslut = new SysResult();
+            if (sysuser == null)
+            {
+                reslut.Code = 1002;
+                reslut.Message = "请先登录";
+                return reslut;
+            }
+            ElecUser user = GetelecUser("elec" + sysuser.CompanyId);
+            reslut = service.ammeterpaymode(model, user, sysuser);
+            return reslut;
+        }
     }
 }

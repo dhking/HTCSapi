@@ -727,6 +727,25 @@ namespace Service
             result.Message = elecre.Message;
             return result;
         }
+        //修改付费模式
+        public SysResult ammeterpaymode(DeviceData model, ElecUser user, T_SysUser sysuser)
+        {
+            SysResult result = new SysResult();
+            Elec1<ElecUser> eleresult = checkuser(user, sysuser);
+            if (eleresult.Code != 0)
+            {
+                result.Code = 1002;
+                result.Message = "请重新登陆";
+                return result;
+            }
+            user.Uuid = eleresult.Data.Uuid;
+            user.Expand = eleresult.Data.Expand;
+            Elec elecre = new Elec();
+            elecre = dal.ammeterpaymode(model, user);
+            result.Code = elecre.Code;
+            result.Message = elecre.Message;
+            return result;
+        }
         //通过设备id获取设备的一段时间的用电统计
         public SysResult<List<ElecStatic>> reportaddupdevice(ElecStatic model, ElecUser user, T_SysUser sysuser)
         {

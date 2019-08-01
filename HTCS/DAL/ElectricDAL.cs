@@ -569,24 +569,8 @@ namespace DAL
             result = JsonConvert.DeserializeObject<Elec>(body);
             return result;
         }
-        //切换付费模式
-        public Elec ammeterpaymode(DeviceData model, ElecUser user)
-        {
-            Elec result = new Elec();
-            ElecUser req = new ElecUser();
-            req.Uuid = user.Uuid;
-            req.Expand = user.Expand;
-            if (req == null)
-            {
-                result.Code = 1002;
-                result.Message = "请先登录";
-                return result;
-            }
-            string url = servserurl + "/device/ammeter/paymode/" + model.devid+"/1";
-            string body = Util.Put(url, "", req);
-            result = JsonConvert.DeserializeObject<Elec>(body);
-            return result;
-        }
+        
+     
         public Elec nodeunbound(DeviceData model, ElecUser user)
         {
             Elec result = new Elec();
@@ -601,6 +585,24 @@ namespace DAL
                 return result;
             }
             string url = servserurl + "node/unbound/" + model.Nid;
+            string body = Util.Put(url, "", req);
+            result = JsonConvert.DeserializeObject<Elec>(body);
+            return result;
+        }
+        public Elec ammeterpaymode(DeviceData model, ElecUser user)
+        {
+            Elec result = new Elec();
+
+            ElecUser req = new ElecUser();
+            req.Uuid = user.Uuid;
+            req.Expand = user.Expand;
+            if (req == null)
+            {
+                result.Code = 1002;
+                result.Message = "请先登录";
+                return result;
+            }
+            string url = servserurl + "device/ammeter/paymode/" + model.devid+"/"+model.Value;
             string body = Util.Put(url, "", req);
             result = JsonConvert.DeserializeObject<Elec>(body);
             return result;
@@ -673,7 +675,7 @@ namespace DAL
         }
         public HouseLockQuery lockquery2(string str)
         {
-            var mo = from m in HouseQuery where m.UuId == str select m;
+            var mo = from m in HouseQuery where m.ElecId == str select m;
             return mo.FirstOrDefault();
         }
         public List<HouseLockQuery> lockquery3(long  houseid)
